@@ -1,0 +1,218 @@
+@CHARSET "UTF-8";
+
+.header {
+    width: 100%;
+    text-align:left;
+    background: white;
+    border-bottom: 1px solid #ccc;
+}
+
+.container {
+    clear:both;
+    width:100%;
+    margin: 0px auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.body-container {
+    clear:both;
+    text-align:center;
+    color: #3e3d3d;
+    font-size: 15px;
+    width: 60%;
+    margin: 0px auto;
+}
+
+.body-container table {
+    margin: 0px auto;
+    padding: 10px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.body-container table tr td{
+    padding: 10px;
+}
+
+.body-container table tr .subject {
+	width: 70%;
+    text-align: left;
+}
+
+.body-container table tr .user {
+	width: 20%;
+    text-align: right;
+}
+
+.body-container table tr .created {
+	width: 10%;
+    text-align: right;
+}
+
+.body-container .views-menu{
+	float: left;
+	width: 20%;
+}
+
+.body-container .views-menu ul{
+	list-style: none;
+}
+
+.body-container .views-list{
+	float: left;
+	width: 80%;
+}
+
+.note-top{
+	width: 900px;
+	padding: 10px;
+	margin: 0px auto;
+	font-size: 16px;
+	line-height:200%;
+	font-family: NanumGothic;
+	text-align:left;
+	font-weight: 600;
+}
+
+.note-bottom{
+	width: 900px;
+	padding: 10px;
+	margin: 0px auto;
+	font-size: 16px;
+	line-height:200%;
+	font-family: NanumGothic;
+	text-align:right;
+	font-weight: bold;
+}
+.body-title {
+    color: #424951;
+    padding-top: 50px;
+    padding-bottom: 5px;
+    margin: 0 0 25px 0;
+    border-bottom: 1px solid #dddddd;
+}
+.body-title h3 {
+    font-size: 23px;
+    min-width: 300px;
+    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+    font-weight: bold;
+    margin: 0 0 -5px 0;
+    padding-bottom: 5px;
+    display: inline-block;
+    border-bottom: 3px solid #424951;
+}
+
+.footer {
+    clear:both;
+    width:100%;
+}
+
+/* header */
+
+.header-layout {
+	margin: 10px auto;
+	width: 1300px;
+}
+
+.header-left {
+    width: 25%;
+  	min-height: 70px;
+    float: left;
+}
+
+.header-right {
+   width: 15%;
+    height: 70px;
+    float: left;
+    margin-top: 70px;
+    margin-right: 10px;
+    font-size: 15px;
+	text-align: right;
+}
+
+/* footer */
+.footer {
+    width:100%;
+    height:50px;
+    margin:5px auto;
+    text-align:center;
+    background-color: #ffffff;
+    line-height: 50px;
+    border-top:1px solid #cccccc;
+}
+
+/* menu */
+.menu {
+    width: 59%;
+    min-height: 40px;
+    border-radius: 4px;
+    margin-top: 95px;
+    font-size: 20px;
+    /*box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 1px 5px rgba(0,0,0,.075);*/
+    box-sizing: border-box;
+    float:left;
+    padding: 0px 70px;
+    font-weight: bold;
+}
+
+ul.nav {
+  width:100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.nav li { 
+  display: inline;
+}
+
+ul.nav li a {
+  float: left;
+  line-height: 40px;
+  color: #004B58;
+  text-decoration: none;
+  margin: 0;
+  padding: 0 30px;
+}
+
+ul.nav .current a, ul.nav li:hover > a {
+  color: #333;
+  font-weight : 900;
+  text-decoration: none;
+  background: #e9e9e9;
+}
+
+ul.nav ul {
+  display: none;
+}
+
+ul.nav li:hover > ul {
+  position: absolute;
+  display: block;
+  width: 960px;
+  height: 40px;
+  margin: 40px 0 0 -1px;
+  background: #e9e9e9;
+  border: 1px solid #e9e9e9;
+  z-index: 101;
+  box-sizing: border-box;
+}
+
+ul.nav li:hover > ul li a {
+  float: left;
+  line-height: 39px;
+  color: #333;
+  text-decoration: none;
+  margin: 0;
+  padding: 0 20px 0 20px;
+  background: #e9e9e9;
+}
+
+ul.nav li:hover > ul li a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+
