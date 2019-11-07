@@ -21,7 +21,7 @@
 <script type="text/javascript">
 function sendOk() {
 	var f = document.boardForm;
-	var str = f.subject.value;
+	var str = f.title.value;
     	if(!str) {
         alert("제목을 입력하세요.");
         f.title.focus();
@@ -35,7 +35,7 @@ function sendOk() {
         return;
     }
 
-    	f.action="<%=cp%>/yolo/${mode}created_ok.do";
+    	f.action="<%=cp%>/yolo/created_ok.do";
 
         f.submit();
     }
@@ -68,7 +68,7 @@ function deleteFile() {
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.title}">
+			          <input type="text" name="title" maxlength="100" class="boxTF" style="width: 95%;" >
 			      </td>
 			  </tr>
 
@@ -89,7 +89,7 @@ function deleteFile() {
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			          <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
+			          <textarea name="content" rows="12" class="boxTA" style="width: 95%;"></textarea>
 			      </td>
 			  </tr>
 			  

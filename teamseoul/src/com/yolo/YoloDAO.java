@@ -20,15 +20,14 @@ public int insertyolo(YoloDTO dto) {
 	String sql;
 	
 	try {
-		sql="INSERT INTO yolo(num, title, content, userId, created, imageFileName, hitCount) VALUES(yolo_seq.NEXTVAL, ?, ?, ?, ?, ?, ?)";
+		sql="INSERT INTO yolo(num, title, content, userId, imageFileName, attention) VALUES(yolo_seq.NEXTVAL, ?, ?, ?, ?,?)";
 		pstmt=conn.prepareStatement(sql);
 		
 		pstmt.setString(1, dto.getTitle());
 		pstmt.setString(2, dto.getContent());
 		pstmt.setString(3, dto.getUserId());
-		pstmt.setString(4, dto.getCreated());
-		pstmt.setString(5, dto.getImageFileName());
-		pstmt.setInt(6, dto.getHitcount());
+		pstmt.setString(4, dto.getImageFileName());
+		pstmt.setInt(5, dto.getAttention());
 		
 		pstmt.executeUpdate();
 		
@@ -128,11 +127,11 @@ public List<YoloDTO> listYolo(int offset, int rows) {
 	StringBuilder sb=new StringBuilder();
 	
 	try {
-		sb.append("SELECT num, title, content, userId, created, imageFileName, hitCount  ");
-		sb.append(" FROM yolo y  ");
-		sb.append(" JOIN member m ON y.userId = m.userId  ");
-		sb.append(" ORDER BY num DESC   ");
-		sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+		sb.append("SELECT num, title, y.userId, created, imageFileName, hitCount  ");
+		sb.append("  FROM yolo y  ");
+		sb.append("  JOIN member m ON y.userId = m.userId  ");
+		sb.append("  ORDER BY num DESC   ");
+		sb.append("  OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 		
 		pstmt=conn.prepareStatement(sb.toString());
 		pstmt.setInt(1, offset);
@@ -143,11 +142,10 @@ public List<YoloDTO> listYolo(int offset, int rows) {
 			YoloDTO dto = new YoloDTO();
 			dto.setNum(rs.getInt("num"));
 			dto.setTitle(rs.getString("title"));
-			dto.setContent(rs.getString("content"));
 			dto.setUserId(rs.getString("userId"));
 			dto.setCreated(rs.getString("created"));
 			dto.setImageFileName(rs.getString("imageFileName"));
-			dto.setHitcount(rs.getInt("hitCount"));
+			dto.setHitCount(rs.getInt("hitCount"));
 			
 			list.add(dto);
 		}

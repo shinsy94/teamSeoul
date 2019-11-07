@@ -2,46 +2,29 @@ package com.yolo;
 
 public class YoloDTO {
 
-private int num, hitcount, attention, listNum, notice;
+private int num, hitCount, attention, listNum;
 private String title, content, userId, created, imageFileName;
-private long filesize, gap;
 
 
-public int getNotice() {
-	return notice;
-}
-public void setNotice(int notice) {
-	this.notice = notice;
-}
 public int getListNum() {
 	return listNum;
 }
 public void setListNum(int listNum) {
 	this.listNum = listNum;
 }
-public long getFilesize() {
-	return filesize;
-}
-public void setFilesize(long filesize) {
-	this.filesize = filesize;
-}
-public long getGap() {
-	return gap;
-}
-public void setGap(long gap) {
-	this.gap = gap;
-}
+
 public int getNum() {
 	return num;
 }
 public void setNum(int num) {
 	this.num = num;
 }
-public int getHitcount() {
-	return hitcount;
+
+public int getHitCount() {
+	return hitCount;
 }
-public void setHitcount(int hitcount) {
-	this.hitcount = hitcount;
+public void setHitCount(int hitCount) {
+	this.hitCount = hitCount;
 }
 public int getAttention() {
 	return attention;
