@@ -1,1 +1,2 @@
-# teamSeoul
+# 팀 서울
+hi~
