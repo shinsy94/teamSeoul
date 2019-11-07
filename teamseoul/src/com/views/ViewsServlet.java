@@ -1,6 +1,8 @@
 package com.views;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,12 +34,13 @@ public class ViewsServlet extends HttpServlet {
 		// uri에 따른 작업 구분
 		if(uri.indexOf("views.do")!=-1) {
 			views(req, resp);
-		} else if(uri.indexOf("list.do")!=-1) {
-			
+		} else if(uri.indexOf("areaList.do")!=-1) {
+			areaList(req, resp);
 		} else if(uri.indexOf("list.do")!=-1) {
 			
 		}
 	}
+
 
 	protected void forward(HttpServletRequest req, 	HttpServletResponse resp, String path)
 			throws ServletException, IOException {
@@ -49,7 +52,19 @@ public class ViewsServlet extends HttpServlet {
 	private void views(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();
 		
+		ViewsDAO dao = new ViewsDAO();
+		List<ViewsDTO> list= dao.areaList();
+		req.setAttribute("bigAreaList", list);
+		
+		
 		forward(req, resp, "/WEB-INF/views/views/views.jsp");
 	}
-	
+
+	private void areaList(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
+		ViewsDAO dao = new ViewsDAO();
+		Map<String, String> map= dao.ListAreaCode(req.getParameter("bigCode"));
+		
+		
+		
+	}
 }
