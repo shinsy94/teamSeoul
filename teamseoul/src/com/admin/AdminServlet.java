@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.util.FileManager;
 
 
 @WebServlet("/admin/*")
@@ -49,24 +50,17 @@ public class AdminServlet extends HttpServlet{
 		
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) { // ë¡œê·¸ì¸ë˜ì§€ ì•Šì€ ê²½ìš°
+		if(info==null) { // ·Î±×ÀÎµÇÁö ¾ÊÀº °æ¿ì
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
 		
-		//íŒŒì¼ ì €ì¥í•  ê²½ë¡œ
-		String root=session.getServletContext().getRealPath("/");
-		pathname=root+File.separator+"uploads"+File.separator+"views";
-		File f=new File(pathname);
-		if(! f.exists()) { // í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
-			f.mkdirs();
-		}
 		if (uri.indexOf("created.do")!=-1) {
 			createdForm(req, resp);
-		}else if (uri.indexOf("created_ok.do")!=-1) {
-			createdSubmit(req, resp);
-		}else if (uri.indexOf("created_sub.do")!=-1) {
-			createdSub(req, resp);
+		}else if (uri.indexOf("viewscreated_ok.do")!=-1) {
+			viewscreatedSubmit(req, resp);
+		}else if (uri.indexOf("viewscreated_sub.do")!=-1) {
+			viewscreatedSub(req, resp);
 		}
 		/* else if (uri.indexOf("article.do")!=-1) {
 			article(req, resp);
@@ -91,8 +85,8 @@ public class AdminServlet extends HttpServlet{
 		forward(req, resp, "/WEB-INF/views/admin/created.jsp");
 	}
 	
-	protected void createdSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+	protected void viewscreatedSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		
 		String bigareaCode=req.getParameter("bigareaCode");
 		AdminDAO dao=new AdminDAO();
@@ -112,22 +106,34 @@ public class AdminServlet extends HttpServlet{
 		PrintWriter out= resp.getWriter();
 		
 		out.print(areaCode); 
-
 		
 	}
 	
-	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void viewscreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		//ÆÄÀÏ ÀúÀåÇÒ °æ·Î
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+"views";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { // Æú´õ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
+			f.mkdirs();
+		}
+		
+		
 		
 		AdminDAO dao=new AdminDAO();
 		AdminDTO dto=new AdminDTO();
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     ì´ì–´ì•¼ íŒŒì¼ì´ ì—…ë¡œë“œ ê°€ëŠ¥í•˜ê³  requestë¥¼ ì´ìš©í•˜ì—¬ 
-		//     íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê²¨ ë°›ì„ ìˆ˜ ì—†ë‹¤.
+		//     ÀÌ¾î¾ß ÆÄÀÏÀÌ ¾÷·Îµå °¡´ÉÇÏ°í request¸¦ ÀÌ¿ëÇÏ¿© 
+		//     ÆÄ¶ó¹ÌÅÍ¸¦ ³Ñ°Ü ¹ŞÀ» ¼ö ¾ø´Ù.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -135,34 +141,30 @@ public class AdminServlet extends HttpServlet{
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
+		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
+			
+			// ¼­¹ö¿¡ ÀúÀåµÈ ÆÄÀÏ¸í
+			String saveFilenames[]={mreq.getFilesystemName("someNail_upload"),mreq.getFilesystemName("body_upload")};
+			// ÆÄÀÏÀÌ¸§º¯°æ
+			saveFilenames[0] = FileManager.doFilerename(pathname, saveFilenames[0]);
+			saveFilenames[1] = FileManager.doFilerename(pathname, saveFilenames[1]);
+			
+			dto.setImageFileName(saveFilenames);
 		
 			dto.setUserId("admin");
 			dto.setTitle(mreq.getParameter("title"));
 			dto.setContent(mreq.getParameter("content"));
 			dto.setAreaCode(Integer.parseInt(mreq.getParameter("areaCode")));
-			String files[]=new String[] {"í‚¹ê°“ì œë„¤ëŸ´ì— í˜ëŸ¬","ì¶©ë¬´ê³µì‹ ì¥íŒ€ìŠ¹ì—°"};
-			dto.setImageFileName(files);
 	
-			// ì €ì¥
+			// ÀúÀå
 			dao.insertView(dto);
 		
 		resp.sendRedirect(cp);
-	}
-		
-	/*
-	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-	//	SessionInfo info = loginUser(req);
-		
-		String cp=req.getContextPath();
-		
-		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.do");
-			return;
 		}
-	}
-
+	}	
 	
+
+	/*
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		SessionInfo info=loginUser(req);
 		String cp=req.getContextPath();
@@ -206,4 +208,5 @@ public class AdminServlet extends HttpServlet{
 		}
 	  }
 	*/
-	}
+
+}
