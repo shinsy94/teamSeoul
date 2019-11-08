@@ -35,7 +35,7 @@
 }
 </style>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript">
 function bgLabel(ob, id) {
@@ -75,14 +75,17 @@ function sendLogin() {
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
+<div class="container" >
+	<img src="<%=cp%>/resource/images/jpg" width="1300">
+	<p class="container" style="font-weight: bold; font-size:27px; color: #FFFFFF;">회원 로그인</p>
 	<div>
-
+	
 	    <div style="margin: 80px auto 70px; width:360px;">
+	    	<!--  
 	    	<div style="text-align: center;">
 	        	<span style="font-weight: bold; font-size:27px; color: #424951;">회원 로그인</span>
 	        </div>
-	        
+	        -->
 			<form name="loginForm" method="post" action="">
 			  <table style="margin: 15px auto; width: 360px; border-spacing: 0px;">
 			  <tr align="center" height="60"> 

@@ -1,18 +1,19 @@
-package com.views;
+package com.admin;
 
-/**
- * @author sist
- *
- */
-public class ViewsDTO {
+public class AdminDTO {
 	private int num;
 	private String title;
 	private String content;
 	private String userId;
-	private int areaCode;
-	private String local;
-	private String[] imageFileName;
-	private String thumbnailImg;
+	private int areaCode; 
+	private String imageFileName[];
+	
+	public String[] getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String[] imageFileName) {
+		this.imageFileName = imageFileName;
+	}
 	private String created;
 	private int listNum;
 	public int getNum() {
@@ -45,27 +46,6 @@ public class ViewsDTO {
 	public void setAreaCode(int areaCode) {
 		this.areaCode = areaCode;
 	}
-	public String getLocal() {
-		return local;
-	}
-	public void setLocal(String local) {
-		this.local = local;
-	}
-	
-	public String[] getImageFileName() {
-		return imageFileName;
-	}
-	public void setImageFileName(String[] imageFileName) {
-		this.imageFileName = imageFileName;
-	}
-	
-	
-	public String getThumbnailImg() {
-		return thumbnailImg;
-	}
-	public void setThumbnailImg(String thumbnailImg) {
-		this.thumbnailImg = thumbnailImg;
-	}
 	public String getCreated() {
 		return created;
 	}
@@ -78,5 +58,4 @@ public class ViewsDTO {
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}
-	
 }

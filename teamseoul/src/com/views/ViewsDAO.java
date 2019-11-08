@@ -13,71 +13,6 @@ import com.util.DBConn;
 public class ViewsDAO {
 	private Connection conn = DBConn.getConnection();
 
-	public void insertView(ViewsDTO dto) {
-		StringBuilder sb = new StringBuilder();
-		PreparedStatement pstmt = null;
-		try {
-			sb.append("insert into view(num,title,content,userId,areaCode, ");
-			sb.append(",created) values(.NEXTVAL,?,?,?,?,?) ");
-			pstmt = conn.prepareStatement(sb.toString());
-
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setString(3, dto.getUserId());
-			pstmt.setInt(4, dto.getAreaCode());
-			pstmt.setString(5, dto.getCreated());
-
-			pstmt.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-
-	}
-
-	public void updateView() {
-		String sql;
-		PreparedStatement pstmt = null;
-		try {
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-
-	}
-
-	public void deleteView() {
-		String sql;
-		PreparedStatement pstmt = null;
-		try {
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-
-	}
-
 	public Map<String, String> ListAreaCode(String bigareaCode) {
 		Map<String, String> map = new HashMap<String, String>();
 		PreparedStatement pstmt = null;
@@ -98,44 +33,7 @@ public class ViewsDAO {
 		}
 		return map;
 	}
-
-	public List<String> listLocal(int areaCode) {
-		List<String> list = new ArrayList<String>();
-		String sql;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			sql = "SELECT local FROM area WHERE bigarea = ? AND areacode != ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, areaCode);
-			pstmt.setInt(2, areaCode);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				list.add(rs.getString(1));
-			}
-				
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception e2) {
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-		return list;
-	}
-
+	
 	public List<ViewsDTO> areaList() {
 		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
 		String sql;
@@ -154,6 +52,141 @@ public class ViewsDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return list;
+	}
+	
+	public List<ViewsDTO>  thumbnailList(int offset, int rows){
+		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
+			sb.append("	FROM views v ");
+			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
+			sb.append(" WHERE INSTR(IMAGEFILENAME,'thumbnail') > 0");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ViewsDTO dto = new ViewsDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAreaCode(rs.getInt("areacode"));
+				dto.setThumbnailImg(rs.getString("IMAGEFILENAME"));
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return list;
+	}
+	
+	public List<ViewsDTO>  thumbnailList(int offset, int rows,int areaCode){
+		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
+			sb.append("	FROM views v ");
+			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
+			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'thumbnail') > 0");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, areaCode);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ViewsDTO dto = new ViewsDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAreaCode(rs.getInt("areacode"));
+				dto.setThumbnailImg(rs.getString("IMAGEFILENAME"));
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return list;
+	}
+	
+	public List<ViewsDTO>  imageList(int num){
+		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
+			sb.append("	FROM views v ");
+			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
+			sb.append(" WHERE vf.num = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ViewsDTO dto = new ViewsDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAreaCode(rs.getInt("areacode"));
+				dto.setThumbnailImg(rs.getString("IMAGEFILENAME"));
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
