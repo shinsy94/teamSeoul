@@ -37,26 +37,26 @@ $(function(){
 	        </li>
 				
 	        <li>
-	            <a href="#">축제</a>
+	            <a href="<%=cp%>/event/festival.do">축제</a>
 	        </li>
 	
 	        <li>
-	            <a href="#">이벤트</a>
+	            <a href="<%=cp%>/event/eventlist.do">이벤트</a>
 	        </li>
 	
 	        <li>
-	            <a href="#">욜로족</a>
+	            <a href="<%=cp%>/yolo/list.do">욜로족</a>
 	        </li>
 	
 	        <c:if test="${sessionScope.member.userId != 'admin'}">
 	        <li>
-	            <a href="#">마이페이지</a>
+	            <a href="<%=cp%>/member/mypage.do">마이페이지</a>
 	        </li>
 	        </c:if>
 	        
 	        <c:if test="${sessionScope.member.userId == 'admin'}">
 	        <li>
-	            <a href="#">관리자</a>
+	            <a href="<%=cp%>/admin/created.do">관리자</a>
 	        </li>
 	        </c:if>
 	        

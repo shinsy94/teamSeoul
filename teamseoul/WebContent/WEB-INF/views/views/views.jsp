@@ -21,18 +21,34 @@
 
 <script type="text/javascript">
 $(function(){
-	$("body").on("click","#northMenu",function(){
+	$("body").on("click","#bigArea",function(){
 		var $ul = $(this).next();
+		
 		var isVis = $ul.is(":visible");
+		var url = "<%=cp%>/views/areaList.do";
+		var query = "bigCode="+$(this).val();
+		
+		$.ajax({// 함수에 객체를 넘긴다
+			type:"POST",
+			url:url,
+			data:query,
+			success:function(data){
+				$("#subArea").html(data);
+			},
+			error:function(e){
+				console.log(e.responseText);
+			}
+		});
 		
 		if(isVis){
-			$ul.hide(1000);
+			$("#subArea").hide(1000);
 		} else {
-			$ul.show(1000);
+			$("#subArea").show(1000);
 		}
 		
 	});
 });
+
 </script>
 
 </head>
@@ -48,20 +64,14 @@ $(function(){
 	    <div class="views-menu">
 	    	<ul>
 	    		<li><a href="<%=cp%>/views/views.do">전체보기</a></li>
-	    		<li><a href="#" id="northMenu">북부</a>
-	    			<ul style='display: none;'>
-	    				<li>도봉구</li>
-	    				<li>노원구</li>
-	    				<li>강북구</li>
-	    				<li>성북구</li>
-	    				<li>은평구</li>
-	    				<li>종로구</li>
-	    				<li>중랑구</li>
+	    		
+	    		<c:forEach var="dto" items="${bigAreaList}">
+	    		<li><button id="bigArea" value="${dto.areaCode}">${dto.local}</button>
+	    			<ul style='display: none;' id="subArea">
+	    				
 	    			</ul>
 	    		</li>
-	    		<li><a href="#">남부</a></li>
-	    		<li><a href="#">서부</a></li>
-	    		<li><a href="#">동부</a></li>
+	    		</c:forEach>
 	    	</ul>
 	    </div>
 	    <div class="views-list">
