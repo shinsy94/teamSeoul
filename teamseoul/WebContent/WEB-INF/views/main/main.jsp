@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 
 </head>
 <body>
@@ -29,7 +29,7 @@
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
     <div class="body-container">
-    		<img src="<%=cp%>/resource/images/main_top.jpg" width="1100">
+    		<img src="<%=cp%>/resource/images/main_top.jpg" width="1200">
     
     		<div class="note-top">
     		<br>
@@ -64,7 +64,7 @@
           <tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: right; text-align: right;"><a href="#" style="color: #3e3d3d; ">더보기 &gt; </a></td>
+            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/notice/list.do" style="color: #3e3d3d; ">더보기 &gt; </a></td>
             		
             	</tr>
             </table>
