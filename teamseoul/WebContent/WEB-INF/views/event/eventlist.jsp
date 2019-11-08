@@ -27,27 +27,17 @@
 </div>
 
 <div class="container" style="position: relative; top: 90px; z-index: 1;" >
-<div class="body-title" style="width: 60%; margin: 10px auto; text-align: left;">
+<div class="body-title" style="width: 80%; margin: 10px auto; text-align: left;">
            		<h3>게신개발자의 이벤트 </h3>
     </div>
-    <c:forEach begin="3" end="3">	 		
-	    <div style="width: 60%; margin: 10px auto 0px;">
-	    <a href="<%=cp%>/event/eventarticle.do?page=${current_page}&num="+${dto.getNum}>
-	    	<img src="<%=cp%>/resource/images/main_1.jpg" width="100%" height=150px style="margin: 0px 10px;">
-	    </a>
-	    </div>	 		
-	    <div style="width: 60%; margin: 10px auto 0px;">
-	    <a href="<%=cp%>/event/eventarticle.do">
-	    	<img src="<%=cp%>/resource/images/main_2.jpg" width="100%" height=150px style="margin: 0px 10px;">
+    	
+	    <div style="width: 80%; margin: 10px auto 0px;">
+	    <a href="<%=cp%>/event/eventarticle.do?num=1">
+	    	<img src="<%=cp%>/resource/images/main_1.jpg" width="80%" height=150px style="margin: 0px 10px;">
 	    </a>
 	    </div>
-	    <div style="width: 60%; margin: 10px auto 0px;">
-	    <a href="eventlist/eventarticle.jsp">
-	    	<img src="<%=cp%>/resource/images/main_3.jpg" width="100%" height=150px style="margin: 0px 10px;">
-	    </a>
-	    </div>
-	    
-    </c:forEach>
+
+    
 	</div>
 <div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

@@ -42,10 +42,8 @@ public class EventServlet extends HttpServlet{
 		}
 		
 		if(uri.indexOf("eventlist.do")!=-1) {
-			eventViews(req, resp);
-		} else if(uri.indexOf("eventarticle.do")!=-1) {
 			eventList(req, resp);
-		} else if(uri.indexOf("list.do")!=-1) {
+		} else if(uri.indexOf("eventarticle.do")!=-1) {
 			eventarticle(req, resp);
 			
 		}
@@ -59,12 +57,6 @@ public class EventServlet extends HttpServlet{
 	}
 	
 	private void eventViews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp = req.getContextPath();
-		
-		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
-	}
-	
-	private void eventList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();
 		EventDAO dao=new EventDAO();
 		MyUtil util=new MyUtil();
@@ -95,8 +87,13 @@ public class EventServlet extends HttpServlet{
 		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
+		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
+	}
+	
+	private void eventList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
 		
-		forward(req, resp, "/WEB-INF/views/event/eventarticle.jsp");
+		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
 	}
 	private void eventarticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 보기
@@ -113,9 +110,12 @@ public class EventServlet extends HttpServlet{
 			return;
 		}
 		
+		dto.setContent(dto.getContent().replace("\n", "<br>"));
 		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
 		
+		forward(req, resp, "/WEB-INF/views/event/eventarticle.jsp");
 	}
-		
 	
 }

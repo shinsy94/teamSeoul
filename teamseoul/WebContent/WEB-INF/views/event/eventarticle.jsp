@@ -28,12 +28,18 @@
 
 <div class="container" style="position: relative; top: 90px; z-index: 1;" >
 <div class="body-title" style="width: 60%; margin: 10px auto; text-align: left;">
-           		<h3>메이플스토리 이벤트 </h3>
+				<h3>${dto.title}</h3>
+     <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+     	<tr style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+        	<td width="50%" align="right" style="padding-right: 10px;">
+			      ${dto.created}
+			</td>
+		</tr>
+	</table>
     </div>
     <c:forEach begin="1" end="1">	 		
 	    <div style="width: 80%; margin: 10px auto 0px;">
-	    		<img src="<%=cp%>/resource/images/story01.jpg" width="70%" style="margin: 0px 10px;">
-
+	    		<img src="<%=cp%>${dto.imageFileName}" width="70%" style="margin: 0px 10px;">
 	    <div class="note-top">
     		<br>
 				니.서.알은 서울의 아름다운 관광 문화에 대한 애정에서 시작되었습니다.
@@ -44,10 +50,9 @@
 				아름답고 새로운 서울여행을 꿈꾼다면 저희 니.서.알과 함께 하세요.<br><br>
 			</div>
 	   <table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
-	   
 			<tr height="45">
 			    <td width="300" align="left">
-			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
+			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
 			          <button type="button" class="btn" onclick="updatePhoto('${dto.num}');">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
@@ -56,13 +61,13 @@
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/photo/list.do?page=${page}';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/eventlist.do?page=${page}';">리스트</button>
+			        
 			    </td>
 			</tr>
 			</table>
 			
 	    </div>
-	    
     </c:forEach>
 	</div>
 <div class="footer" style="position: relative; top:300px;">

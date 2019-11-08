@@ -53,7 +53,7 @@ public class EventDAO {
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT num, title, content, e.userId, imageFileName, eventLink, created FROM event e JOIN member m ON e.userId ORDER BY num DESC OFFSET? ROWS FETCH FIRST ? ROWS ONLY");
+			sb.append("SELECT num, title, content, e.userId, imageFileName, eventLink, created FROM event e JOIN member m ON e.userId=m.userId ORDER BY num DESC OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, offset);
@@ -74,7 +74,7 @@ public class EventDAO {
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if(rs!=null) {
 				try {
@@ -120,7 +120,7 @@ public class EventDAO {
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if(rs!=null) {
 				try {
