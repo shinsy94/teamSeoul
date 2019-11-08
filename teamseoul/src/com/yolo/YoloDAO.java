@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yolo.YoloDTO;
+import com.yolo.YoloReplyDTO;
 import com.util.DBConn;
 
 public class YoloDAO {
@@ -557,5 +558,210 @@ public void deleteYolo(int num, String userId) {
 }
 
 
+
+// !!!!!!!!!!!!!!!!! 여기부터 댓글 시작!!!!!!!!!!!!!!!!!
+
+
+
+
+// 게시물의 댓글 및 답글 추가
+public int insertReply(YoloReplyDTO dto) {
+	int result=0;
+	PreparedStatement pstmt=null;
+	String sql;
+	
+	try {
+		sql = "INSERT INTO yoloReply(replyNum, num, userId, content, created) VALUES (bbsReply_seq.NEXTVAL, ?, ?, ?, ?)";
+		
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, dto.getNum());
+		pstmt.setString(2, dto.getUserId());
+		pstmt.setString(3, dto.getContent());
+		pstmt.setString(4, dto.getCreated());
+		
+		result=pstmt.executeUpdate();
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if(pstmt!=null)
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+	}
+	
+	return result;
+}
+
+// 게시물의 댓글 개수
+public int dataCountReply(int num) {
+	int result=0;
+	PreparedStatement pstmt=null;
+	ResultSet rs=null;
+	String sql;
+	
+	try {
+		sql="SELECT NVL(COUNT(*), 0) FROM yoloReply WHERE num=?";
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, num);
+		
+		rs=pstmt.executeQuery();
+		if(rs.next())
+			result=rs.getInt(1);
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+			
+		if(pstmt!=null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+		}
+	}
+	
+	return result;
+}
+
+// 게시물 댓글 리스트
+public List<YoloReplyDTO> listReply(int num, int offset, int rows) {
+	List<YoloReplyDTO> list=new ArrayList<>();
+	PreparedStatement pstmt=null;
+	ResultSet rs=null;
+	StringBuffer sb=new StringBuffer();
+	
+	try {
+		sb.append("SELECT yr.replyNum, yr.userId, num, content, yr.created, ");
+		sb.append("       SELECT NVL(COUNT(*), ");
+		sb.append(" FROM yoloReply yr ");
+		sb.append("	JOIN member m ON yr.userId = m.userId ");
+		sb.append("	ORDER BY  yr.replyNum DESC ");
+		sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+		
+		pstmt = conn.prepareStatement(sb.toString());
+		pstmt.setInt(1, num);
+		pstmt.setInt(2, offset);
+		pstmt.setInt(3, rows);
+
+		rs=pstmt.executeQuery();
+		
+		while(rs.next()) {
+			YoloReplyDTO dto=new YoloReplyDTO();
+			
+			dto.setReplyNum(rs.getInt("replyNum"));
+			dto.setUserId(rs.getString("userId"));
+			dto.setNum(rs.getInt("num"));
+			dto.setContent(rs.getString("content"));
+			dto.setCreated(rs.getString("created"));
+			
+			list.add(dto);
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+			
+		if(pstmt!=null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+		}
+	}
+	return list;
+}
+
+public YoloReplyDTO readReply(int replyNum) {
+	YoloReplyDTO dto=null;
+	PreparedStatement pstmt=null;
+	ResultSet rs=null;
+	StringBuffer sb=new StringBuffer();
+	
+	try {
+		sb.append("SELECT replyNum, num, yr.userId, content, yr.created ");
+		sb.append(" FROM yoloReply yr JOIN member m ON yr.userId=m.userId  ");
+		sb.append(" WHERE replyNum = ? ");
+
+		pstmt = conn.prepareStatement(sb.toString());
+		pstmt.setInt(1, replyNum);
+
+		rs=pstmt.executeQuery();
+		
+		if(rs.next()) {
+			dto=new YoloReplyDTO();
+			dto.setReplyNum(rs.getInt("replyNum"));
+			dto.setNum(rs.getInt("num"));
+			dto.setUserId(rs.getString("userId"));
+			dto.setContent(rs.getString("content"));
+			dto.setCreated(rs.getString("created"));
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+			
+		if(pstmt!=null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+		}
+	}
+	
+	return dto;
+}
+
+// 게시물의 댓글 삭제
+public int deleteReply(int replyNum, String userId) {
+	int result = 0;
+	PreparedStatement pstmt = null;
+	String sql;
+	
+	if(! userId.equals("admin")) {
+		YoloReplyDTO dto=readReply(replyNum);
+		if(dto==null || (! userId.equals(dto.getUserId())))
+			return result;
+	}
+	
+	sql="DELETE FROM yoloReply ";
+	sql+="  WHERE replyNum = ? and userId = ?";
+	try {
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, replyNum);
+		pstmt.setString(2, userId);
+		
+		result = pstmt.executeUpdate();
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if(pstmt!=null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+		}
+	}		
+	
+	return result;
+}
 
 }

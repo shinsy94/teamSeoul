@@ -3,6 +3,7 @@ package com.yolo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,8 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.util.FileManager;
 import com.util.MyUtil;
+
+import net.sf.json.JSONObject;
 
 @WebServlet("/yolo/*")
 public class YoloServlet extends HttpServlet {
@@ -78,8 +81,16 @@ public class YoloServlet extends HttpServlet {
 			delete(req, resp);
 		} else if(uri.indexOf("deleteFile.do")!=-1) {
 			deleteFile(req, resp);
+		} else if(uri.indexOf("insertReply.do")!=-1) {		// 여기서부터 댓글 시작!!!!
+			// 댓글 추가
+			insertReply(req, resp);
+		} else if(uri.indexOf("listReply.do")!=-1) {
+			// 댓글 리스트
+			listReply(req, resp);
+		} else if(uri.indexOf("deleteReply.do")!=-1) {
+			// 댓글 삭제
+			deleteReply(req, resp);
 		}
-		
 	}
 	
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
@@ -434,4 +445,102 @@ public class YoloServlet extends HttpServlet {
 		resp.sendRedirect(cp+"/yolo/update.do?num="+num+"&page="+page);
 	}
 
+	
+// !!!!!!!!!!!!!!!!! 여기부터 댓글 시작!!!!!!!!!!!!!!!!!
+	
+	
+	private void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 리스트 - AJAX:TEXT
+		YoloDAO dao = new YoloDAO();
+		MyUtil util = new MyUtil();
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String pageNo = req.getParameter("pageNo");
+		int current_page = 1;
+		if (pageNo != null)
+			current_page = Integer.parseInt(pageNo);
+
+		int rows = 5;
+		int total_page = 0;
+		int replyCount = 0;
+
+		replyCount = dao.dataCountReply(num);
+		total_page = util.pageCount(rows, replyCount);
+		if (current_page > total_page)
+			current_page = total_page;
+
+		int offset = (current_page - 1) * rows;
+
+		// 리스트에 출력할 데이터
+		List<YoloReplyDTO> listReply = dao.listReply(num, offset, rows);
+
+		// 엔터를 <br>
+		for(YoloReplyDTO dto:listReply) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		}
+
+		// 페이징 처리(인수2개 짜리로 자바스크립트 listPage(page) 함수 호출)
+		String paging = util.paging(current_page, total_page);
+
+		req.setAttribute("listReply", listReply);
+		req.setAttribute("pageNo", current_page);
+		req.setAttribute("replyCount", replyCount);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("paging", paging);
+
+		// 포워딩
+		forward(req, resp, "/WEB-INF/views/yolo/listReply.jsp");
+	}
+
+	private void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 또는 답글  저장 - AJAX:JSON
+		YoloDAO dao = new YoloDAO();
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		YoloReplyDTO dto = new YoloReplyDTO();
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		dto.setNum(num);
+		dto.setUserId(info.getUserId());
+		dto.setContent(req.getParameter("content"));
+
+		String state="false";
+		int result=dao.insertReply(dto);
+		if(result==1)
+			state="true";
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
+	}
+
+	private void deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 또는 답글 삭제 - AJAX:JSON
+		YoloDAO dao = new YoloDAO();
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		int replyNum = Integer.parseInt(req.getParameter("replyNum"));
+		
+		String state="false";
+		int result=dao.deleteReply(replyNum, info.getUserId());
+		if(result==1)
+			state="true";
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
+	}
+	
+	
+	
 }

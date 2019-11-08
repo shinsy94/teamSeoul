@@ -107,6 +107,78 @@ function deleteYolo(num) {
 			    </td>
 			</tr>
 			</table>
+			
+			
+			
+			
+<%-- !!!!!!!!!!!!!여기부터 댓글시작!!!!!!!!!!!!!!! --%>	
+
+<c:if test="${replyCount!=0}">
+<table style='width: 100%; margin: 10px auto 30px; border-spacing: 0px;'>
+<tr height="35">
+    <td>
+       <div style="clear: both;">
+           <div style="float: left;"><span style="color: #3EA9CD; font-weight: bold;">댓글 ${replyCount}개</span> <span>[댓글 목록, ${pageNo}/${total_page} 페이지]</span></div>
+           <div style="float: right; text-align: right;"></div>
+       </div>
+    </td>
+</tr>
+
+<c:forEach var="dto" items="${listReply}">
+    <tr height='35' style='background: #eee;'>
+       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;'>
+           <span><b>${dto.userId}</b></span>
+        </td>
+       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
+           <span>${dto.created}</span> |
+<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">		   
+          <span class="deleteReply" style="cursor: pointer;" data-replyNum='${dto.replyNum}' data-pageNo='${pageNo}'>삭제</span>
+</c:if>		   
+<c:if test="${sessionScope.member.userId!=dto.userId && sessionScope.member.userId!='admin'}">		   
+          <span class="notifyReply">신고</span>
+</c:if>	
+        </td>
+    </tr>
+    <tr>
+        <td colspan='2' valign='top' style='padding:5px 5px;'>
+                ${dto.content}
+        </td>
+  	</tr>
+
+    
+</c:forEach>
+
+	  <div>
+            <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+            <tr height='30'> 
+	            <td align='left'>
+	            	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+	            </td>
+            </tr>
+            <tr>
+               <td style='padding:5px 5px 0px;'>
+                    <textarea class='boxTA' style='width:99%; height: 70px;'></textarea>
+                </td>
+            </tr>
+            <tr>
+               <td align='right'>
+                    <button type='button' class='btn btnSendReply' style='padding:10px 20px;'>댓글 등록</button>
+                </td>
+            </tr>
+            </table>
+ 	    </div>
+     <tr height="40">
+         <td colspan='2'>
+              ${paging}
+         </td>
+     </tr>
+</table>
+</c:if>	
+			
+
+	
+	
+			
         </div>
         
     </div>
