@@ -37,11 +37,11 @@ public class ViewsServlet extends HttpServlet {
 		} else if(uri.indexOf("areaList.do")!=-1) {
 			areaList(req, resp);
 		} else if(uri.indexOf("list.do")!=-1) {
-			
+			list(req, resp);
+		} else if(uri.indexOf("article.do")!=-1) {
+			article(req, resp);
 		}
 	}
-
-
 	protected void forward(HttpServletRequest req, 	HttpServletResponse resp, String path)
 			throws ServletException, IOException {
 		// 포워딩을 위한 메소드
@@ -49,9 +49,13 @@ public class ViewsServlet extends HttpServlet {
 		rd.forward(req, resp);
 	}
 	
-	private void views(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
-		String cp = req.getContextPath();
+	private void list(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
 		
+		
+		
+	}
+	
+	private void views(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {		
 		ViewsDAO dao = new ViewsDAO();
 		List<ViewsDTO> list= dao.areaList();
 		req.setAttribute("bigAreaList", list);
@@ -64,7 +68,13 @@ public class ViewsServlet extends HttpServlet {
 		ViewsDAO dao = new ViewsDAO();
 		Map<String, String> map= dao.ListAreaCode(req.getParameter("bigCode"));
 		
+		req.setAttribute("areaMap", map);
 		
+		forward(req, resp, "/WEB-INF/views/views/areaList.jsp");
+	}
+	
+	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		forward(req, resp, "/WEB-INF/views/views/article.jsp");
 	}
 }

@@ -12,6 +12,7 @@ public class ViewsDTO {
 	private int areaCode;
 	private String local;
 	private String[] imageFileName;
+	private String thumbnailImg;
 	private String created;
 	private int listNum;
 	public int getNum() {
@@ -56,6 +57,14 @@ public class ViewsDTO {
 	}
 	public void setImageFileName(String[] imageFileName) {
 		this.imageFileName = imageFileName;
+	}
+	
+	
+	public String getThumbnailImg() {
+		return thumbnailImg;
+	}
+	public void setThumbnailImg(String thumbnailImg) {
+		this.thumbnailImg = thumbnailImg;
 	}
 	public String getCreated() {
 		return created;

@@ -20,6 +20,8 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script type="text/javascript">
+
+
 $(function(){
 	$("body").on("click","#bigArea",function(){
 		var $ul = $(this).next();
@@ -28,12 +30,14 @@ $(function(){
 		var url = "<%=cp%>/views/areaList.do";
 		var query = "bigCode="+$(this).val();
 		
+		// 현재 width %로 동적으로 해놔서 데이터 불러오면 화면 떨림 현상 있음.
 		$.ajax({// 함수에 객체를 넘긴다
-			type:"POST",
+			type:"GET",
 			url:url,
 			data:query,
 			success:function(data){
-				$("#subArea").html(data);
+				 $ul.html(data);
+				
 			},
 			error:function(e){
 				console.log(e.responseText);
@@ -41,14 +45,25 @@ $(function(){
 		});
 		
 		if(isVis){
-			$("#subArea").hide(1000);
+			 $ul.hide();
 		} else {
-			$("#subArea").show(1000);
+			 $ul.show();
 		}
 		
 	});
 });
 
+$(function(){
+	
+	
+});
+
+$(function(){
+	$("body").on("click",".areaName",function(){
+		var areaNum = $(this).parent().children("input").val();
+		alert(areaNum);
+	})
+});
 </script>
 
 </head>
@@ -61,24 +76,24 @@ $(function(){
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
     <div class="body-container" >
-	    <div class="views-menu">
+	    <div class="views-menu" style="min-height: 400px;">
 	    	<ul>
 	    		<li><a href="<%=cp%>/views/views.do">전체보기</a></li>
 	    		
 	    		<c:forEach var="dto" items="${bigAreaList}">
-	    		<li><button id="bigArea" value="${dto.areaCode}">${dto.local}</button>
-	    			<ul style='display: none;' id="subArea">
-	    				
+	    		<li><button type="button" id="bigArea" value="${dto.areaCode}">${dto.local}</button>
+	    			<ul style='display: none;' class="subArea">
+	    			
 	    			</ul>
 	    		</li>
 	    		</c:forEach>
 	    	</ul>
 	    </div>
 	    <div class="views-list">
-	    <c:forEach begin="1" end="2">
-	    	<img src="<%=cp%>/resource/images/main_3.jpg" width="40%">
-	    	<img src="<%=cp%>/resource/images/main_3.jpg" width="40%">
-	    </c:forEach>
+    		<a href="<%=cp%>/views/article.do">
+    			<img src="<%=cp%>/uploads/views/2019110818343436408098638100.png" width="40%">
+    		</a>	
+
 	    </div>
 	</div>
    
