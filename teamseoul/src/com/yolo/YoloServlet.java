@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.util.FileManager;
 import com.util.MyUtil;
 
 @WebServlet("/yolo/*")
@@ -124,7 +125,7 @@ public class YoloServlet extends HttpServlet {
 		
 		Date curDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// 리스트 글번호 만들기
+		
 		int listNum, n=0;
 		for(YoloDTO dto : list) {
 			listNum=dataCount-(offset+n);
@@ -138,11 +139,11 @@ public class YoloServlet extends HttpServlet {
 				n++;
 		}
 		
-		// 공지글
-	      List<YoloDTO> listYolo = null;
+		
+	      List<YoloDTO> listAttention = null;
 	      if(current_page == 1) {
-	    	  listYolo = dao.listYolo(offset, rows);
-	         for(YoloDTO dto : listYolo) {
+	    	  listAttention = dao.listAttention();
+	         for(YoloDTO dto : listAttention) {
 	            dto.setCreated(dto.getCreated().substring(0,10));
 	         }
 	      }
@@ -157,7 +158,7 @@ public class YoloServlet extends HttpServlet {
 				
 		String paging = util.paging(current_page, total_page, listUrl);
 		
-		req.setAttribute("listYolo", listYolo);
+		req.setAttribute("listAttention", listAttention);
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
 		req.setAttribute("page", current_page);
@@ -237,26 +238,200 @@ public class YoloServlet extends HttpServlet {
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		SessionInfo info = loginUser(req);
+				
+		YoloDAO dao=new YoloDAO();
+		String cp=req.getContextPath();
+				
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+				
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		String condition=req.getParameter("condition");
+		String keyword=req.getParameter("keyword");
+		if(condition==null) {
+			condition="title";
+			keyword="";
+		}
+		keyword=URLDecoder.decode(keyword, "utf-8");
+
+		String query="page="+page;
+		if(keyword.length()!=0) {
+			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}
+				
+		
+		dao.updateHitCount(num);
+		
+		
+		YoloDTO dto=dao.readYolo(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/yolo/list.do?"+query);
+			return;
+		}
+		
+		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		
+		
+		YoloDTO preReadDto = dao.preReadYolo(dto.getNum(), condition, keyword);
+		YoloDTO nextReadDto = dao.nextReadYolo(dto.getNum(), condition, keyword);
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("preReadDto", preReadDto);
+		req.setAttribute("nextReadDto", nextReadDto);
+		req.setAttribute("query", query);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/yolo/article.jsp");
 	}
 
+	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		SessionInfo info = loginUser(req);
+		String cp=req.getContextPath();
 		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String page=req.getParameter("page");
+		int num = Integer.parseInt(req.getParameter("num"));
+		
+		YoloDAO dao=new YoloDAO();
+		YoloDTO dto=dao.readYolo(num);
+		if(dto==null || ! info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp+"/yolo/list.do?page"+page);
+			return;
+		}
+		
+		req.setAttribute("mode", "update");
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/yolo/created.jsp");
 	}
 	
 	
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		SessionInfo info = loginUser(req);
+		String cp=req.getContextPath();
 		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		String encType="UTF-8";
+		int maxfilesize = 5 * 1024 * 1024;
+		
+		YoloDAO dao = new YoloDAO();
+		YoloDTO dto = new YoloDTO();
+		
+		String pathname = getFilePathname(req);
+		File f = new File(pathname);
+		if(! f.exists()) {
+			f.mkdirs();
+		}
+		
+		MultipartRequest mreq;
+		
+		mreq = new MultipartRequest(req, pathname, maxfilesize, encType, new DefaultFileRenamePolicy());
+		
+		dto.setUserId(info.getUserId());
+		if(mreq.getParameter("attention")!=null) {
+			dto.setAttention(Integer.parseInt(mreq.getParameter("attention")));
+		}
+		
+		dto.setTitle(mreq.getParameter("title"));
+		dto.setNum(Integer.parseInt(mreq.getParameter("num")));
+		dto.setUserId(info.getUserId());
+		dto.setContent(mreq.getParameter("content"));
+		dto.setImageFileName(mreq.getParameter("imageFileName"));
+		
+		if(mreq.getFile("upload")!=null) {		
+			if(dto.getImageFileName().length()!=0) {
+					
+			FileManager.doFiledelete(pathname, dto.getImageFileName());
+			}
+			dto.setImageFileName(mreq.getFilesystemName("upload"));
+		}
+		
+		String page=mreq.getParameter("page");
+		dao.updateYolo(dto);
+		resp.sendRedirect(cp+"/yolo/list.do?page="+page);
 	}
 		
 	
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		SessionInfo info = loginUser(req);
+		String cp=req.getContextPath();
 		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+			
+		}
+		String page=req.getParameter("page");
+		int num = Integer.parseInt(req.getParameter("num"));
+		String condition=req.getParameter("condition");
+		String keyword=req.getParameter("keyword");
+		if(condition==null) {
+			condition="title";
+			keyword="";
+		}
+		keyword=URLDecoder.decode(keyword, "utf-8");
+		
+		String query="page="+page;
+		if(keyword.length()!=0) {
+			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}
+		
+		String pathname = getFilePathname(req);
+		YoloDAO dao=new YoloDAO();
+		YoloDTO dto=dao.readYolo(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/yolo/list.do?"+query);
+			return;
+		}
+		
+		if(dto.getImageFileName()!=null) {
+			FileManager.doFiledelete(pathname, dto.getImageFileName());
+		}
+		
+		dao.deleteYolo(num, info.getUserId());
+		
+		resp.sendRedirect(cp+"/yolo/list.do?"+query);
 	}
 		
 	
 	protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
-	
+		SessionInfo info = loginUser(req);
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String page = req.getParameter("page");
+		
+		String pathname = getFilePathname(req);
+		YoloDAO dao = new YoloDAO();
+		YoloDTO dto = dao.readYolo(num);
+		
+		if(dto!=null && dto.getImageFileName()!=null) {
+			FileManager.doFiledelete(pathname, dto.getImageFileName());
+			dto.setImageFileName("");
 
-	}
+			dao.updateYolo(dto);
+		}
 	
+		resp.sendRedirect(cp+"/yolo/update.do?num="+num+"&page="+page);
+	}
+
 }

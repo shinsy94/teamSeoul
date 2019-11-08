@@ -20,34 +20,27 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 function sendOk() {
-	var f = document.boardForm;
+    var f = document.boardForm;
+
 	var str = f.title.value;
-    	if(!str) {
-        alert("제목을 입력하세요.");
+    if(!str) {
+        alert("제목을 입력하세요. ");
         f.title.focus();
         return;
     }
 
-    	str = f.content.value;
-        if(!str) {
-        alert("내용을 입력하세요.");
+	str = f.content.value;
+    if(!str) {
+        alert("내용을 입력하세요. ");
         f.content.focus();
         return;
     }
 
-    	f.action="<%=cp%>/yolo/created_ok.do";
+	f.action="<%=cp%>/yolo/${mode}_ok.do";
 
-        f.submit();
-    }
-    
-<c:if test="${mode=='update'}">
-function deleteFile() {
-	if(confirm("첨부된 파일을 삭제하시겠습니까 ?")) {
-	var url="<%=cp%>/yolo/deleteFile.do?num=${dto.num}&page=${page}";
-	location.href=url;
-		}
-	}
-</c:if>
+    f.submit();
+}
+
 </script>
 </head>
 <body>
@@ -68,14 +61,14 @@ function deleteFile() {
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="text" name="title" maxlength="100" class="boxTF" style="width: 95%;" >
+			          <input type="text" name="title" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.title}">
 			      </td>
 			  </tr>
 
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">공지여부</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="checkbox" name="notice" value="1" ${dto.notice==1 ? "checked='checked'" : "" }> <label>공지</label>
+			          <input type="checkbox" name="attention" value="1" ${dto.attention==1 ? "checked='checked'" : "" }> <label>공지</label>
 			      </td>
 			  </tr>
 			  
@@ -89,12 +82,12 @@ function deleteFile() {
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			          <textarea name="content" rows="12" class="boxTA" style="width: 95%;"></textarea>
+			          <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
 			      </td>
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부이미지</td>
 			      <td style="padding-left:10px;"> 
 			          <input type="file" name="upload" class="boxTF" size="53" style="height: 25px;">
 			       </td>

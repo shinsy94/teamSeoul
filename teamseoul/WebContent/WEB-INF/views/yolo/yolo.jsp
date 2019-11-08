@@ -56,12 +56,12 @@ function searchList() {
 			      <th width="60" style="color: #787878;">번호</th>
 			      <th style="color: #787878;">제목</th>
 			      <th width="100" style="color: #787878;">작성자</th>
-			      <th width="80" style="color: #787878;">작성일</th>
+			      <th width="120" style="color: #787878;">작성일</th>
 			      <th width="60" style="color: #787878;">조회수</th>
-			      <th width="50" style="color: #787878;">첨부</th>
 			  </tr>
+						  
 			 
-			 <c:forEach var="dto" items="${listyolo}">
+			 <c:forEach var="dto" items="${listAttention}">
 			  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
 			      <td><span style="display: inline-block; padding: 1px 3px; background: #ED4C00; color: #FFFFFF;">공지</span></td>
 			      <td align="left" style="padding-left: 10px;">
@@ -70,14 +70,7 @@ function searchList() {
 			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
-			      <td>
-			      	<c:if test="${not empty dto.imageFileName}">
-			      		<a href="<%=cp%>/yolo/download.do?num=${dto.num}">
-			      		<img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;" >
-			      		</a>
-			      	
-			      	</c:if>
-			      </td>
+			     
 			  </tr>
 			  </c:forEach>
 			  
@@ -90,15 +83,7 @@ function searchList() {
 			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
-			      <td>
 			      
-			      	<c:if test="${not empty dto.imageFileName}">
-			      		<a href="<%=cp%>/yolo/download.do?num=${dto.num}">
-			      		<img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;" >
-			      		</a>
-			      	
-			      	</c:if>
-			      </td>
 			  </tr>
 			  </c:forEach>
 			</table>
