@@ -50,7 +50,7 @@ public class AdminServlet extends HttpServlet{
 		
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) { // ë¡œê·¸ì¸ë˜ì§€ ì•Šì€ ê²½ìš°
+		if(info==null) { // ·Î±×ÀÎµÇÁö ¾ÊÀº °æ¿ì
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
@@ -114,14 +114,14 @@ public class AdminServlet extends HttpServlet{
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//íŒŒì¼ ì €ì¥í•  ê²½ë¡œ
+		//ÆÄÀÏ ÀúÀåÇÒ °æ·Î
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"views";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
+		if(! f.exists()) { // Æú´õ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
 			f.mkdirs();
 		}
 		
@@ -132,8 +132,8 @@ public class AdminServlet extends HttpServlet{
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     ì´ì–´ì•¼ íŒŒì¼ì´ ì—…ë¡œë“œ ê°€ëŠ¥í•˜ê³  requestë¥¼ ì´ìš©í•˜ì—¬ 
-		//     íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê²¨ ë°›ì„ ìˆ˜ ì—†ë‹¤.
+		//     ÀÌ¾î¾ß ÆÄÀÏÀÌ ¾÷·Îµå °¡´ÉÇÏ°í request¸¦ ÀÌ¿ëÇÏ¿© 
+		//     ÆÄ¶ó¹ÌÅÍ¸¦ ³Ñ°Ü ¹ŞÀ» ¼ö ¾ø´Ù.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -141,11 +141,11 @@ public class AdminServlet extends HttpServlet{
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
-		if(mreq.getFile("upload")!=null) {
+		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
 			
-			// ì„œë²„ì— ì €ì¥ëœ íŒŒì¼ëª…
+			// ¼­¹ö¿¡ ÀúÀåµÈ ÆÄÀÏ¸í
 			String saveFilenames[]={mreq.getFilesystemName("someNail_upload"),mreq.getFilesystemName("body_upload")};
-			// íŒŒì¼ì´ë¦„ë³€ê²½
+			// ÆÄÀÏÀÌ¸§º¯°æ
 			saveFilenames[0] = FileManager.doFilerename(pathname, saveFilenames[0]);
 			saveFilenames[1] = FileManager.doFilerename(pathname, saveFilenames[1]);
 			
@@ -156,7 +156,7 @@ public class AdminServlet extends HttpServlet{
 			dto.setContent(mreq.getParameter("content"));
 			dto.setAreaCode(Integer.parseInt(mreq.getParameter("areaCode")));
 	
-			// ì €ì¥
+			// ÀúÀå
 			dao.insertView(dto);
 		
 		resp.sendRedirect(cp);
