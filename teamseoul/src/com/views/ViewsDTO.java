@@ -11,8 +11,8 @@ public class ViewsDTO {
 	private String userId;
 	private int areaCode;
 	private String local;
-	private String[] imageFileName;
-	private String thumbnailImg;
+	private String imageFileName;
+	private String somenailImg;
 	private String created;
 	private int listNum;
 	public int getNum() {
@@ -52,19 +52,19 @@ public class ViewsDTO {
 		this.local = local;
 	}
 	
-	public String[] getImageFileName() {
+	public String getImageFileName() {
 		return imageFileName;
 	}
-	public void setImageFileName(String[] imageFileName) {
+	public void setImageFileName(String imageFileName) {
 		this.imageFileName = imageFileName;
 	}
 	
 	
-	public String getThumbnailImg() {
-		return thumbnailImg;
+	public String getSomenailImg() {
+		return somenailImg;
 	}
-	public void setThumbnailImg(String thumbnailImg) {
-		this.thumbnailImg = thumbnailImg;
+	public void setSomenailImg(String somenailImg) {
+		this.somenailImg = somenailImg;
 	}
 	public String getCreated() {
 		return created;

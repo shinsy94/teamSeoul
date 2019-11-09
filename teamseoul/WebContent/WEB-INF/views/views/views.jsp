@@ -60,8 +60,22 @@ $(function(){
 
 $(function(){
 	$("body").on("click",".areaName",function(){
-		var areaNum = $(this).parent().children("input").val();
-		alert(areaNum);
+		var areaCode = $(this).parent().children("input").val();
+		var url ="<%=cp%>/views/list.do";
+		var query = "areaCode="+areaCode;
+		
+		$.ajax({// 함수에 객체를 넘긴다
+			type:"GET",
+			url:url,
+			data:query,
+			success:function(data){
+				 $(".views-list").html(data);
+				
+			},
+			error:function(e){
+				console.log(e.responseText);
+			}
+		});
 	})
 });
 </script>
@@ -90,9 +104,6 @@ $(function(){
 	    	</ul>
 	    </div>
 	    <div class="views-list">
-    		<a href="<%=cp%>/views/article.do">
-    			<img src="<%=cp%>/uploads/views/2019110818343436408098638100.png" width="40%">
-    		</a>	
 
 	    </div>
 	</div>

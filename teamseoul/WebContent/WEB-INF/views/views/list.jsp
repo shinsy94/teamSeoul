@@ -6,7 +6,11 @@
 	String cp = request.getContextPath();
 %>
 
-<c:forEach begin="1" end="2">
+<c:forEach var="dto" items="${list}">
 	<input type="hidden" name="areaCode" value="${dto.areaCode}">
-	<img src="<%=cp%>/uploads/views/20191108170135115255978836000.png" width="40%">
+	<a href="${articleUrl}&num=${dto.num}">
+	<img src="<%=cp%>/uploads/views/${dto.somenailImg}" width="40%">
+	</a>
 </c:forEach>
+
+<p>${dataCount == 0 ? "데이터가 없습니다." : paging}</p>

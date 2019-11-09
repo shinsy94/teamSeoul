@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.util.MyUtil;
+
 @WebServlet("/views/*")
 public class ViewsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,8 +52,48 @@ public class ViewsServlet extends HttpServlet {
 	}
 	
 	private void list(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
+		ViewsDAO dao = new ViewsDAO();
+		MyUtil util = new MyUtil();
+		String cp = req.getContextPath();
+		int current_page = 1;
+		String page = req.getParameter("page");
+		if(page != null) {
+			current_page = Integer.parseInt(page);
+		}
 		
+		int rows = 10;
+		int offset = (current_page-1)*rows;
 		
+		// String keyword = req.getParameter("page");
+		String areaCode = req.getParameter("areaCode");
+		List<ViewsDTO> list;
+		int dataCount = 0;
+		
+		String list_url = cp+"/views/list.do";
+		String article_url = cp+"/views/article.do?page="+current_page;
+		
+		if(areaCode == null) {
+			list = dao.somenailList(offset, rows);
+			dataCount = dao.dataCount();
+		} else {
+			list = dao.somenailList(offset, rows,Integer.parseInt(areaCode));
+			dataCount = dao.dataCount(Integer.parseInt(areaCode));
+			list_url += "?areaCode="+areaCode;
+			article_url +="&areaCode="+areaCode;
+		}
+		
+		int total_page = util.pageCount(rows, dataCount);
+		
+		String paging = util.paging(current_page, total_page, list_url);
+		
+		req.setAttribute("page", current_page);
+		req.setAttribute("areaCode", areaCode);
+		req.setAttribute("list", list);
+		req.setAttribute("articleUrl", article_url);
+		req.setAttribute("paging", paging);
+		req.setAttribute("dataCount", dataCount);
+		
+		forward(req, resp, "/WEB-INF/views/views/list.jsp");
 		
 	}
 	
@@ -75,6 +117,11 @@ public class ViewsServlet extends HttpServlet {
 	
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		int num = Integer.parseInt(req.getParameter("num"));
+		ViewsDAO dao = new ViewsDAO();
+		List<ViewsDTO> list = dao.imageList(num);
+		
+		req.setAttribute("list", list);
 		forward(req, resp, "/WEB-INF/views/views/article.jsp");
 	}
 }

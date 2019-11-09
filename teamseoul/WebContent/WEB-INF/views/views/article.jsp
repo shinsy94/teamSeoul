@@ -29,7 +29,16 @@
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
     <div class="body-container">
+    		<c:forEach var="dto" items="${list}">
+    			${dto.title}<br>
+    			${dto.content}<br>
+    			<img src="<%=cp%>/uploads/views/${dto.imageFileName}">
+    		</c:forEach>
     		
+    		<c:if test="${sessionScope.member.userId == 'admin'}">
+    			<button>수정</button>
+    			<button>삭제</button>
+    		</c:if>
     </div>
     
 </div>

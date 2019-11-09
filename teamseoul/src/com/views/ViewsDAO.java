@@ -34,6 +34,72 @@ public class ViewsDAO {
 		return map;
 	}
 	
+	public int dataCount(int areaCode) {
+		int dataCount = 0;
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT NVL(count(*),0) FROM views WHERE areacode = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, areaCode);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dataCount = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return dataCount;
+	}
+	
+	public int dataCount() {
+		int dataCount = 0;
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT NVL(count(*),0) FROM views";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dataCount = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return dataCount;
+	}
 	public List<ViewsDTO> areaList() {
 		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
 		String sql;
@@ -69,7 +135,7 @@ public class ViewsDAO {
 		return list;
 	}
 	
-	public List<ViewsDTO>  thumbnailList(int offset, int rows){
+	public List<ViewsDTO>  somenailList(int offset, int rows){
 		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -79,7 +145,7 @@ public class ViewsDAO {
 			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
 			sb.append("	FROM views v ");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
-			sb.append(" WHERE INSTR(IMAGEFILENAME,'thumbnail') > 0");
+			sb.append(" WHERE INSTR(IMAGEFILENAME,'somenail') > 0");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			rs = pstmt.executeQuery();
@@ -90,7 +156,7 @@ public class ViewsDAO {
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setAreaCode(rs.getInt("areacode"));
-				dto.setThumbnailImg(rs.getString("IMAGEFILENAME"));
+				dto.setSomenailImg(rs.getString("IMAGEFILENAME"));
 				list.add(dto);
 			}
 			
@@ -113,7 +179,7 @@ public class ViewsDAO {
 		return list;
 	}
 	
-	public List<ViewsDTO>  thumbnailList(int offset, int rows,int areaCode){
+	public List<ViewsDTO>  somenailList(int offset, int rows,int areaCode){
 		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -123,7 +189,7 @@ public class ViewsDAO {
 			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
 			sb.append("	FROM views v ");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
-			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'thumbnail') > 0");
+			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'somenail') > 0");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, areaCode);
@@ -135,7 +201,7 @@ public class ViewsDAO {
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setAreaCode(rs.getInt("areacode"));
-				dto.setThumbnailImg(rs.getString("IMAGEFILENAME"));
+				dto.setSomenailImg(rs.getString("IMAGEFILENAME"));
 				list.add(dto);
 			}
 			
@@ -181,7 +247,7 @@ public class ViewsDAO {
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setAreaCode(rs.getInt("areacode"));
-				dto.setThumbnailImg(rs.getString("IMAGEFILENAME"));
+				dto.setImageFileName(rs.getString("IMAGEFILENAME"));
 				list.add(dto);
 			}
 			
