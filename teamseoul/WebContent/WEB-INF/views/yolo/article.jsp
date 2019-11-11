@@ -101,6 +101,39 @@ function listPage(page) {
 }
 
 
+//댓글 삭제
+$(function(){
+	$("body").on("click", ".deleteReply", function(){
+		if(! confirm("게시물을 삭제하시겠습니까 ? "))
+		    return;
+		
+		var url="<%=cp%>/yolo/deleteReply.do";
+		var replyNum=$(this).attr("data-replyNum");
+		var page=$(this).attr("data-pageNo");
+		
+		$.ajax({
+			type:"post"
+			,url:url
+			,data:{replyNum:replyNum}
+			,dataType:"json"
+			,success:function(data) {
+				listPage(page);
+			}
+		    ,beforeSend :function(jqXHR) {
+		    	jqXHR.setRequestHeader("AJAX", true);
+		    }
+		    ,error:function(jqXHR) {
+		    	if(jqXHR.status==403) {
+		    		login();
+		    		return;
+		    	}
+		    	console.log(jqXHR.responseText);
+		    }
+		});
+	});
+});
+
+
 </script>
 </head>
 <body>
@@ -111,15 +144,18 @@ function listPage(page) {
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;">
     <div class="body-container">
-        <div class="body-title">
-            <h3><span style="font-family: Webdings">2</span> 욜로족 </h3>
+        <div class="body-title" style="width: 100%; text-align: left;">
+            <img src="<%=cp%>/resource/images/yolo.png" width="3%" style="margin: 0px 10px;"><h3>욜로족</h3>
         </div>
         
         <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
-			    <td colspan="2" align="center">
-				 <a href="<%=cp%>/yolo/article.do?page=${dto.title}&num="+${dto.num}></a>
+			    <td width="50%" align="left" style="padding-left: 5px;">
+				 제목 : ${dto.title}
+			    </td>
+			    <td>
+			    &nbsp;
 			    </td>
 			</tr>
 			
@@ -185,8 +221,8 @@ function listPage(page) {
 <table style='width: 100%; margin: 10px auto 30px; border-spacing: 0px;'>
 
 <c:forEach var="dto" items="${listReply}">
-    <tr height='35' style='background: #eee;'>
-       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;'>
+    <tr height='35' style='background: orange;'>
+       <td width='40%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;' align='left'>
            <span><b>${dto.userId}</b></span>
         </td>
        <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
