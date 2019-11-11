@@ -28,27 +28,23 @@
 
 <div class="container" style="position: relative; top: 90px; z-index: 1;" >
 <div class="body-title" style="width: 60%; margin: 10px auto; text-align: left;">
-				<h3>${dto.title}</h3>
-     <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
      	<tr style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+     		<td>${dto.title}</td>
         	<td width="50%" align="right" style="padding-right: 10px;">
 			      ${dto.created}
 			</td>
 		</tr>
 	</table>
-    </div>
-    <c:forEach begin="1" end="1">	 		
+    </div>	
 	    <div style="width: 80%; margin: 10px auto 0px;">
-	    		<img src="<%=cp%>${dto.imageFileName}" width="70%" style="margin: 0px 10px;">
+	    	<a href="https://korean.visitkorea.or.kr/detail/event_detail.do?cotid=30f1fbac-3b7c-4bff-8c0a-53abbe0c3892">
+	    		<img src="<%=cp%>/uploads/event/${dto.imageFileName}" width="70%" style="margin: 0px 10px;">
+	    	</a>
 	    <div class="note-top">
-    		<br>
-				니.서.알은 서울의 아름다운 관광 문화에 대한 애정에서 시작되었습니다.
-				서울은 단순히 대한민국의 수도만이 아닌, 깊은 역사와 더불어 특별한 문화가 있는 장소입니다.
-				단순한 여행으로 끝나는 것이 아니라 서울을 사랑하는 사람들에게 특별한 추억이 될 수 있도록 하며,참된 소통과 어울림이 있는 친근한 서울 여행이 될 수 있도록 하는 것이 저희의 일입니다.
-				니.서.알에는 특별함이 있습니다.
-				풍성하고 섬세한 서울의 정보들로 당신의 여행이 풍족하도록 도와드립니다.
-				아름답고 새로운 서울여행을 꿈꾼다면 저희 니.서.알과 함께 하세요.<br><br>
+    		<br><textarea><%=cp%>${dto.content}</textarea><br><br>
 			</div>
+
 	   <table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 			    <td width="300" align="left">
@@ -68,7 +64,6 @@
 			</table>
 			
 	    </div>
-    </c:forEach>
 	</div>
 <div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

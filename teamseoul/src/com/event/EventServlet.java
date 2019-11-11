@@ -9,9 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.member.SessionInfo;
 import com.util.MyUtil;
 
 @WebServlet("/event/*")
@@ -32,20 +29,10 @@ public class EventServlet extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		String uri=req.getRequestURI();
 		
-		String cp=req.getContextPath();
-		
-		HttpSession session=req.getSession();
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) { // 로그인되지 않은 경우
-			resp.sendRedirect(cp+"/member/login.do");
-			return;
-		}
-		
 		if(uri.indexOf("eventlist.do")!=-1) {
 			eventList(req, resp);
 		} else if(uri.indexOf("eventarticle.do")!=-1) {
 			eventarticle(req, resp);
-			
 		}
 	}
 
@@ -56,7 +43,7 @@ public class EventServlet extends HttpServlet{
 		rd.forward(req, resp);
 	}
 	
-	private void eventViews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private void eventList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();
 		EventDAO dao=new EventDAO();
 		MyUtil util=new MyUtil();
@@ -72,9 +59,8 @@ public class EventServlet extends HttpServlet{
 		int total_page=util.pageCount(rows, dataCount);
 		if(current_page>total_page)
 			current_page=total_page;
-		
-		int offset=(current_page-1)*rows;
-		List<EventDTO> list=dao.listEvent(offset, rows);
+
+		List<EventDTO> list=dao.listEvent();
 		
 		// 페이징 처리
 		String eventlistUrl=cp+"/event/eventlist.do";
@@ -89,12 +75,7 @@ public class EventServlet extends HttpServlet{
 		req.setAttribute("paging", paging);
 		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
 	}
-	
-	private void eventList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp=req.getContextPath();
-		
-		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
-	}
+
 	private void eventarticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 보기
 		String cp=req.getContextPath();

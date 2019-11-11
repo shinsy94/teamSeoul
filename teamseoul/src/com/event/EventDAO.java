@@ -46,18 +46,16 @@ public class EventDAO {
 		return result;
 	}
 	
-	public List<EventDTO> listEvent(int offset, int rows) {
+	public List<EventDTO> listEvent() {
 		List<EventDTO> list=new ArrayList<EventDTO>();
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT num, title, content, e.userId, imageFileName, eventLink, created FROM event e JOIN member m ON e.userId=m.userId ORDER BY num DESC OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
+			sb.append("SELECT e.num, title, content, userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num ORDER BY num DESC");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, offset);
-			pstmt.setInt(2, rows);
 			
 			rs=pstmt.executeQuery();
 			
@@ -102,7 +100,7 @@ public class EventDAO {
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT num, title, content, e.userId, imageFileName, eventLink, created FROM event e JOIN member m ON e.userId=m.userId WHERE num=?");
+			sb.append("SELECT e.num, title, content, e.userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num JOIN member m ON e.userId=m.userId WHERE e.num=?");
 			
 			pstmt=conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, num);
