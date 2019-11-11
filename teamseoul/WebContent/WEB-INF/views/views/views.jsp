@@ -106,6 +106,9 @@ $(function(){
 	    <div class="views-list">
 
 	    </div>
+	    
+	    
+ 	    
 	</div>
    
 </div>

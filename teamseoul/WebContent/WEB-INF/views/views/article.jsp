@@ -28,17 +28,43 @@
 	
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
+	
     <div class="body-container">
+    	<div class="body-title" style="width: 100%; text-align: left;">
+       		<h3>${list.get(0).title}</h3>
+   		</div>
+    	
+    		${list.get(0).content}<br>
     		<c:forEach var="dto" items="${list}">
-    			${dto.title}<br>
-    			${dto.content}<br>
-    			<img src="<%=cp%>/uploads/views/${dto.imageFileName}">
+    			<img src="<%=cp%>/uploads/views/${dto.imageFileName}" width="40%">
     		</c:forEach>
     		
     		<c:if test="${sessionScope.member.userId == 'admin'}">
     			<button>수정</button>
     			<button>삭제</button>
     		</c:if>
+    		<hr>
+    		  <div>
+            <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+            <tr height='30'> 
+	            <td align='left'>
+	            	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+	            </td>
+            </tr>
+            <tr>
+               <td style='padding:5px 5px 0px;'>
+                    <textarea class='boxTA' style='width:99%; height: 70px;'></textarea>
+                </td>
+            </tr>
+            <tr>
+               <td align='right'>
+                    <button type='button' class='btn btnSendReply' style='padding:10px 20px;'>댓글 등록</button>
+                </td>
+            </tr>
+            </table>
+            
+            <div id="listReply"></div>
+ 	    </div>
     </div>
     
 </div>

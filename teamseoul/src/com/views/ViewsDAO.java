@@ -145,7 +145,7 @@ public class ViewsDAO {
 			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
 			sb.append("	FROM views v ");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
-			sb.append(" WHERE INSTR(IMAGEFILENAME,'somenail') > 0");
+			sb.append(" WHERE INSTR(IMAGEFILENAME,'some') > 0");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			rs = pstmt.executeQuery();
@@ -189,7 +189,7 @@ public class ViewsDAO {
 			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
 			sb.append("	FROM views v ");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
-			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'somenail') > 0");
+			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'some') > 0");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, areaCode);

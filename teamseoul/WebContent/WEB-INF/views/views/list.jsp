@@ -5,12 +5,20 @@
 <%
 	String cp = request.getContextPath();
 %>
-
-<c:forEach var="dto" items="${list}">
-	<input type="hidden" name="areaCode" value="${dto.areaCode}">
-	<a href="${articleUrl}&num=${dto.num}">
-	<img src="<%=cp%>/uploads/views/${dto.somenailImg}" width="40%">
-	</a>
-</c:forEach>
-
-<p>${dataCount == 0 ? "데이터가 없습니다." : paging}</p>
+<table>
+	<c:forEach var="dto" items="${list}">
+		<tr>
+			<td><input type="hidden" name="areaCode" value="${dto.areaCode}">
+				<a href="${articleUrl}&num=${dto.num}">
+				<img src="<%=cp%>/uploads/views/${dto.somenailImg}" width="40%">
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				${dto.title}
+			</td>
+		</tr>
+	</c:forEach>
+</table>
+<p>${dataCount == 0 ? "서비스 준비중 입니다." : paging}</p>
