@@ -14,6 +14,7 @@
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/views.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
@@ -135,6 +136,41 @@ function sendFavorite(num) {
 	});
 }
 
+
+// 이미지 슬라이드
+
+$(document).ready(function(){
+	var $slide = $(".slide").find("ul");
+	
+	var $slideWidth = $slide.children().outerWidth();
+	var $slideHeight = $slide.children().outerHeight();
+	var $slideLength = $slide.children().length;
+	var rollingId;
+	
+	rollingId = setInterval(function() {rollingStart();}, 3000);
+	
+	$slide.mouseover(function(){
+		
+		clearInterval(rollingId);
+		$(this).css("cursor","pointer");
+	});
+	
+	$slide.mouseout(function(){
+		rollingId = setInterval(function() {rollingStart();},3000);
+		$(this).css("cursor","default");
+	});
+	
+	function rollingStart(){
+		$slide.css("width",$slideWidth * $slideLength + "px");
+		$slide.css("height", $slideHeight + "px");
+		
+		$slide.animate({left: -$slideWidth + $slideWidth + "px"}, 1500, function(){
+			$(this).append("<li>"+$(this).find("li:first").html()+"</li>");
+			$(this).find("li:first").remove();
+			$(this).css("left",0);
+		});
+	}
+});
 </script>
 </head>
 <body>
@@ -151,11 +187,18 @@ function sendFavorite(num) {
        		<h3>${list.get(0).title}</h3>
        		<img src="<%=cp%>/resource/images/star.png" width="30" align="right" onclick="sendFavorite(${list.get(0).num});">
    		</div>
-    	
-    		${list.get(0).content}<br>
+   		${list.get(0).content}<br>
+    <div class="wrap">
+    	<div class="slide">
+    		<ul>
     		<c:forEach var="dto" items="${list}">
-    			<img src="<%=cp%>/uploads/views/${dto.imageFileName}" width="40%">
+    		<li>
+    			<img src="<%=cp%>/uploads/views/${dto.imageFileName}" width="340" height="210">
+    		</li>
     		</c:forEach>
+    		</ul>
+    	</div>
+    </div>
     		
     		<c:if test="${sessionScope.member.userId == 'admin'}">
     			<button onclick="javascript:location.href=<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table='views'">수정</button>

@@ -1,0 +1,44 @@
+@charset "EUC-KR";
+
+.slide{
+  width: 340px;
+  height: 210px;
+  top:50px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+
+
+.slide ul{
+  list-style: none;
+  position: absolute;
+  margin: 0px;
+  padding: 0;
+}
+
+
+
+.slide ul li{
+  float: left;
+  width: 340px;
+  height: 210px;
+  margin: 0;
+  padding: 0;
+}
+
+
+.slide button.prev{
+
+  position: absolute;
+  left: 0;
+  top: 120px;
+}
+
+.slide button.next{
+  position: absolute;
+  right: 0;
+  top: 120px;
+}

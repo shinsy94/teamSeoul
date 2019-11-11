@@ -37,18 +37,18 @@ $(function(){
 			data:query,
 			success:function(data){
 				 $ul.html(data);
-				
+				 if(isVis){
+					 $ul.slideUp().hide(1000);
+				} else {
+					 $ul.slideDown().show(1000);
+				}
 			},
 			error:function(e){
 				console.log(e.responseText);
 			}
 		});
 		
-		if(isVis){
-			 $ul.hide();
-		} else {
-			 $ul.show();
-		}
+		
 		
 	});
 });
@@ -96,7 +96,7 @@ $(function(){
 	    		
 	    		<c:forEach var="dto" items="${bigAreaList}">
 	    		<li><button type="button" id="bigArea" value="${dto.areaCode}">${dto.local}</button>
-	    			<ul style='display: none;' class="subArea">
+	    			<ul class="subArea" style="display: none;">
 	    			
 	    			</ul>
 	    		</li>
