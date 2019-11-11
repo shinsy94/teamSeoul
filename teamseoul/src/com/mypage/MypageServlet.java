@@ -24,5 +24,9 @@ public class MypageServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		
 		String uri=req.getRequestURI();
+		
+		if(uri.indexOf("mypage.do")!=-1) {
+			
+		} 
 	}
 }

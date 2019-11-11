@@ -95,7 +95,7 @@ public class NoticeServlet extends HttpServlet {
 		String condition=req.getParameter("condition");
 		String keyword=req.getParameter("keyword");
 		if(condition==null) {
-			condition="subject";
+			condition="title";
 			keyword="";
 		}
 		if(req.getMethod().equalsIgnoreCase("GET")) {
@@ -233,7 +233,7 @@ public class NoticeServlet extends HttpServlet {
 	    	dto.setOriginalFileName(mreq.getOriginalFileName("upload"));
 	    	dto.setFileSize(mreq.getFile("upload").length());
 	    }
-	    //dao.insertNotice(dto);
+	    // dao.insertNotice(dto);
 		
 		resp.sendRedirect(cp+"/notice/list.do?");
 	}
@@ -256,7 +256,7 @@ public class NoticeServlet extends HttpServlet {
 		String condition=req.getParameter("condition");
 		String keyword=req.getParameter("keyword");
 		if(condition==null) {
-			condition="subject";
+			condition="title";
 			keyword="";
 		}
 		keyword=URLDecoder.decode(keyword, "utf-8");
@@ -379,7 +379,7 @@ public class NoticeServlet extends HttpServlet {
 		String condition=req.getParameter("condition");
 		String keyword=req.getParameter("keyword");
 		if(condition==null) {
-			condition="subject";
+			condition="title";
 			keyword="";
 		}
 		keyword=URLDecoder.decode(keyword, "UTF-8");
@@ -455,7 +455,7 @@ public class NoticeServlet extends HttpServlet {
 			dto.setSaveFileName("");
 			dto.setOriginalFileName("");
 			dto.setFileSize(0);
-			//dao.updateNotice(dto);
+			// dao.updateNotice(dto);
 		}
 		
 		resp.sendRedirect(cp+"/notice/update.do?num="+num+"&page="+page);

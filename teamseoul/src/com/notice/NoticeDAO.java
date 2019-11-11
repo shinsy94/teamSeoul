@@ -87,9 +87,9 @@ public class NoticeDAO {
         try {
         	if(condition.equalsIgnoreCase("created")) {
         		keyword=keyword.replaceAll("-", "");
-        		sql="SELECT NVL(COUNT(*), 0) FROM notice n JOIN member1 m ON n.userId=m.userId WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ";
+        		sql="SELECT NVL(COUNT(*), 0) FROM notice n JOIN member m ON n.userId=m.userId WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ";
         	} else {
-        		sql="SELECT NVL(COUNT(*), 0) FROM notice n JOIN member1 m ON n.userId=m.userId WHERE  INSTR(" + condition + ", ?) >= 1 ";
+        		sql="SELECT NVL(COUNT(*), 0) FROM notice n JOIN member m ON n.userId=m.userId WHERE  INSTR(" + condition + ", ?) >= 1 ";
         	}
         	
             pstmt=conn.prepareStatement(sql);
@@ -128,8 +128,8 @@ public class NoticeDAO {
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT num, userId, title, saveFileName, created ");
-			sb.append(" FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+			sb.append("SELECT num, n.userId userId, title, saveFileName, created ");
+			sb.append(" FROM notice n JOIN member m ON n.userId=m.userId  ");
 			sb.append(" ORDER BY num DESC  ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 
@@ -180,8 +180,8 @@ public class NoticeDAO {
         StringBuffer sb = new StringBuffer();
 
         try {
-			sb.append("SELECT num, userId, title, saveFilename, created ");
-			sb.append(" FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+			sb.append("SELECT num, n.userId userId, title, saveFilename, created ");
+			sb.append(" FROM notice n JOIN member m ON n.userId=m.userId  ");
 			if(condition.equalsIgnoreCase("created")) {
 				keyword=keyword.replaceAll("-", "");
 				sb.append(" WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ");
@@ -239,10 +239,9 @@ public class NoticeDAO {
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT num, userId, title, saveFilename,  ");
+			sb.append("SELECT num, n.userId userId, title, saveFileName,  ");
 			sb.append("       TO_CHAR(created, 'YYYY-MM-DD') created  ");
-			sb.append(" FROM notice n JOIN member1 m ON n.userId=m.userId  ");
-			sb.append(" WHERE notice=1  ");
+			sb.append(" FROM notice n JOIN member m ON n.userId=m.userId  ");
 			sb.append(" ORDER BY num DESC ");
 
 			pstmt=conn.prepareStatement(sb.toString());
@@ -290,7 +289,7 @@ public class NoticeDAO {
 		try {
 			sb.append("SELECT num, n.userId, title, content, saveFileName,  ");
 			sb.append("       originalFileName, fileSize, created ");
-			sb.append(" FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+			sb.append(" FROM notice n JOIN member m ON n.userId=m.userId  ");
 			sb.append(" WHERE num = ?  ");
 
 			pstmt=conn.prepareStatement(sb.toString());
@@ -340,7 +339,7 @@ public class NoticeDAO {
 
         try {
             if(keyword.length() != 0) {
-                sb.append("SELECT num, title FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+                sb.append("SELECT num, title FROM notice n JOIN member m ON n.userId=m.userId  ");
                 if(condition.equalsIgnoreCase("created")) {
                 	keyword=keyword.replaceAll("-", "");
                 	sb.append(" WHERE (TO_CHAR(created, 'YYYYMMDD') = ?)  ");
@@ -355,7 +354,7 @@ public class NoticeDAO {
                 pstmt.setString(1, keyword);
                 pstmt.setInt(2, num);
 			} else {
-                sb.append("SELECT num, title FROM notice n JOIN member1 m ON n.userId=m.userId  ");                
+                sb.append("SELECT num, title FROM notice n JOIN member m ON n.userId=m.userId  ");                
                 sb.append(" WHERE num > ?  ");
                 sb.append(" ORDER BY num ASC  ");
                 sb.append(" FETCH  FIRST  1  ROWS  ONLY");
@@ -402,7 +401,7 @@ public class NoticeDAO {
 
         try {
             if(keyword.length() != 0) {
-                sb.append("SELECT num, title FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+                sb.append("SELECT num, title FROM notice n JOIN member m ON n.userId=m.userId  ");
                 if(condition.equalsIgnoreCase("created")) {
                 	keyword=keyword.replaceAll("-", "");
                 	sb.append(" WHERE (TO_CHAR(created, 'YYYYMMDD') = ?)  ");
@@ -417,7 +416,7 @@ public class NoticeDAO {
                 pstmt.setString(1, keyword);
                 pstmt.setInt(2, num);
 			} else {
-                sb.append("SELECT num, title FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+                sb.append("SELECT num, title FROM notice n JOIN member m ON n.userId=m.userId  ");
                 sb.append(" WHERE num < ?  ");
                 sb.append(" ORDER BY num DESC  ");
                 sb.append(" FETCH  FIRST  1  ROWS  ONLY");

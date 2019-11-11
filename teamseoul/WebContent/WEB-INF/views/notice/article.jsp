@@ -45,16 +45,16 @@ function deleteNotice(num) {
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
-				   ${dto.subject}
+				   ${dto.title}
 			    </td>
 			</tr>
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td width="50%" align="left" style="padding-left: 5px;">
-			       이름 : ${dto.userName}
+			       작성자 : ${dto.userId}
 			    </td>
 			    <td width="50%" align="right" style="padding-right: 5px;">
-			        ${dto.created} | 조회 ${dto.hitCount}
+			        ${dto.created}
 			    </td>
 			</tr>
 			
@@ -67,8 +67,8 @@ function deleteNotice(num) {
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       첨&nbsp;&nbsp;부 :
-		           <c:if test="${not empty dto.saveFilename}">
-		                   <a href="<%=cp%>/notice/download.do?num=${dto.num}">${dto.originalFilename}</a>
+		           <c:if test="${not empty dto.saveFileName}">
+		                   <a href="<%=cp%>/notice/download.do?num=${dto.num}">${dto.originalFileName}</a>
 		                    (<fmt:formatNumber value="${dto.fileSize/1024}" pattern="0.00"/> Kbyte)
 		           </c:if>
 			    </td>
@@ -78,7 +78,7 @@ function deleteNotice(num) {
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
 			         <c:if test="${not empty preReadDto}">
-			              <a href="<%=cp%>/notice/article.do?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+			              <a href="<%=cp%>/notice/article.do?${query}&num=${preReadDto.num}">${preReadDto.title}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -87,7 +87,7 @@ function deleteNotice(num) {
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			    다음글 :
 			         <c:if test="${not empty nextReadDto}">
-			              <a href="<%=cp%>/notice/article.do?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+			              <a href="<%=cp%>/notice/article.do?${query}&num=${nextReadDto.num}">${nextReadDto.title}</a>
 			        </c:if>
 			    </td>
 			</tr>
