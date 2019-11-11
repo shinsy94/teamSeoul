@@ -245,11 +245,13 @@ public class ViewsDAO {
 			
 			while(rs.next()) {
 				ViewsDTO dto = new ViewsDTO();
+				dto.setBigArea(rs.getInt("bigarea"));
 				dto.setNum(rs.getInt("num"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setAreaCode(rs.getInt("areacode"));
 				dto.setImageFileName(rs.getString("IMAGEFILENAME"));
+				dto.setUserId(rs.getString("userId"));
 				list.add(dto);
 			}
 			

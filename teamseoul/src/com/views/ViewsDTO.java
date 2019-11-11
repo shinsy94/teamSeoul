@@ -15,6 +15,7 @@ public class ViewsDTO {
 	private String somenailImg;
 	private String created;
 	private int listNum;
+	private int bigArea;
 	public int getNum() {
 		return num;
 	}
@@ -77,6 +78,12 @@ public class ViewsDTO {
 	}
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
+	}
+	public int getBigArea() {
+		return bigArea;
+	}
+	public void setBigArea(int bigArea) {
+		this.bigArea = bigArea;
 	}
 	
 }
