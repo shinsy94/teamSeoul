@@ -18,7 +18,85 @@
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+//댓글 등록
+$(function(){
+	$(".btnSendReply").click(function(){
+		
+		<c:if test="${empty sessionScope.member}">
+			alert("댓글을 작성할려면 로그인이 필요합니다.");
+			location.href="<%=cp%>/member/login.do";
+		</c:if>
+		
+		var num="${list.get(0).num}";
+		// var content=$(".boxTA:first").val();
+		var $tb = $(this).closest("table");
+		var content=$tb.find("textarea").val().trim();
+		if(! content) {
+			$tb.find("textarea").focus();
+			return;
+		}
+		content = encodeURIComponent(content);
+		
+		var query="num="+num+"&content="+content;
+		var url="<%=cp%>/views/insertReply.do";
+		$.ajax({
+			type:"post"
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data) {
+				$tb.find("textarea").val("");
+				
+				var state=data.state;
+				if(state=="true") {
+					listPage(1);
+				} 
+			}
+		    ,beforeSend :function(jqXHR) {
+		    	jqXHR.setRequestHeader("AJAX", true);
+		    }
+		    ,error:function(jqXHR) {
+		    	if(jqXHR.status==403) {
+		    		login();
+		    		return;
+		    	}
+		    	console.log(jqXHR.responseText);
+		    }
+		});
+	});
+});
 
+
+// 댓글 리스트
+$(function(){
+	listPage(1);
+});
+
+function listPage(page) {
+	var url="<%=cp%>/views/listReply.do";
+	var query="num=${list.get(0).num}&pageNo="+page;
+	
+	$.ajax({
+		type:"get"
+		,url:url
+		,data:query
+		,success:function(data) {
+			$("#listReply").html(data);
+		}
+	    ,beforeSend :function(jqXHR) {
+	    	jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+</script>
 </head>
 <body>
 
