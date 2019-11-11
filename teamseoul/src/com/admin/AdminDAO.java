@@ -29,9 +29,9 @@ public class AdminDAO {
 			sb.setLength(0);
 			
 			sb.append("insert into viewsFile(num,imagefilename) values(views_seq.CURRVAL,?)");
-			for(int i=0;i<dto.getImageFileName().length;i++) {
+			for(int i=0;i<dto.getImageFileName().size();i++) {
 				pstmt=conn.prepareStatement(sb.toString());
-				pstmt.setString(1, dto.getImageFileName()[i]);
+				pstmt.setString(1, dto.getImageFileName().get(i));
 				pstmt.executeUpdate();
 				pstmt.close();
 			}
@@ -84,6 +84,108 @@ public class AdminDAO {
 		
 	   }
 	
+	public void insertFestival(AdminDTO dto) {
+		StringBuilder sb= new StringBuilder();
+		PreparedStatement pstmt=null;
+		try {
+			sb.append("insert into festival(num,title,content,userId,seasonCode ");
+			sb.append(") values(festival_seq.NEXTVAL,?,?,?,?) ");
+			pstmt=conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setInt(4, dto.getSeasonCode());
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			sb.setLength(0);
+			
+			sb.append("insert into festivalFile(num,imagefilename) values(festival_seq.CURRVAL,?)");
+			for(int i=0;i<dto.getImageFileName().size();i++) {
+				pstmt=conn.prepareStatement(sb.toString());
+				pstmt.setString(1, dto.getImageFileName().get(i));
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	   }
+	
+	public void insertEvent(AdminDTO dto) {
+		StringBuilder sb= new StringBuilder();
+		PreparedStatement pstmt=null;
+		try {
+			sb.append("insert into event(num,title,content,userId,eventLink ");
+			sb.append(") values(event_seq.NEXTVAL,?,?,?,?) ");
+			pstmt=conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setString(4, dto.getEventLink());
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			sb.setLength(0);
+			
+			sb.append("insert into eventFile(num,imagefilename) values(event_seq.CURRVAL,?)");
+			for(int i=0;i<dto.getImageFileName().size();i++) {
+				pstmt=conn.prepareStatement(sb.toString());
+				pstmt.setString(1, dto.getImageFileName().get(i));
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	   }
+	public void insertNotice(AdminDTO dto) {
+		StringBuilder sb= new StringBuilder();
+		PreparedStatement pstmt=null;
+		try {
+			sb.append("insert into notice(num,title,content,userId,originalfilename ");
+			sb.append(",savefilename,filesize) values(event_seq.NEXTVAL,?,?,?,?,?,?) ");
+			pstmt=conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setString(4, dto.getOriginalFileName());
+			pstmt.setString(5, dto.getSaveFileName());
+			pstmt.setLong(6, dto.getFilesize());
+			pstmt.executeUpdate();
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	   }	
+
 	public Map<String,String> ListAreaCode(String bigareaCode) {
 		Map<String,String> map =new HashMap<String,String>();
 		PreparedStatement pstmt=null;

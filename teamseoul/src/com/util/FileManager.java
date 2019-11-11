@@ -98,6 +98,58 @@ public class FileManager {
 		return newname;
 	}
 	
+	public static String doFilerenameSomeNail(String pathname, String filename) {
+		String newname="";
+		
+    	String fileExt = filename.substring(
+    			       filename.lastIndexOf(".")); // 파일 중간에 .이 있을 수 도 있기때문에 뒤에서 부터 찾아야 한다.
+    	// 파일 이름을 현재시간으로 변경할 거임
+    	String s = String.format(
+    			"%1$tY%1$tm%1$td%1$tH%1$tM%1$tS",  
+				 Calendar.getInstance());
+    	
+    	
+    	s += System.nanoTime(); // 파일 시간이 겹치는걸 방지하기 위해 파일 이름 뒤에 나노타임을 더한다.
+    	s += fileExt; // 파일명 뒤에 확장자 붙이기.
+    	
+    	try {
+	    	File f1=new File(pathname+File.separator+filename); // 원래 이름
+	    	File f2=new File(pathname+File.separator+"some"+s); // 새로운 이름
+	    	f1.renameTo(f2); // 이름 변경. 동일 이름이 있다면 안바뀌고 터짐.
+	    	
+	    	newname ="some"+s;
+    	}catch(Exception e) {
+    	}
+		
+		return newname;
+	}
+	
+	public static String doFilerenameBody(String pathname, String filename) {
+		String newname="";
+		
+    	String fileExt = filename.substring(
+    			       filename.lastIndexOf(".")); // 파일 중간에 .이 있을 수 도 있기때문에 뒤에서 부터 찾아야 한다.
+    	// 파일 이름을 현재시간으로 변경할 거임
+    	String s = String.format(
+    			"%1$tY%1$tm%1$td%1$tH%1$tM%1$tS",  
+				 Calendar.getInstance());
+    	
+    	
+    	s +=System.nanoTime(); // 파일 시간이 겹치는걸 방지하기 위해 파일 이름 뒤에 나노타임을 더한다.
+    	s += fileExt; // 파일명 뒤에 확장자 붙이기.
+    	
+    	try {
+	    	File f1=new File(pathname+File.separator+filename); // 원래 이름
+	    	File f2=new File(pathname+File.separator+"body"+s); // 새로운 이름
+	    	f1.renameTo(f2); // 이름 변경. 동일 이름이 있다면 안바뀌고 터짐.
+	    	
+	    	newname = "body"+s;
+    	}catch(Exception e) {
+    	}
+		
+		return newname;
+	}
+	
 	/**
 	 * 파일 삭제
 	 * @param pathname 파일이 저장된 경로

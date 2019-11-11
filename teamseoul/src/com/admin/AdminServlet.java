@@ -3,6 +3,9 @@ package com.admin;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -50,7 +53,7 @@ public class AdminServlet extends HttpServlet{
 		
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) { // ·Î±×ÀÎµÇÁö ¾ÊÀº °æ¿ì
+		if(info==null) { // ë¡œê·¸ì¸ë˜ì§€ ì•Šì€ ê²½ìš°
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
@@ -61,7 +64,14 @@ public class AdminServlet extends HttpServlet{
 			viewscreatedSubmit(req, resp);
 		}else if (uri.indexOf("viewscreated_sub.do")!=-1) {
 			viewscreatedSub(req, resp);
+		}else if (uri.indexOf("eventcreated_ok.do")!=-1) {
+			eventcreatedSubmit(req, resp);
+		}else if (uri.indexOf("festivalcreated_ok.do")!=-1) {
+			festivalcreatedSubmit(req, resp);
+		}else if (uri.indexOf("noticecreated_ok.do")!=-1) {
+			noticecreatedSubmit(req, resp);
 		}
+		
 		/* else if (uri.indexOf("article.do")!=-1) {
 			article(req, resp);
 		} else if (uri.indexOf("update.do")!=-1) {
@@ -73,8 +83,7 @@ public class AdminServlet extends HttpServlet{
 		}  else if (uri.indexOf("deleteFile.do")!=-1) {
 			deleteFile(req, resp);
 		}  
-		
-		
+
 		*/
 	}
 	
@@ -114,26 +123,24 @@ public class AdminServlet extends HttpServlet{
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//ÆÄÀÏ ÀúÀåÇÒ °æ·Î
+		//íŒŒì¼ ì €ì¥í•  ê²½ë¡œ
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"views";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // Æú´õ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
+		if(! f.exists()) { // í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
 			f.mkdirs();
-		}
-		
-		
+		}		
 		
 		AdminDAO dao=new AdminDAO();
 		AdminDTO dto=new AdminDTO();
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     ÀÌ¾î¾ß ÆÄÀÏÀÌ ¾÷·Îµå °¡´ÉÇÏ°í request¸¦ ÀÌ¿ëÇÏ¿© 
-		//     ÆÄ¶ó¹ÌÅÍ¸¦ ³Ñ°Ü ¹ŞÀ» ¼ö ¾ø´Ù.
+		//     ì´ì–´ì•¼ íŒŒì¼ì´ ì—…ë¡œë“œ ê°€ëŠ¥í•˜ê³  requestë¥¼ ì´ìš©í•˜ì—¬ 
+		//     íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê²¨ ë°›ì„ ìˆ˜ ì—†ë‹¤.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -143,25 +150,249 @@ public class AdminServlet extends HttpServlet{
 		
 		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
 			
-			// ¼­¹ö¿¡ ÀúÀåµÈ ÆÄÀÏ¸í
-			String saveFilenames[]={mreq.getFilesystemName("someNail_upload"),mreq.getFilesystemName("body_upload")};
-			// ÆÄÀÏÀÌ¸§º¯°æ
-			saveFilenames[0] = FileManager.doFilerename(pathname, saveFilenames[0]);
-			saveFilenames[1] = FileManager.doFilerename(pathname, saveFilenames[1]);
 			
-			dto.setImageFileName(saveFilenames);
-		
-			dto.setUserId("admin");
+			List<String> files=new ArrayList<String>();
+			Enumeration<?> e = mreq.getFileNames();
+			while(e.hasMoreElements()) {
+				String paramName = (String)e.nextElement();
+				
+				if(mreq.getFile(paramName) == null) {
+					continue;
+					}
+				
+				if(paramName.equals("someNail_upload")==true) {
+					
+					String someNail_upload= FileManager.doFilerenameSomeNail(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(someNail_upload);
+					
+				}else if(paramName.equals("body_upload")==true) {
+				
+					String body_upload=FileManager.doFilerenameBody(pathname, mreq.getFilesystemName(paramName));
+					
+					files.add(body_upload);
+				
+				}else {
+					
+					String fileNames=FileManager.doFilerename(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(fileNames);
+				
+				}
+			
+			}	
+			dto.setImageFileName(files);
+			dto.setUserId(info.getUserId());
 			dto.setTitle(mreq.getParameter("title"));
 			dto.setContent(mreq.getParameter("content"));
 			dto.setAreaCode(Integer.parseInt(mreq.getParameter("areaCode")));
 	
-			// ÀúÀå
+			// ì €ì¥
 			dao.insertView(dto);
 		
 		resp.sendRedirect(cp);
 		}
 	}	
+
+	protected void festivalcreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		//íŒŒì¼ ì €ì¥í•  ê²½ë¡œ
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+"festival";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { // í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
+			f.mkdirs();
+		}		
+		
+		AdminDAO dao=new AdminDAO();
+		AdminDTO dto=new AdminDTO();
+		
+		
+		// <form enctype="multipart/form-data"....
+		//     ì´ì–´ì•¼ íŒŒì¼ì´ ì—…ë¡œë“œ ê°€ëŠ¥í•˜ê³  requestë¥¼ ì´ìš©í•˜ì—¬ 
+		//     íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê²¨ ë°›ì„ ìˆ˜ ì—†ë‹¤.
+		String encType="utf-8";
+		int maxSize=5*1024*1024;
+		
+		MultipartRequest mreq=new MultipartRequest(
+				req, pathname, maxSize, encType,
+				new DefaultFileRenamePolicy());
+		
+		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
+			
+			
+			List<String> files=new ArrayList<String>();
+			Enumeration<?> e = mreq.getFileNames();
+			while(e.hasMoreElements()) {
+				String paramName = (String)e.nextElement();
+				
+				if(mreq.getFile(paramName) == null) {
+					continue;
+					}
+				
+				if(paramName.equals("someNail_upload")==true) {
+					
+					String someNail_upload= FileManager.doFilerenameSomeNail(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(someNail_upload);
+					
+				}else if(paramName.equals("body_upload")==true) {
+				
+					String body_upload=FileManager.doFilerenameBody(pathname, mreq.getFilesystemName(paramName));
+					
+					files.add(body_upload);
+				
+				}else {
+					
+					String fileNames=FileManager.doFilerename(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(fileNames);
+				
+				}
+			
+			}	
+			dto.setImageFileName(files);
+			dto.setUserId(info.getUserId());
+			dto.setTitle(mreq.getParameter("title"));
+			dto.setContent(mreq.getParameter("content"));
+			dto.setSeasonCode(Integer.parseInt(mreq.getParameter("season")));
+	
+			// ì €ì¥
+			dao.insertFestival(dto);
+		
+		resp.sendRedirect(cp);
+		}
+	}
+	protected void eventcreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		//íŒŒì¼ ì €ì¥í•  ê²½ë¡œ
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+"event";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { // í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
+			f.mkdirs();
+		}		
+		
+		AdminDAO dao=new AdminDAO();
+		AdminDTO dto=new AdminDTO();
+		
+		
+		// <form enctype="multipart/form-data"....
+		//     ì´ì–´ì•¼ íŒŒì¼ì´ ì—…ë¡œë“œ ê°€ëŠ¥í•˜ê³  requestë¥¼ ì´ìš©í•˜ì—¬ 
+		//     íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê²¨ ë°›ì„ ìˆ˜ ì—†ë‹¤.
+		String encType="utf-8";
+		int maxSize=5*1024*1024;
+		
+		MultipartRequest mreq=new MultipartRequest(
+				req, pathname, maxSize, encType,
+				new DefaultFileRenamePolicy());
+		
+		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
+			
+			
+			List<String> files=new ArrayList<String>();
+			Enumeration<?> e = mreq.getFileNames();
+			while(e.hasMoreElements()) {
+				String paramName = (String)e.nextElement();
+				
+				if(mreq.getFile(paramName) == null) {
+					continue;
+					}
+				
+				if(paramName.equals("someNail_upload")==true) {
+					
+					String someNail_upload= FileManager.doFilerenameSomeNail(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(someNail_upload);
+					
+				}else if(paramName.equals("body_upload")==true) {
+				
+					String body_upload=FileManager.doFilerenameBody(pathname, mreq.getFilesystemName(paramName));
+					
+					files.add(body_upload);
+				
+				}else {
+					
+					String fileNames=FileManager.doFilerename(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(fileNames);
+				
+				}
+			
+			}	
+			dto.setImageFileName(files);
+			dto.setUserId(info.getUserId());
+			dto.setTitle(mreq.getParameter("title"));
+			dto.setContent(mreq.getParameter("content"));
+			dto.setEventLink(mreq.getParameter("eventLink"));
+			
+			dao.insertEvent(dto);
+		}
+		resp.sendRedirect(cp);
+		
+	}
+	protected void noticecreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		//íŒŒì¼ ì €ì¥í•  ê²½ë¡œ
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+"notice";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { // í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
+			f.mkdirs();
+		}		
+		
+		AdminDAO dao=new AdminDAO();
+		AdminDTO dto=new AdminDTO();
+		
+		
+		// <form enctype="multipart/form-data"....
+		//     ì´ì–´ì•¼ íŒŒì¼ì´ ì—…ë¡œë“œ ê°€ëŠ¥í•˜ê³  requestë¥¼ ì´ìš©í•˜ì—¬ 
+		//     íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê²¨ ë°›ì„ ìˆ˜ ì—†ë‹¤.
+		String encType="utf-8";
+		int maxSize=5*1024*1024;
+		
+	
+			// ì €ì¥
+			MultipartRequest mreq=new MultipartRequest(
+					req, pathname, maxSize, encType,
+					new DefaultFileRenamePolicy());
+						
+					
+			if(mreq.getFile("notice_upload")!=null) { 
+				dto.setSaveFileName(mreq.getFilesystemName("notice_upload"));
+				dto.setOriginalFileName(mreq.getOriginalFileName("notice_upload"));
+				dto.setFilesize(mreq.getFile("notice_upload").length());
+					
+				}	
+			
+			dto.setUserId(info.getUserId());
+			dto.setTitle(mreq.getParameter("title"));
+			dto.setContent(mreq.getParameter("content"));
+		
+				// ì €ì¥
+				dao.insertNotice(dto);;
+		
+		resp.sendRedirect(cp);
+		
+	}
 	
 
 	/*

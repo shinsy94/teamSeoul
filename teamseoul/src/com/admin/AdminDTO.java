@@ -1,21 +1,66 @@
 package com.admin;
 
+import java.util.List;
+
 public class AdminDTO {
 	private int num;
 	private String title;
 	private String content;
 	private String userId;
 	private int areaCode; 
-	private String imageFileName[];
-	
-	public String[] getImageFileName() {
-		return imageFileName;
-	}
-	public void setImageFileName(String[] imageFileName) {
-		this.imageFileName = imageFileName;
-	}
+	private List<String> imageFileName;
+	private int seasonCode;
 	private String created;
 	private int listNum;
+	private String eventLink;
+	private String originalFileName;
+	private String saveFileName;
+	private long filesize;
+	private String updated;
+	
+	public List<String> getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(List<String> imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+	public int getSeasonCode() {
+		return seasonCode;
+	}
+	public void setSeasonCode(int seasonCode) {
+		this.seasonCode = seasonCode;
+	}
+	public String getEventLink() {
+		return eventLink;
+	}
+	public void setEventLink(String eventLink) {
+		this.eventLink = eventLink;
+	}
+	public String getOriginalFileName() {
+		return originalFileName;
+	}
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
+	}
+	public String getSaveFileName() {
+		return saveFileName;
+	}
+	public void setSaveFileName(String saveFileName) {
+		this.saveFileName = saveFileName;
+	}
+	public long getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(long filesize) {
+		this.filesize = filesize;
+	}
+	public String getUpdated() {
+		return updated;
+	}
+	public void setUpdated(String updated) {
+		this.updated = updated;
+	}	
+	
 	public int getNum() {
 		return num;
 	}
