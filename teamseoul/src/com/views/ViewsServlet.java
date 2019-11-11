@@ -51,6 +51,8 @@ public class ViewsServlet extends HttpServlet {
 			insertReply(req, resp);
 		} else if(uri.indexOf("listReply.do")!=-1) {
 			listReply(req, resp);
+		} else if(uri.indexOf("favorite.do")!=-1) {
+			insertFavorite(req, resp);
 		}
 	}
 	protected void forward(HttpServletRequest req, 	HttpServletResponse resp, String path)
@@ -128,7 +130,7 @@ public class ViewsServlet extends HttpServlet {
 		
 		int num = Integer.parseInt(req.getParameter("num"));
 		ViewsDAO dao = new ViewsDAO();
-		List<ViewsDTO> list = dao.imageList(num);
+		List<ViewsDTO> list = dao.readViews(num);
 		
 		req.setAttribute("list", list);
 		forward(req, resp, "/WEB-INF/views/views/article.jsp");
@@ -202,5 +204,31 @@ public class ViewsServlet extends HttpServlet {
 
 		// 포워딩
 		forward(req, resp, "/WEB-INF/views/views/listReply.jsp");
+	}
+	
+	private void insertFavorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 공감 저장 - AJAX:JSON
+		ViewsDAO dao = new ViewsDAO();
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		String state="false";
+		int num = Integer.parseInt(req.getParameter("num"));
+		FavoriteDTO dto = new FavoriteDTO();
+		dto.setNum(num);
+		dto.setUserId(info.getUserId());
+		dto.setCategory("views");
+		
+		int result=dao.insertFavorite(dto);
+		if(result==1)
+			state="true";
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
 	}
 }

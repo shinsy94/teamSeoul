@@ -96,6 +96,45 @@ function listPage(page) {
 	    }
 	});
 }
+
+//게시물 공감 추가
+function sendFavorite(num) {
+	var msg="게시물을 즐겨찾기 하시겠습니까?";
+	if(! confirm(msg))
+		return;
+	
+	<c:if test="${empty sessionScope.member}">
+	alert("즐겨찾기를 하려면 로그인이 필요합니다.");
+	location.href="<%=cp%>/member/login.do";
+	</c:if>
+	
+	var url="<%=cp%>/views/favorite.do";
+	$.ajax({
+		type:"post"
+		,url:url
+		,data:{num:num}
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {
+				alert("즐겨찾기가 완료되었습니다 ^^ ");
+			} else if(state=="false") {
+				alert("이미 즐겨찾기한 게시물 입니다!!");
+			}
+		}
+	    ,beforeSend :function(jqXHR) {
+	    	jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+
 </script>
 </head>
 <body>
@@ -110,6 +149,7 @@ function listPage(page) {
     <div class="body-container">
     	<div class="body-title" style="width: 100%; text-align: left;">
        		<h3>${list.get(0).title}</h3>
+       		<img src="<%=cp%>/resource/images/star.png" width="30" align="right" onclick="sendFavorite(${list.get(0).num});">
    		</div>
     	
     		${list.get(0).content}<br>
@@ -118,7 +158,7 @@ function listPage(page) {
     		</c:forEach>
     		
     		<c:if test="${sessionScope.member.userId == 'admin'}">
-    			<button>수정</button>
+    			<button onclick="javascript:location.href=<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table='views'">수정</button>
     			<button>삭제</button>
     		</c:if>
     		<hr>

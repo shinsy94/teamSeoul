@@ -29,7 +29,7 @@ public class ViewsDAO {
 				map.put(rs.getString("areaCode"), rs.getString("local"));
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return map;
 	}
@@ -117,7 +117,7 @@ public class ViewsDAO {
 				list.add(dto);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -224,15 +224,15 @@ public class ViewsDAO {
 		return list;
 	}
 	
-	public List<ViewsDTO>  imageList(int num){
+	public List<ViewsDTO>  readViews(int num){
 		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
-			sb.append("	FROM views v ");
+			sb.append("SELECT bigarea, v.num, title, content, v.areacode, IMAGEFILENAME, userId ");
+			sb.append("	FROM area a JOIN views v ON a.areacode = v.areacode");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
 			sb.append(" WHERE vf.num = ?");
 			
@@ -240,6 +240,8 @@ public class ViewsDAO {
 			pstmt.setInt(1, num);
 			
 			rs = pstmt.executeQuery();
+			
+			
 			
 			while(rs.next()) {
 				ViewsDTO dto = new ViewsDTO();
@@ -269,12 +271,12 @@ public class ViewsDAO {
 		}
 		return list;
 	}
+
 	
 	public int insertReply(ReplyDTO dto) {
 		int result =0;
 		
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		String sql;
 		
 		try {
@@ -289,12 +291,6 @@ public class ViewsDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception e2) {
-				}
-			}
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -321,6 +317,20 @@ public class ViewsDAO {
 				result = rs.getInt(1);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
 		}
 		
 		return result;
@@ -349,8 +359,53 @@ public class ViewsDAO {
 				list.add(dto);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
 		}
 		
 		return list;
 	}
+	
+	public int insertFavorite(FavoriteDTO dto) {
+		int result = 0;
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		try {
+			sql = "INSERT INTO favorite(NUM, CATEGORY, USERID) VALUES(?, ?, ?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getNum());
+			pstmt.setString(2, dto.getCategory());
+			pstmt.setString(3, dto.getUserId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	
+	
 }
