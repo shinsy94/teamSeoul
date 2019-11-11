@@ -73,6 +73,7 @@ public class EventServlet extends HttpServlet{
 		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
+		
 		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
 	}
 

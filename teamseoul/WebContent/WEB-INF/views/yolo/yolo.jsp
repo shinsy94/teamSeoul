@@ -123,8 +123,6 @@ function searchList() {
 
         </div>
     
-    
-    
     </div>
 </div>
 
