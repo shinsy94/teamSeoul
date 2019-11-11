@@ -143,6 +143,42 @@ var fileNum=1;
 var aId="admin_aId";
 var acode=1;
 var fileNum2=0;
+
+$(document).ready(function() {
+    var table="${table}";
+	
+var url="<%=cp%>/admin/update_sub.do";
+	$("select[name=selectTable]").val(table);
+	if(table=="views"){
+		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${areaCode}"},function(data){
+			
+			 $("#sel").after(data);
+			 
+			$("select[name=bigarea]").val("2");
+			$("select[name=areaCode]").val("14");
+			$("#hidden3").css("display", "none"); 
+			$("#hidden1").css("display", ""); 	
+			$("#hidden2").css("display", ""); 
+		});
+	}else if(table=="festival"){
+		$.get(url,{table:table,seasonCode:"${seasonCode}"},function(data){
+			$("#sel").after(data);
+			$("select[name=season]").val("2");
+			$("#hidden3").css("display", "none"); 
+			$("#hidden1").css("display", ""); 	
+			$("#hidden2").css("display", ""); 
+		});
+	}else if(v=="event"){
+		$("#hidden").css("display", "");
+	}else{
+		$("#hidden3").css("display", ""); 
+		$("#hidden1").css("display", "none"); 
+		$("#hidden2").css("display", "none"); 
+	}
+	
+   
+});
+
 function op(obj){
 	var v=obj.value;
 	if(v=="views"){
@@ -203,7 +239,7 @@ function op(obj){
 
 function loc(obj){
 	var bigareaCode=obj.value;
-	var url="<%=cp%>/admin/viewscreated_sub.do";
+	var url="<%=cp%>/admin/created_sub.do";
 	
 	
 	$.get(url,{bigareaCode:bigareaCode},function(data){
@@ -213,7 +249,7 @@ function loc(obj){
 	
 }
 
-function check() {
+function update() {
 	
 	var cre=document.getElementById("createds");
 	
@@ -310,11 +346,7 @@ function deleteFile(as){
 	});
 }
 	
-function update(){
-	var crt=document.getElementById("createds");
-	crt.action="<%=cp%>/admin/updateForm.do";
-	crt.submit();
-}
+
 
 </script>
 </head>
@@ -333,8 +365,8 @@ function update(){
 			<tr >
 				<td class="trs"><h3>제목</h3> </td>
 				<td class="ccc" >
-				<textarea placeholder="    제목을 입력해 주세요" id="title" name="title" maxlength="25"
-				style="padding-top: 30px; padding-left: 10px; "></textarea></td>
+				<textarea  id="title" name="title" maxlength="25"
+				style="padding-top: 30px; padding-left: 10px; ">${dto.title}</textarea></td>
 			</tr>
 
 			<tr >
@@ -357,14 +389,13 @@ function update(){
 			<tr>
 				<td class="trs"><h3>글 본문</h3> </td>
 				<td  class="ccc">
-					<textarea  placeholder="  본문내용을 입력해 주세요" id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 30px;padding-top: 50px;"></textarea></td>
+					<textarea id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 30px;padding-top: 50px;">
+					${dto.content}</textarea></td>
 			</tr>
-			
 			<tr id="hidden" style="display: none;">
 				<td class="trs"><h3>이벤트 링크</h3></td>
-				<td  class="tdMidle"><input type="text" name='eventLink' ></td>
+				<td  class="tdMidle"><input type="text" name='eventLink' >${dto.eventLink}</td>
 			</tr>
-				
 			<tr id="hidden1" style="display: none;">
 				<td class="trs"><h3>썸네일 이미지</h3></td>
 				<td  class="ccc">
@@ -388,7 +419,7 @@ function update(){
 			
 			</table>
 			<br>
-			<button type="button" onclick="check();">업로드</button> <button onclick="update();">취소</button>
+			<button type="button" onclick="updatecheck();">수정완료</button> <button>취소</button>
 		</form>
 	</div>
 </div>
