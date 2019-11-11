@@ -571,14 +571,12 @@ public int insertReply(YoloReplyDTO dto) {
 	String sql;
 	
 	try {
-		sql = "INSERT INTO yoloReply(replyNum, num, userId, content, created) VALUES (bbsReply_seq.NEXTVAL, ?, ?, ?, ?)";
+		sql = "INSERT INTO yoloReply(replyNum, num, userId, content) VALUES (YOLOREPLY_SEQ.NEXTVAL, ?, ?, ?)";
 		
 		pstmt=conn.prepareStatement(sql);
 		pstmt.setInt(1, dto.getNum());
 		pstmt.setString(2, dto.getUserId());
 		pstmt.setString(3, dto.getContent());
-		pstmt.setString(4, dto.getCreated());
-		
 		result=pstmt.executeUpdate();
 		
 	} catch (Exception e) {
@@ -639,12 +637,7 @@ public List<YoloReplyDTO> listReply(int num, int offset, int rows) {
 	StringBuffer sb=new StringBuffer();
 	
 	try {
-		sb.append("SELECT yr.replyNum, yr.userId, num, content, yr.created, ");
-		sb.append("       SELECT NVL(COUNT(*), ");
-		sb.append(" FROM yoloReply yr ");
-		sb.append("	JOIN member m ON yr.userId = m.userId ");
-		sb.append("	ORDER BY  yr.replyNum DESC ");
-		sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+		sb.append("SELECT y.num,replynum, yr.userId, yr.content, yr.created, m.userName FROM yolo y JOIN yoloreply yr ON y.num = yr.num JOIN member m ON yr.userId = m.userId WHERE y.num=? ORDER BY replynum OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 		
 		pstmt = conn.prepareStatement(sb.toString());
 		pstmt.setInt(1, num);
@@ -661,7 +654,7 @@ public List<YoloReplyDTO> listReply(int num, int offset, int rows) {
 			dto.setNum(rs.getInt("num"));
 			dto.setContent(rs.getString("content"));
 			dto.setCreated(rs.getString("created"));
-			
+			dto.setUserName(rs.getString("userName"));
 			list.add(dto);
 		}
 		

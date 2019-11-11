@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
 <c:if test="${sessionScope.member.userId=='admin'}">
@@ -28,6 +28,79 @@ function deleteYolo(num) {
 	}
 }
 </c:if>
+
+//댓글 등록
+$(function(){
+   $(".btnSendReply").click(function(){
+      var num="${dto.num}";
+      // var content=$(".boxTA:first").val();
+      var $tb = $(this).closest("table");
+      var content=$tb.find("textarea").val().trim();
+      if(! content) {
+         $tb.find("textarea").focus();
+         return;
+      }
+      content = encodeURIComponent(content);
+      
+      var query="num="+num+"&content="+content;
+      var url="<%=cp%>/yolo/insertReply.do";
+      $.ajax({
+         type:"post"
+         ,url:url
+         ,data:query
+         ,dataType:"json"
+         ,success:function(data) {
+            $tb.find("textarea").val("");
+            
+            var state=data.state;
+            if(state=="true") {
+               listPage(1);
+            } 
+         }
+          ,beforeSend :function(jqXHR) {
+             jqXHR.setRequestHeader("AJAX", true);
+          }
+          ,error:function(jqXHR) {
+             if(jqXHR.status==403) {
+                login();
+                return;
+             }
+             console.log(jqXHR.responseText);
+          }
+      });
+   });
+});
+
+//댓글 리스트
+$(function(){
+	listPage(1);
+});
+
+function listPage(page) {
+	var url="<%=cp%>/yolo/listReply.do";
+	var query="num=${dto.num}&pageNo="+page;
+	
+	$.ajax({
+		type:"get"
+		,url:url
+		,data:query
+		,success:function(data) {
+			$("#listReply").html(data);
+		}
+	    ,beforeSend :function(jqXHR) {
+	    	jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+
+
 </script>
 </head>
 <body>
@@ -58,12 +131,7 @@ function deleteYolo(num) {
 			        ${dto.created} | 조회 ${dto.hitCount}
 			    </td>
 			</tr>
-			
-			
-			
-			
-			
-			
+		
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			      <img alt="" src="<%=cp%>/uploads/notice/${dto.imageFileName}">
@@ -111,18 +179,10 @@ function deleteYolo(num) {
 			
 			
 			
-<%-- !!!!!!!!!!!!!여기부터 댓글시작!!!!!!!!!!!!!!! --%>	
+<%-- !!!!!!!!!!!!!!!여기부터 댓글시작!!!!!!!!!!!!!!! --%>	
 
 <c:if test="${replyCount!=0}">
 <table style='width: 100%; margin: 10px auto 30px; border-spacing: 0px;'>
-<tr height="35">
-    <td>
-       <div style="clear: both;">
-           <div style="float: left;"><span style="color: #3EA9CD; font-weight: bold;">댓글 ${replyCount}개</span> <span>[댓글 목록, ${pageNo}/${total_page} 페이지]</span></div>
-           <div style="float: right; text-align: right;"></div>
-       </div>
-    </td>
-</tr>
 
 <c:forEach var="dto" items="${listReply}">
     <tr height='35' style='background: #eee;'>
@@ -136,7 +196,7 @@ function deleteYolo(num) {
 </c:if>		   
 <c:if test="${sessionScope.member.userId!=dto.userId && sessionScope.member.userId!='admin'}">		   
           <span class="notifyReply">신고</span>
-</c:if>	
+</c:if>
         </td>
     </tr>
     <tr>
@@ -152,7 +212,7 @@ function deleteYolo(num) {
             <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
             <tr height='30'> 
 	            <td align='left'>
-	            	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+	            	<span style='font-weight: bold;'>댓글쓰기</span>
 	            </td>
             </tr>
             <tr>
@@ -166,6 +226,8 @@ function deleteYolo(num) {
                 </td>
             </tr>
             </table>
+            
+             <div id="listReply"></div>
  	    </div>
      <tr height="40">
          <td colspan='2'>
@@ -174,11 +236,7 @@ function deleteYolo(num) {
      </tr>
 </table>
 </c:if>	
-			
-
-	
-	
-			
+		
         </div>
         
     </div>

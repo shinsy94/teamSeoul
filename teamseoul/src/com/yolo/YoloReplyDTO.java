@@ -4,6 +4,7 @@ public class YoloReplyDTO {
 
 	private int replyNum, num;
 	private String userId, content, created;
+	private String userName;
 
 	public int getReplyNum() {
 		return replyNum;
@@ -45,4 +46,13 @@ public class YoloReplyDTO {
 		this.created = created;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	
 }
