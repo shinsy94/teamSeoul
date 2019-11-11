@@ -62,14 +62,18 @@ public class AdminServlet extends HttpServlet{
 			createdForm(req, resp);
 		}else if (uri.indexOf("viewscreated_ok.do")!=-1) {
 			viewscreatedSubmit(req, resp);
-		}else if (uri.indexOf("viewscreated_sub.do")!=-1) {
-			viewscreatedSub(req, resp);
+		}else if (uri.indexOf("created_sub.do")!=-1) {
+			createdSub(req, resp);
 		}else if (uri.indexOf("eventcreated_ok.do")!=-1) {
 			eventcreatedSubmit(req, resp);
 		}else if (uri.indexOf("festivalcreated_ok.do")!=-1) {
 			festivalcreatedSubmit(req, resp);
 		}else if (uri.indexOf("noticecreated_ok.do")!=-1) {
 			noticecreatedSubmit(req, resp);
+		}else if(uri.indexOf("updateForm.do")!=-1) {
+			updateForm(req,resp);
+		}else if(uri.indexOf("update_sub.do")!=-1) {
+			updateSub(req,resp);
 		}
 		
 		/* else if (uri.indexOf("article.do")!=-1) {
@@ -94,7 +98,16 @@ public class AdminServlet extends HttpServlet{
 		forward(req, resp, "/WEB-INF/views/admin/created.jsp");
 	}
 	
-	protected void viewscreatedSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("mode", "update");
+		
+		req.setAttribute("table", "views");
+		req.setAttribute("bigarea", "2");
+		req.setAttribute("areaCode", "12");
+		forward(req, resp, "/WEB-INF/views/admin/update.jsp");
+	}
+	
+	protected void createdSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		
 		String bigareaCode=req.getParameter("bigareaCode");
@@ -106,6 +119,7 @@ public class AdminServlet extends HttpServlet{
 		sb.append("<select id='areaCode' name='areaCode'>");
 		for(String key : map.keySet()){
 			sb.append("<option value='"+key+"'>"+map.get(key)+"</option>");
+
 		}
 		sb.append("</select>");
 		
@@ -115,6 +129,31 @@ public class AdminServlet extends HttpServlet{
 		PrintWriter out= resp.getWriter();
 		
 		out.print(areaCode); 
+		
+	}
+	
+protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	String table=req.getParameter("table");
+	AdminDAO dao=new AdminDAO();
+	if(table.equals("views")) {
+		
+		Map<String,String> map=dao.ListAreaCode("2");
+		
+		req.setAttribute("table", table);
+	
+		req.setAttribute("bigareaCode", "2");
+	
+		req.setAttribute("areaCode","12");
+		
+		req.setAttribute("map", map);
+		
+	}else if(table.equals("festival")) {
+		req.setAttribute("table", table);
+		req.setAttribute("seasonCode", "2");
+	}
+	
+
+	forward(req,resp,"/WEB-INF/views/admin/update_sub.jsp");
 		
 	}
 	
@@ -396,16 +435,7 @@ public class AdminServlet extends HttpServlet{
 	
 
 	/*
-	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		SessionInfo info=loginUser(req);
-		String cp=req.getContextPath();
-		
-		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.do");
-			return;
-		}
-		
-	}
+
 	
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		SessionInfo info=loginUser(req);

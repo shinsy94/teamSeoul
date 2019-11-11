@@ -1,6 +1,7 @@
 package com.views;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.member.SessionInfo;
 import com.util.MyUtil;
+
+import net.sf.json.JSONObject;
 
 @WebServlet("/views/*")
 public class ViewsServlet extends HttpServlet {
@@ -42,6 +47,10 @@ public class ViewsServlet extends HttpServlet {
 			list(req, resp);
 		} else if(uri.indexOf("article.do")!=-1) {
 			article(req, resp);
+		} else if(uri.indexOf("insertReply.do")!=-1) {
+			insertReply(req, resp);
+		} else if(uri.indexOf("listReply.do")!=-1) {
+			listReply(req, resp);
 		}
 	}
 	protected void forward(HttpServletRequest req, 	HttpServletResponse resp, String path)
@@ -123,5 +132,75 @@ public class ViewsServlet extends HttpServlet {
 		
 		req.setAttribute("list", list);
 		forward(req, resp, "/WEB-INF/views/views/article.jsp");
+	}
+	
+	private void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 또는 답글  저장 - AJAX:JSON
+				ViewsDAO dao = new ViewsDAO();
+				
+				HttpSession session=req.getSession();
+				SessionInfo info=(SessionInfo)session.getAttribute("member");
+				
+				ReplyDTO dto = new ReplyDTO();
+				
+				int num = Integer.parseInt(req.getParameter("num"));
+				dto.setNum(num);
+				dto.setUserId(info.getUserId());
+				dto.setContent(req.getParameter("content"));
+
+				String state="false";
+				int result=dao.insertReply(dto);
+				if(result==1)
+					state="true";
+				
+				JSONObject job=new JSONObject();
+				job.put("state", state);
+				
+				resp.setContentType("text/html;charset=utf-8");
+				PrintWriter out=resp.getWriter();
+				out.print(job.toString());
+	}
+	
+	private void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 리스트 - AJAX:TEXT
+		ViewsDAO dao = new ViewsDAO();
+		MyUtil util = new MyUtil();
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String pageNo = req.getParameter("pageNo");
+		int current_page = 1;
+		if (pageNo != null)
+			current_page = Integer.parseInt(pageNo);
+
+		int rows = 5;
+		int total_page = 0;
+		int replyCount = 0;
+
+		replyCount = dao.dataCountReply(num);
+		total_page = util.pageCount(rows, replyCount);
+		if (current_page > total_page)
+			current_page = total_page;
+
+		int offset = (current_page - 1) * rows;
+
+		// 리스트에 출력할 데이터
+		List<ReplyDTO> listReply = dao.listReply(num, offset, rows);
+
+		// 엔터를 <br>
+		for(ReplyDTO dto:listReply) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		}
+
+		// 페이징 처리(인수2개 짜리로 자바스크립트 listPage(page) 함수 호출)
+		String paging = util.paging(current_page, total_page);
+
+		req.setAttribute("listReply", listReply);
+		req.setAttribute("pageNo", current_page);
+		req.setAttribute("replyCount", replyCount);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("paging", paging);
+
+		// 포워딩
+		forward(req, resp, "/WEB-INF/views/views/listReply.jsp");
 	}
 }
