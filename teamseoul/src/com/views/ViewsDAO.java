@@ -269,4 +269,88 @@ public class ViewsDAO {
 		}
 		return list;
 	}
+	
+	public int insertReply(ReplyDTO dto) {
+		int result =0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql="INSERT INTO VIEWSCOMMENT(COMMENTNUM, content, userId, num) VALUES(VIEWCOMMENT_SEQ.NEXTVAL, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getContent());
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setInt(3, dto.getNum());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public int dataCountReply(int num) {
+		int result = 0;
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT NVL(count(*),0) FROM views v JOIN VIEWSCOMMENT vc ON v.num = vc.num WHERE v.num=?  ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+		}
+		
+		return result;
+	}
+	
+	public List<ReplyDTO> listReply(int num,  int offset, int rows) {
+		List<ReplyDTO> list = new ArrayList<ReplyDTO>();
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT vc.COMMENTNUM, vc.userId, vc.content, vc.created FROM views v JOIN VIEWSCOMMENT vc ON v.num = vc.num WHERE v.num=? ORDER BY COMMENTNUM OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, rows);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReplyDTO dto = new ReplyDTO();
+				dto.setCommentNum(rs.getInt("COMMENTNUM"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setContent(rs.getString("content"));
+				dto.setCreated(rs.getString("created"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
 }
