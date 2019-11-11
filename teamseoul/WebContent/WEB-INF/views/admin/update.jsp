@@ -4,6 +4,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
    String cp = request.getContextPath();
 %>
@@ -400,8 +401,33 @@ function deleteFile(as){
 				<td class="trs"><h3>썸네일 이미지</h3></td>
 				<td  class="ccc">
 				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">추가</a></td>
-
 			<tr>
+			
+			<c:forEach var="fi" items="${dto.imageFileName}">
+				<c:set var="filename" value="fi">
+					<c:choose>
+					<c:when test="${fn:contains(fi,'some')}">
+							<tr><td class='trs'>
+							<h3>썸네일 이미지</h3><input readonly="readonly" type="text" value="${fi}">
+							</td></tr>
+					</c:when>
+				
+			
+					<c:when test="${fn:contains(fi,'body')}">
+						<tr><td class='trs'>
+						<h3>본문 이미지</h3><input readonly="readonly" type="text" value="${fi}">
+						</td></tr>
+					</c:when>
+					
+					<c:otherwise>
+						<tr><td class='trs'>
+						<h3>추가 이미지</h3><input readonly="readonly" type="text" value="${fi}">
+						</td></tr>
+					</c:otherwise>
+					</c:choose>
+			</c:set>
+			</c:forEach>
+			
 			
 			<tr id="hidden2" style="display: none;">
 				<td class="trs"><h3>본문 이미지</h3></td>
