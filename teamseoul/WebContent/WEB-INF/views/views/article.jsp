@@ -208,9 +208,14 @@ $(document).ready(function(){
     </table>
     		<hr>
     		<c:if test="${sessionScope.member.userId == 'admin'}">
-    		<div class="adminBtn">
-    			<button onclick="javascript:location.href='<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table=views'">수정</button>
-    			<button>삭제</button>
+    		<div class="article_btn">
+	    		<div class="adminBtn" style="float: left;">   
+	    			<button onclick="javascript:location.href='<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table=festival'">수정</button>
+	    			<button>삭제</button>
+	    		</div>
+	    		<div class="listBtn" style="text-align: right;">
+	    			<button onclick="javascript:location.href='<%=cp%>/views/'">리스트</button>
+	    		</div>
     		</div>
     		</c:if>
     		
