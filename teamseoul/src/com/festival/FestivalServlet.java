@@ -1,4 +1,4 @@
-package com.views;
+package com.festival;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,8 +18,8 @@ import com.util.MyUtil;
 
 import net.sf.json.JSONObject;
 
-@WebServlet("/views/*")
-public class ViewsServlet extends HttpServlet {
+@WebServlet("/festival/*")
+public class FestivalServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -39,10 +39,8 @@ public class ViewsServlet extends HttpServlet {
 		String uri=req.getRequestURI();
 		
 		// uri에 따른 작업 구분
-		if(uri.indexOf("views.do")!=-1) {
+		if(uri.indexOf("festival.do")!=-1) {
 			views(req, resp);
-		} else if(uri.indexOf("areaList.do")!=-1) {
-			areaList(req, resp);
 		} else if(uri.indexOf("list.do")!=-1) {
 			list(req, resp);
 		} else if(uri.indexOf("article.do")!=-1) {
@@ -63,7 +61,7 @@ public class ViewsServlet extends HttpServlet {
 	}
 	
 	private void list(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
-		ViewsDAO dao = new ViewsDAO();
+		FestivalDAO dao = new FestivalDAO();
 		MyUtil util = new MyUtil();
 		String cp = req.getContextPath();
 		int current_page = 1;
@@ -77,7 +75,7 @@ public class ViewsServlet extends HttpServlet {
 		
 		// String keyword = req.getParameter("page");
 		String areaCode = req.getParameter("areaCode");
-		List<ViewsDTO> list;
+		List<FestivalDTO> list;
 		int dataCount = 0;
 		
 		String list_url = cp+"/views/list.do";
@@ -109,28 +107,20 @@ public class ViewsServlet extends HttpServlet {
 	}
 	
 	private void views(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {		
-		ViewsDAO dao = new ViewsDAO();
-		List<ViewsDTO> list= dao.areaList();
-		req.setAttribute("bigAreaList", list);
+		FestivalDAO dao = new FestivalDAO();
+		Map<String, String> map= dao.seasonList();
+		req.setAttribute("seasonList", map);
 		
 		
 		forward(req, resp, "/WEB-INF/views/views/views.jsp");
 	}
 
-	private void areaList(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {
-		ViewsDAO dao = new ViewsDAO();
-		Map<String, String> map= dao.ListAreaCode(req.getParameter("bigCode"));
-		
-		req.setAttribute("areaMap", map);
-		
-		forward(req, resp, "/WEB-INF/views/views/areaList.jsp");
-	}
 	
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		int num = Integer.parseInt(req.getParameter("num"));
-		ViewsDAO dao = new ViewsDAO();
-		List<ViewsDTO> list = dao.readViews(num);
+		FestivalDAO dao = new FestivalDAO();
+		List<FestivalDTO> list = dao.readViews(num);
 		
 		req.setAttribute("list", list);
 		forward(req, resp, "/WEB-INF/views/views/article.jsp");
@@ -138,7 +128,7 @@ public class ViewsServlet extends HttpServlet {
 	
 	private void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 리플 또는 답글  저장 - AJAX:JSON
-				ViewsDAO dao = new ViewsDAO();
+				FestivalDAO dao = new FestivalDAO();
 				
 				HttpSession session=req.getSession();
 				SessionInfo info=(SessionInfo)session.getAttribute("member");
@@ -165,7 +155,7 @@ public class ViewsServlet extends HttpServlet {
 	
 	private void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 리플 리스트 - AJAX:TEXT
-		ViewsDAO dao = new ViewsDAO();
+		FestivalDAO dao = new FestivalDAO();
 		MyUtil util = new MyUtil();
 		
 		int num = Integer.parseInt(req.getParameter("num"));
@@ -208,7 +198,7 @@ public class ViewsServlet extends HttpServlet {
 	
 	private void insertFavorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 공감 저장 - AJAX:JSON
-		ViewsDAO dao = new ViewsDAO();
+		FestivalDAO dao = new FestivalDAO();
 		
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");

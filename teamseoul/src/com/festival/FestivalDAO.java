@@ -1,4 +1,4 @@
-package com.views;
+package com.festival;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,40 +10,19 @@ import java.util.Map;
 
 import com.util.DBConn;
 
-public class ViewsDAO {
+public class FestivalDAO {
 	private Connection conn = DBConn.getConnection();
-
-	public Map<String, String> ListAreaCode(String bigareaCode) {
-		Map<String, String> map = new HashMap<String, String>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		try {
-			sql = "select areaCode,local from area where bigarea=? and areaCode!=?";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, bigareaCode);
-			pstmt.setString(2, bigareaCode);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				map.put(rs.getString("areaCode"), rs.getString("local"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return map;
-	}
 	
-	public int dataCount(int areaCode) {
+	public int dataCount(int seasonCode) {
 		int dataCount = 0;
 		String sql;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT NVL(count(*),0) FROM views WHERE areacode = ?";
+			sql = "SELECT NVL(count(*),0) FROM festival WHERE seasoncode = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, areaCode);
+			pstmt.setInt(1, seasonCode);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -75,7 +54,7 @@ public class ViewsDAO {
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT NVL(count(*),0) FROM views";
+			sql = "SELECT NVL(count(*),0) FROM festival";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -100,21 +79,18 @@ public class ViewsDAO {
 		}
 		return dataCount;
 	}
-	public List<ViewsDTO> areaList() {
-		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+	public Map<String, String> seasonList() {
+		Map<String, String> map = new HashMap<String, String>();
 		String sql;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			sql = "SELECT areacode, local FROM area WHERE bigarea = 0";
+			sql = "select seasoncode, season from sea ORDER BY seasoncode";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				ViewsDTO dto = new ViewsDTO();
-				dto.setAreaCode(rs.getInt("areacode"));
-				dto.setLocal(rs.getString("local"));
-				list.add(dto);
+				map.put(rs.getString("seasoncode"), rs.getString("season"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,30 +108,30 @@ public class ViewsDAO {
 				}
 			}
 		}
-		return list;
+		return map;
 	}
 	
-	public List<ViewsDTO>  somenailList(int offset, int rows){
-		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+	public List<FestivalDTO>  somenailList(int offset, int rows){
+		List<FestivalDTO> list = new ArrayList<FestivalDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
-			sb.append("	FROM views v ");
-			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
+			sb.append("SELECT f.num, title, content, seasoncode, IMAGEFILENAME  ");
+			sb.append("	FROM festival f ");
+			sb.append(" JOIN festivalFile ff ON f.num = ff.num  ");
 			sb.append(" WHERE INSTR(IMAGEFILENAME,'some') > 0");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				ViewsDTO dto = new ViewsDTO();
+				FestivalDTO dto = new FestivalDTO();
 				dto.setNum(rs.getInt("num"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
-				dto.setAreaCode(rs.getInt("areacode"));
+				dto.setSeasonCode(rs.getInt("seasoncode"));
 				dto.setSomenailImg(rs.getString("IMAGEFILENAME"));
 				list.add(dto);
 			}
@@ -179,28 +155,28 @@ public class ViewsDAO {
 		return list;
 	}
 	
-	public List<ViewsDTO>  somenailList(int offset, int rows,int areaCode){
-		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+	public List<FestivalDTO>  somenailList(int offset, int rows,int seasonCode){
+		List<FestivalDTO> list = new ArrayList<FestivalDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT v.num, title, content, areacode, IMAGEFILENAME ");
-			sb.append("	FROM views v ");
-			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
-			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'some') > 0");
+			sb.append("SELECT f.num, title, content, seasoncode, IMAGEFILENAME  ");
+			sb.append("	FROM festival f ");
+			sb.append(" JOIN festivalFile ff ON f.num = ff.num ");
+			sb.append(" WHERE seasoncode=? AND INSTR(IMAGEFILENAME,'some') > 0");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, areaCode);
+			pstmt.setInt(1, seasonCode);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				ViewsDTO dto = new ViewsDTO();
+				FestivalDTO dto = new FestivalDTO();
 				dto.setNum(rs.getInt("num"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
-				dto.setAreaCode(rs.getInt("areacode"));
+				dto.setSeasonCode(rs.getInt("seasonCode"));
 				dto.setSomenailImg(rs.getString("IMAGEFILENAME"));
 				list.add(dto);
 			}
@@ -224,32 +200,32 @@ public class ViewsDAO {
 		return list;
 	}
 	
-	public List<ViewsDTO>  readViews(int num){
-		List<ViewsDTO> list = new ArrayList<ViewsDTO>();
+	public List<FestivalDTO>  readViews(int seasonCode){
+		List<FestivalDTO> list = new ArrayList<FestivalDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT bigarea, v.num, title, content, v.areacode, IMAGEFILENAME, userId ");
-			sb.append("	FROM area a JOIN views v ON a.areacode = v.areacode");
-			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
-			sb.append(" WHERE vf.num = ?");
+			sb.append("SELECT f.num, title, content, s.seasoncode, ff.IMAGEFILENAME, userId  ");
+			sb.append("	FROM sea s ");
+			sb.append(" JOIN festival f ON s.seasoncode = f.seasoncode ");
+			sb.append(" JOIN festivalFile ff ON f.num = ff.num");
+			sb.append(" WHERE s.seasoncode=?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, seasonCode);
 			
 			rs = pstmt.executeQuery();
 			
 			
 			
 			while(rs.next()) {
-				ViewsDTO dto = new ViewsDTO();
-				dto.setBigArea(rs.getInt("bigarea"));
+				FestivalDTO dto = new FestivalDTO();
 				dto.setNum(rs.getInt("num"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
-				dto.setAreaCode(rs.getInt("areacode"));
+				dto.setSeasonCode(rs.getInt("seasonCode"));
 				dto.setImageFileName(rs.getString("IMAGEFILENAME"));
 				dto.setUserId(rs.getString("userId"));
 				list.add(dto);
@@ -282,7 +258,7 @@ public class ViewsDAO {
 		String sql;
 		
 		try {
-			sql="INSERT INTO VIEWSCOMMENT(COMMENTNUM, content, userId, num) VALUES(VIEWCOMMENT_SEQ.NEXTVAL, ?, ?, ?)";
+			sql="INSERT INTO festivalCOMMENT(COMMENTNUM, content, userId, num) VALUES(festivalCOMMENT_SEQ.NEXTVAL, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getContent());
 			pstmt.setString(2, dto.getUserId());

@@ -56,7 +56,6 @@
 			      <th style="color: #787878;">제목</th>
 			      <th width="100" style="color: #787878;">작성자</th>
 			      <th width="80" style="color: #787878;">작성일</th>
-			      <th width="60" style="color: #787878;">조회수</th>
 			      <th width="50" style="color: #787878;">첨부</th>
 			  </tr>
 			 
@@ -66,13 +65,12 @@
 			           <span style="display: inline-block;padding:1px 3px; background: #ED4C00;color: #FFFFFF; ">공지</span>
 			      </td>
 			      <td align="left" style="padding-left: 10px;">
-			           <a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
+			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
 			      </td>
-			      <td>${dto.userName}</td>
+			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
-			      <td>${dto.hitCount}</td>
 			      <td>
-						<c:if test="${not empty dto.saveFilename}">
+						<c:if test="${not empty dto.saveFileName}">
 						      <a href="<%=cp%>/notice/download.do?num=${dto.num}">
 						      <img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;">
 						      </a>
@@ -85,14 +83,12 @@
 			  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
 			      <td>${dto.listNum}</td>
 			      <td align="left" style="padding-left: 10px;">
-			           <a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
-			           <c:if test="${dto.gap<1}"><img src="<%=cp%>/resource/images/new.gif"></c:if>
+			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>          
 			      </td>
-			      <td>${dto.userName}</td>
+			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
-			      <td>${dto.hitCount}</td>
 			      <td>
-						<c:if test="${not empty dto.saveFilename}">
+						<c:if test="${not empty dto.saveFileName}">
 						      <a href="<%=cp%>/notice/download.do?num=${dto.num}"><img src="<%=cp%>/resource/images/disk.gif" border="0" style="margin-top: 1px;"></a>
 						</c:if>
 			      </td>
@@ -117,8 +113,8 @@
 			      <td align="center">
 			          <form name="searchForm" action="<%=cp%>/notice/list.do" method="post">
 			              <select name="condition" class="selectField">
-			                  <option value="subject">제목</option>
-			                  <option value="userName">작성자</option>
+			                  <option value="title">제목</option>
+			                  <option value="userId">작성자</option>
 			                  <option value="content">내용</option>
 			                  <option value="created">등록일</option>
 			            </select>

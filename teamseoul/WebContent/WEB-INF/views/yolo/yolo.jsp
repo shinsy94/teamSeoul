@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script type="text/javascript">
 function searchList() {
@@ -35,8 +35,8 @@ function searchList() {
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;">
     <div class="body-container"> 
-		<div class="body-title">
-            <h3><span style="font-family: Webdings">2</span> 욜로족 </h3>
+		<div class="body-title" style="width: 100%; text-align: left;">
+            <img src="<%=cp%>/resource/images/yolo.png" width="3%" style="margin: 0px 10px;"><h3>욜로족</h3>
         </div>
         
         <div>
@@ -52,12 +52,12 @@ function searchList() {
 			</table>
 			
 			<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
-			  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <th width="60" style="color: #787878;">번호</th>
-			      <th style="color: #787878;">제목</th>
-			      <th width="100" style="color: #787878;">작성자</th>
-			      <th width="120" style="color: #787878;">작성일</th>
-			      <th width="60" style="color: #787878;">조회수</th>
+			  <tr align="center" bgcolor="#004B58" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			      <th width="60" style="color: white;">번호</th>
+			      <th style="color: white;">제목</th>
+			      <th width="100" style="color: white;">작성자</th>
+			      <th width="120" style="color: white;">작성일</th>
+			      <th width="60" style="color: white;">조회수</th>
 			  </tr>
 						  
 			 

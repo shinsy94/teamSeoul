@@ -1,21 +1,20 @@
-package com.views;
+package com.festival;
 
 /**
  * @author sist
  *
  */
-public class ViewsDTO {
+public class FestivalDTO {
 	private int num;
 	private String title;
 	private String content;
 	private String userId;
-	private int areaCode;
-	private String local;
 	private String imageFileName;
 	private String somenailImg;
 	private String created;
 	private int listNum;
-	private int bigArea;
+	private int seasonCode;
+	
 	public int getNum() {
 		return num;
 	}
@@ -39,18 +38,6 @@ public class ViewsDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-	public int getAreaCode() {
-		return areaCode;
-	}
-	public void setAreaCode(int areaCode) {
-		this.areaCode = areaCode;
-	}
-	public String getLocal() {
-		return local;
-	}
-	public void setLocal(String local) {
-		this.local = local;
 	}
 	
 	public String getImageFileName() {
@@ -79,11 +66,11 @@ public class ViewsDTO {
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}
-	public int getBigArea() {
-		return bigArea;
+	public int getSeasonCode() {
+		return seasonCode;
 	}
-	public void setBigArea(int bigArea) {
-		this.bigArea = bigArea;
+	public void setSeasonCode(int seasonCode) {
+		this.seasonCode = seasonCode;
 	}
 	
 }

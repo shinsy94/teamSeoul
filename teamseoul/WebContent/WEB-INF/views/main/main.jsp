@@ -52,19 +52,19 @@
             <table>
             	
             	
-            <c:forEach begin="1" end="5">	
+            <c:forEach begin="1" end="4">	
             	<tr>
-            	
-            		<td class="subject"><a href="#">안녕하세요. 니서알입니다.</a></td>
-            		<td class="user" >서울대통령</td>
-            		<td class="created" >2000-10-01</td>
+
+            		<td class="title"><a href="<%=cp%>/notice/list.do">title</a></td>
+            		<td class="userId" >userId</td>
+            		<td class="created" >created</td>
             	
             	</tr>
             </c:forEach>
           <tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/notice/list.do" style="color: #3e3d3d; ">더보기 &gt; </a></td>
+            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/notice/list.do" style="color: #3e3d3d; ">더보기&gt; </a></td>
             		
             	</tr>
             </table>

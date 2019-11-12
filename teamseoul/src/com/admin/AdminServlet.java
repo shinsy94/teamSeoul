@@ -20,6 +20,8 @@ import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.util.FileManager;
+import com.views.ViewsDAO;
+import com.views.ViewsDTO;
 
 
 @WebServlet("/admin/*")
@@ -53,7 +55,7 @@ public class AdminServlet extends HttpServlet{
 		
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) { // 로그인되지 않은 경우
+		if(info==null) { // 濡쒓렇�씤�릺吏� �븡�� 寃쎌슦
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
@@ -99,11 +101,31 @@ public class AdminServlet extends HttpServlet{
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("mode", "update");
 		
-		req.setAttribute("table", "views");
-		req.setAttribute("bigarea", "2");
-		req.setAttribute("areaCode", "12");
+		String table=req.getParameter("table");
+		int num = Integer.parseInt(req.getParameter("num"));
+		if(table.equals("views")) {
+			
+			ViewsDAO dao=new ViewsDAO();
+			
+			List<ViewsDTO> list = dao.readViews(num);
+			
+			AdminDTO dto=new AdminDTO();
+			dto.setAreaCode(list.get(0).getAreaCode());
+			dto.setContent(list.get(0).getContent());
+			dto.setTitle(list.get(0).getTitle());
+			dto.setUserId(list.get(0).getUserId());
+			for(ViewsDTO dtt : list) {
+				dto.getImageFileName().add(dtt.getImageFileName());
+			}
+			
+			req.setAttribute("dto", dto);
+			req.setAttribute("bigareaCode", list.get(0).getBigArea());
+			req.setAttribute("table", table);
+			
+			req.setAttribute("num",num);
+		}
+		
 		forward(req, resp, "/WEB-INF/views/admin/update.jsp");
 	}
 	
@@ -141,9 +163,9 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		req.setAttribute("table", table);
 	
-		req.setAttribute("bigareaCode", "2");
+		req.setAttribute("bigareaCode", req.getParameter("bigareaCode"));
 	
-		req.setAttribute("areaCode","12");
+		req.setAttribute("areaCode",req.getParameter("areaCode"));
 		
 		req.setAttribute("map", map);
 		
@@ -162,14 +184,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//파일 저장할 경로
+		//�뙆�씪 ���옣�븷 寃쎈줈
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"views";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // 폴더가 존재하지 않으면
+		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
 			f.mkdirs();
 		}		
 		
@@ -178,8 +200,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     이어야 파일이 업로드 가능하고 request를 이용하여 
-		//     파라미터를 넘겨 받을 수 없다.
+		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
+		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -226,7 +248,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setContent(mreq.getParameter("content"));
 			dto.setAreaCode(Integer.parseInt(mreq.getParameter("areaCode")));
 	
-			// 저장
+			// ���옣
 			dao.insertView(dto);
 		
 		resp.sendRedirect(cp);
@@ -238,14 +260,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//파일 저장할 경로
+		//�뙆�씪 ���옣�븷 寃쎈줈
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"festival";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // 폴더가 존재하지 않으면
+		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
 			f.mkdirs();
 		}		
 		
@@ -254,8 +276,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     이어야 파일이 업로드 가능하고 request를 이용하여 
-		//     파라미터를 넘겨 받을 수 없다.
+		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
+		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -302,7 +324,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setContent(mreq.getParameter("content"));
 			dto.setSeasonCode(Integer.parseInt(mreq.getParameter("season")));
 	
-			// 저장
+			// ���옣
 			dao.insertFestival(dto);
 		
 		resp.sendRedirect(cp);
@@ -313,14 +335,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//파일 저장할 경로
+		//�뙆�씪 ���옣�븷 寃쎈줈
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"event";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // 폴더가 존재하지 않으면
+		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
 			f.mkdirs();
 		}		
 		
@@ -329,8 +351,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     이어야 파일이 업로드 가능하고 request를 이용하여 
-		//     파라미터를 넘겨 받을 수 없다.
+		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
+		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -387,14 +409,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//파일 저장할 경로
+		//�뙆�씪 ���옣�븷 寃쎈줈
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"notice";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // 폴더가 존재하지 않으면
+		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
 			f.mkdirs();
 		}		
 		
@@ -403,13 +425,13 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     이어야 파일이 업로드 가능하고 request를 이용하여 
-		//     파라미터를 넘겨 받을 수 없다.
+		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
+		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
 	
-			// 저장
+			// ���옣
 			MultipartRequest mreq=new MultipartRequest(
 					req, pathname, maxSize, encType,
 					new DefaultFileRenamePolicy());
@@ -426,7 +448,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setTitle(mreq.getParameter("title"));
 			dto.setContent(mreq.getParameter("content"));
 		
-				// 저장
+				// ���옣
 				dao.insertNotice(dto);;
 		
 		resp.sendRedirect(cp);

@@ -30,6 +30,7 @@ public class NoticeDTO {
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}
+
 	public String getTitle() {
 		return title;
 	}

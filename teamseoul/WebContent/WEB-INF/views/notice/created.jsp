@@ -22,10 +22,10 @@
     function sendOk() {
         var f = document.boardForm;
 
-    	var str = f.subject.value;
+    	var str = f.title.value;
         if(!str) {
             alert("제목을 입력하세요. ");
-            f.subject.focus();
+            f.title.focus();
             return;
         }
 
@@ -70,21 +70,21 @@
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
+			          <input type="text" name="title" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.title}">
 			      </td>
 			  </tr>
 
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">공지여부</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="checkbox" name="notice" value="1" ${dto.notice==1 ? " checked='checked' " : "" }> <label>공지</label>
+			          <input type="checkbox" name="notice" value="1"> <label>공지</label>
 			      </td>
 			  </tr>
 
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			      <td style="padding-left:10px;"> 
-			          ${sessionScope.member.userName}
+			          ${sessionScope.member.userId}
 			      </td>
 			  </tr>
 			
@@ -107,8 +107,8 @@
 			  	 	<td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 			      	<td style="padding-left:10px;">
 			      		<input type="file" name="upload" class="boxTF" size="53" style="height: 25px;">		      
-			      <c:if test="${not empty dto.originalFilename}">
-			       ${dto.originalFilename} | <a href="javascript:deleteFile();">삭제</a>
+			      <c:if test="${not empty dto.originalFileName}">
+			       ${dto.originalFileName} | <a href="javascript:deleteFile();">삭제</a>
 			      </c:if>
 			      </td>
 			    </tr>
@@ -122,8 +122,8 @@
 			       <c:if test="${mode=='update'}">
 			       		<input type="hidden" name="page" value="${page}">
 			       		<input type="hidden" name="num" value="${dto.num}">
-			       		<input type="hidden" name="saveFilename" value="${dto.saveFilename}">
-			       		<input type="hidden" name="originalFilename" value="${dto.originalFilename}">
+			       		<input type="hidden" name="saveFilename" value="${dto.saveFileName}">
+			       		<input type="hidden" name="originalFilename" value="${dto.originalFileName}">
 			       		<input type="hidden" name="fileSize" value="${dto.fileSize}">
 			       </c:if>
 			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
