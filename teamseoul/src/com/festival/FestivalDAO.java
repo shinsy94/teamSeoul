@@ -287,7 +287,7 @@ public class FestivalDAO {
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT NVL(count(*),0) FROM views v JOIN VIEWSCOMMENT vc ON v.num = vc.num WHERE v.num=?  ";
+			sql = "SELECT NVL(count(*),0) FROM festival v JOIN festivalCOMMENT vc ON v.num = vc.num WHERE v.num=?  ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
@@ -321,7 +321,7 @@ public class FestivalDAO {
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT vc.COMMENTNUM, vc.userId, vc.content, vc.created FROM views v JOIN VIEWSCOMMENT vc ON v.num = vc.num WHERE v.num=? ORDER BY COMMENTNUM OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			sql = "SELECT vc.COMMENTNUM, vc.userId, vc.content, vc.created FROM festival v JOIN festivalcomment vc ON v.num = vc.num WHERE v.num=? ORDER BY COMMENTNUM OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			pstmt.setInt(2, offset);
