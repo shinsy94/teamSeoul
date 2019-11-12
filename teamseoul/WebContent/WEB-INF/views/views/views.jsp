@@ -14,6 +14,7 @@
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/views.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
@@ -23,7 +24,7 @@
 
 
 $(function(){
-	$("body").on("click","#bigArea",function(){
+	$("body").on("click",".bigArea",function(){
 		var $ul = $(this).next();
 		
 		var isVis = $ul.is(":visible");
@@ -106,7 +107,7 @@ $(function(){
 	    		<li><a href="<%=cp%>/views/views.do">전체보기</a></li>
 	    		
 	    		<c:forEach var="dto" items="${bigAreaList}">
-	    		<li><button type="button" id="bigArea" value="${dto.areaCode}">${dto.local}</button>
+	    		<li><button type="button" class="bigArea" value="${dto.areaCode}">${dto.local}</button>
 	    			<ul class="subArea" style="display: none;">
 	    			
 	    			</ul>
