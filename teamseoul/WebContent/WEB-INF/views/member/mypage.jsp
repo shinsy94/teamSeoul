@@ -99,7 +99,7 @@
          	<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/notice/list.do" style="color: #3e3d3d; ">더보기&gt; </a></td>
+            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do">게시판 더보기&gt; </a></td>
             		
             </tr>
             </table>
