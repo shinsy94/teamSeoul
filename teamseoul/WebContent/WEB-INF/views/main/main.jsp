@@ -55,11 +55,11 @@
             <table>
             	
             	
-            <c:forEach begin="1" end="4">	
+            <c:forEach var="dto" items="${noticeList}">	
             	<tr>
-            		<td class="title"><a href="<%=cp%>/notice/list.do">title</a></td>
-            		<td class="userId" >userId</td>
-            		<td class="created" >created</td>
+            		<td class="title"><a href="<%=cp%>/notice/list.do">${dto.title}</a></td>
+            		<td class="userId" >${dto.userId}</td>
+            		<td class="created" >${dto.created}</td>
             	</tr>
             </c:forEach>
           <tr>

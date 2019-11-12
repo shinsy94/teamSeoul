@@ -200,7 +200,7 @@ public class FestivalDAO {
 		return list;
 	}
 	
-	public List<FestivalDTO>  readViews(int seasonCode){
+	public List<FestivalDTO>  readFestival(int num){
 		List<FestivalDTO> list = new ArrayList<FestivalDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -211,10 +211,10 @@ public class FestivalDAO {
 			sb.append("	FROM sea s ");
 			sb.append(" JOIN festival f ON s.seasoncode = f.seasoncode ");
 			sb.append(" JOIN festivalFile ff ON f.num = ff.num");
-			sb.append(" WHERE s.seasoncode=?");
+			sb.append(" WHERE f.num=?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, seasonCode);
+			pstmt.setInt(1, num);
 			
 			rs = pstmt.executeQuery();
 			

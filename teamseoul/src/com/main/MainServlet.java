@@ -1,6 +1,7 @@
 package com.main;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import com.member.SessionInfo;
+import com.notice.NoticeDAO;
+import com.notice.NoticeDTO;
 
 
 @WebServlet("/main.do")
@@ -42,6 +45,9 @@ public class MainServlet extends HttpServlet {
 		
 		
 		if(uri.indexOf("main.do")!=-1) {
+			NoticeDAO dao = new NoticeDAO();
+			List<NoticeDTO> noticeList = dao.mainListNotice();
+			req.setAttribute("noticeList", noticeList);
 			forward(req, resp, "/WEB-INF/views/main/main.jsp");
 		}
 	}
