@@ -75,7 +75,7 @@ function searchList() {
 			      <td align="left" style="padding-left: 10px;">
 			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
 			      </td>
-			      <td>${sessionScope.member.userName}</td>
+			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
 			     
@@ -88,7 +88,7 @@ function searchList() {
 			      <td align="left" style="padding-left: 10px;">
 			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
 			      </td>
-			      <td>${sessionScope.member.userName}</td>
+			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
 			      
@@ -122,7 +122,7 @@ function searchList() {
 			        </form>
 			      </td>
 			      <td align="right" width="100">
-			      	<c:if test="${sessionScope.member.userId == 'admin' }">
+			      	<c:if test="${not empty sessionScope.member}">
 			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/yolo/created.do';">글올리기</button>
 					</c:if>			     
 			      </td>

@@ -29,7 +29,7 @@ font-family: 'Jua', sans-serif;
 <script type="text/javascript">
 
 
-<c:if test="${sessionScope.member.userId=='admin'}">
+<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
 function deleteYolo(num) {
 	if(confirm("게시물을 삭제 하시겠습니까 ?")) {
 		var url="<%=cp%>/yolo/delete.do?num="+num+"&${query}";
@@ -170,7 +170,7 @@ $(function(){
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td width="50%" align="left" style="padding-left: 5px;">
-			       이름 : ${sessionScope.member.userName}
+			       이름 : ${dto.userId}
 			    </td>
 			    <td width="50%" align="right" style="padding-right: 5px;">
 			        ${dto.created} | 조회 ${dto.hitCount}
@@ -239,9 +239,7 @@ $(function(){
 <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">		   
           <span class="deleteReply" style="cursor: pointer;" data-replyNum='${dto.replyNum}' data-pageNo='${pageNo}'>삭제</span>
 </c:if>		   
-<c:if test="${sessionScope.member.userId!=dto.userId && sessionScope.member.userId!='admin'}">		   
-          <span class="notifyReply">신고</span>
-</c:if>
+
         </td>
     </tr>
     <tr>

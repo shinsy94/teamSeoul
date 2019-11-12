@@ -23,12 +23,10 @@
         </td>
        <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
            <span>${dto.created}</span> |
-<c:if test="${sessionScope.member.userId==vo.userId || sessionScope.member.userId=='admin'}">         
+<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">         
           <span class="deleteReply" style="cursor: pointer;" data-replyNum='${dto.replyNum}' data-pageNo='${pageNo}'>삭제</span>
 </c:if>         
-<c:if test="${sessionScope.member.userId!=vo.userId && sessionScope.member.userId!='admin'}">         
-          <span class="notifyReply">신고</span>
-</c:if>   
+
         </td>
     </tr>
     <tr>
