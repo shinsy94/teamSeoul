@@ -111,6 +111,7 @@ public class EventServlet extends HttpServlet{
 	
 	private void eventdelet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
 		String cp=req.getContextPath();
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");

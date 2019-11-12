@@ -12,6 +12,7 @@ public class EventDTO {
 	private String eventLink; //이벤트 링크 주소
 	private String created; //작성일자
 	
+	
 	public int getNum() {
 		return num;
 	}

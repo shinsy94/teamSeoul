@@ -24,6 +24,7 @@ public class EventDAO {
 			rs=pstmt.executeQuery();
 			if(rs.next())
 				result=rs.getInt(1);
+			
 
 		} catch (Exception e) {
 			System.out.println(e.toString());

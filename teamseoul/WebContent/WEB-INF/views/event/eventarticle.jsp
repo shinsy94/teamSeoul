@@ -84,6 +84,7 @@ function eventdelete(num) {
 			</table>
 			</div>
 	    </div>
+	    
 
 <div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
