@@ -459,7 +459,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE notice SET title=?, content=?, saveFileName=?, originalFileName=?, fileSize=?, updated=?";
+			sql = "UPDATE notice SET title=?, content=?, saveFileName=?, originalFileName=?, fileSize=?, updated=SYSDATE";
 			sql += " WHERE num=? AND userId=?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getTitle());
@@ -467,9 +467,8 @@ public class NoticeDAO {
 			pstmt.setString(3, dto.getSaveFileName());
 			pstmt.setString(4, dto.getOriginalFileName());
 			pstmt.setLong(5, (long)dto.getFileSize());
-			pstmt.setString(6, dto.getUpdated());
-			pstmt.setInt(7, dto.getNum());
-			
+			pstmt.setInt(6, dto.getNum());
+			pstmt.setString(7, dto.getUserId());
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -514,7 +513,7 @@ public class NoticeDAO {
 		}
 	}
 	
-	public List<NoticeDTO> mainListNotice(int offset, int rows, String condition, String keyword) {
+	public List<NoticeDTO> mainListNotice() {
         List<NoticeDTO> list=new ArrayList<NoticeDTO>();
 
         PreparedStatement pstmt=null;
@@ -528,10 +527,6 @@ public class NoticeDAO {
 			sb.append(" OFFSET 0 ROWS FETCH FIRST 5 ROWS ONLY");
             
 			pstmt=conn.prepareStatement(sb.toString());
-            
-			pstmt.setString(1, keyword);
-			pstmt.setInt(2, offset);
-			pstmt.setInt(3, rows);
             
             rs=pstmt.executeQuery();
             

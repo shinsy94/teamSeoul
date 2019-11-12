@@ -129,21 +129,13 @@ public class NoticeServlet extends HttpServlet {
 			dto.setCreated(dto.getCreated().substring(0, 10));
 		}
 		
-		long gap;
-		Date curDate = new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		
 		// 리스트 글번호 만들기
 		int listNum, n=0;
 		for(NoticeDTO dto : list){
 			listNum=dataCount-(offset+n);
 			dto.setListNum(listNum);
-			try {
-				Date date=sdf.parse(dto.getCreated());
-				// gap = (curDate.getTime() - date.getTime()) /(1000*60*60*24); // 일자
-				gap = (curDate.getTime() - date.getTime()) /(1000*60*60); // 시간 
-			}catch (Exception e) {
-			}
 			dto.setCreated(dto.getCreated().substring(0, 10));
 			n++;
 		}
@@ -225,6 +217,7 @@ public class NoticeServlet extends HttpServlet {
 	    NoticeDTO dto = new NoticeDTO();
 	    
 	    dto.setUserId(info.getUserId());
+	    
 	    dto.setTitle(mreq.getParameter("title"));
 	    dto.setContent(mreq.getParameter("content"));
 	    
@@ -233,7 +226,7 @@ public class NoticeServlet extends HttpServlet {
 	    	dto.setOriginalFileName(mreq.getOriginalFileName("upload"));
 	    	dto.setFileSize(mreq.getFile("upload").length());
 	    }
-	    // dao.insertNotice(dto);
+	    dao.insertNotice(dto);
 		
 		resp.sendRedirect(cp+"/notice/list.do?");
 	}
@@ -349,7 +342,11 @@ public class NoticeServlet extends HttpServlet {
 		dto.setSaveFileName(mreq.getParameter("saveFileName"));
 		
 		
-		//dao.updateNotice(dto);
+		try {
+			dao.updateNotice(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		resp.sendRedirect(cp+"/notice/list.do");
 		
 		
@@ -447,7 +444,7 @@ public class NoticeServlet extends HttpServlet {
 		String page = req.getParameter("page");
 		
 		String pathname = getFilePathname(req);
-		NoticeDAO dao=new NoticeDAO();
+		// NoticeDAO dao=new NoticeDAO();
 		NoticeDTO dto=new NoticeDTO();
 		
 		if(dto!=null && dto.getSaveFileName()!=null) {
