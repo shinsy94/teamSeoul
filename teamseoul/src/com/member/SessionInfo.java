@@ -1,7 +1,7 @@
 package com.member;
 
 public class SessionInfo {
-	private String userId, userName, nickName, tierName;
+	private String userId, userName, tierCode;
 	
 	public String getUserId() {
 		return userId;
@@ -15,18 +15,11 @@ public class SessionInfo {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	public String getNickName() {
-		return nickName;
+	public String getTierCode() {
+		return tierCode;
 	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-	public String getTierName() {
-		return tierName;
-	}
-	public void setTierName(String tierName) {
-		this.tierName = tierName;
+	public void setTierCode(String tierCode) {
+		this.tierCode = tierCode;
 	}
 	
 }

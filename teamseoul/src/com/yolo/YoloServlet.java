@@ -193,10 +193,6 @@ public class YoloServlet extends HttpServlet {
          resp.sendRedirect(cp+"/member/login.do");
          return;
       }
-      if(!info.getUserId().equals("admin")) {
-         resp.sendRedirect(cp+"/yolo/list.do");
-         return;
-      }
       
       req.setAttribute("mode", "created");
       forward(req, resp, "/WEB-INF/views/yolo/created.jsp");
@@ -210,10 +206,7 @@ public class YoloServlet extends HttpServlet {
          resp.sendRedirect(cp+"/member/login.do");
          return;
       }
-      if(!info.getUserId().equals("admin")) {
-         resp.sendRedirect(cp+"/yolo/list.do");
-         return;
-      }
+     
       
       String pathname=getFilePathname(req);
       File f = new File(pathname);

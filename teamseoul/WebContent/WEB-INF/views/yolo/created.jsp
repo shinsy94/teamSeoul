@@ -74,17 +74,19 @@ function sendOk() {
 			      </td>
 			  </tr>
 
+			  <c:if test="${sessionScope.member.userId=='admin'}">
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#004B58" style="text-align: center; color: white;">공지여부</td>
 			      <td style="padding-left:10px;"> 
 			          <input type="checkbox" name="attention" value="1" ${dto.attention==1 ? "checked='checked'" : "" }> <label>공지</label>
 			      </td>
 			  </tr>
+			  </c:if>
 			  
 			   <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#004B58" style="text-align: center; color: white;">작성자</td>
 			      <td style="padding-left:10px;"> 
-			          ${sessionScope.member.userName}
+			          ${sessionScope.member.userId}
 			      </td>
 			  </tr>
 			

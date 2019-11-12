@@ -83,7 +83,7 @@ function listPage(page) {
 		,url:url
 		,data:query
 		,success:function(data) {
-			$("#listReply").html(data);
+			$("#festivalReply").html(data);
 		}
 	    ,beforeSend :function(jqXHR) {
 	    	jqXHR.setRequestHeader("AJAX", true);
@@ -208,8 +208,8 @@ $(document).ready(function(){
     </table>
     		<hr>
     		<c:if test="${sessionScope.member.userId == 'admin'}">
-    		<div class="adminBtn">
-    			<button onclick="javascript:location.href=<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table='festival'">수정</button>
+    		<div class="adminBtn">   
+    			<button onclick="javascript:location.href='<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table=festival'">수정</button>
     			<button>삭제</button>
     		</div>
     		</c:if>
@@ -233,7 +233,7 @@ $(document).ready(function(){
             </tr>
             </table>
             
-            <div id="listReply"></div>
+            <div id="festivalReply"></div>
  	    </div>
     </div>
     

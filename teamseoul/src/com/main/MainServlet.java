@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
+import com.member.SessionInfo;
 
 
 @WebServlet("/main.do")
@@ -34,6 +38,8 @@ public class MainServlet extends HttpServlet {
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		String uri=req.getRequestURI();
+		
+		
 		
 		if(uri.indexOf("main.do")!=-1) {
 			forward(req, resp, "/WEB-INF/views/main/main.jsp");
