@@ -77,7 +77,7 @@ function sendLogin() {
 	
 <div class="container" >
 	<img src="<%=cp%>/resource/images/jpg" width="1300">
-	<p class="container" style="font-weight: bold; font-size:27px; color: #FFFFFF;">회원 로그인</p>
+	<p class="container" style="font-weight: bold; text-align: center; font-size:27px; color: #111111;"> 로그인</p>
 	<div>
 	
 	    <div style="margin: 80px auto 70px; width:360px;">

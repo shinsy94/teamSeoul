@@ -12,7 +12,7 @@ import com.util.DBConn;
 public class NoticeDAO {
 	private Connection conn=DBConn.getConnection();
 	
-	public void insertNotice(NoticeDTO dto) throws Exception {
+	public void insertNotice(NoticeDTO dto) {
 		StringBuffer sb = new StringBuffer();
 		PreparedStatement pstmt = null;
 		

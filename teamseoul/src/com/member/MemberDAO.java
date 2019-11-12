@@ -122,8 +122,6 @@ public class MemberDAO {
 			pstmt.setString(2, dto.getUserTel());
 			pstmt.setString(3, dto.getUserEmail());
 			pstmt.setString(4, dto.getUserBirth());
-
-
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
