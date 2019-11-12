@@ -12,12 +12,11 @@
     width:100%;
     margin: 0px auto;
     text-align: center;
-    padding: 20px;
 }
 
 .body-container {
     clear:both;
-    text-align:center;
+    text-align:left;
     color: #3e3d3d;
     font-size: 15px;
     width: 60%;
@@ -67,12 +66,11 @@
 }
 
 .note-top{
-	width: 900px;
+	width: 970px;
 	padding: 10px;
 	margin: 0px auto;
-	font-size: 16px;
+	font-size: 17px;
 	line-height:200%;
-	font-family: NanumGothic;
 	text-align:left;
 	font-weight: 600;
 }
@@ -83,7 +81,6 @@
 	margin: 0px auto;
 	font-size: 16px;
 	line-height:200%;
-	font-family: NanumGothic;
 	text-align:right;
 	font-weight: bold;
 }
@@ -92,17 +89,14 @@
     padding-top: 50px;
     padding-bottom: 5px;
     margin: 0 0 25px 0;
-    border-bottom: 1px solid #dddddd;
 }
 .body-title h3 {
-    font-size: 23px;
+    font-size: 30px;
     min-width: 300px;
-    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
     font-weight: bold;
     margin: 0 0 -5px 0;
     padding-bottom: 5px;
     display: inline-block;
-    border-bottom: 3px solid #424951;
 }
 
 .footer {
@@ -149,13 +143,12 @@
     width: 59%;
     min-height: 40px;
     border-radius: 4px;
-    margin-top: 95px;
-    font-size: 20px;
+    margin-top: 75px;
+    font-size: 25px;
     /*box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 1px 5px rgba(0,0,0,.075);*/
     box-sizing: border-box;
     float:left;
     padding: 0px 70px;
-    font-weight: bold;
 }
 
 ul.nav {
@@ -216,4 +209,11 @@ ul.nav li:hover > ul li a:hover {
   text-decoration: none;
 }
 
+.main {
+font-family: 'Nanum Myeongjo', serif;
+}
+
+.category {
+font-family: 'Jua', sans-serif;
+}
 

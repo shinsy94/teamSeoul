@@ -7,7 +7,6 @@ public class MemberDTO {
 	private String userTel, tel1, tel2, tel3;
 	private String userEmail, email1, email2;
 	private String userBirth;
-	private String nickname;
 	private int yoloCount;
 	private int tierCode;
 
@@ -58,12 +57,6 @@ public class MemberDTO {
 	}
 	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
-	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
 	}
 	public String getTel1() {
 		return tel1;

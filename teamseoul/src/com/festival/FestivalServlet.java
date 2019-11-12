@@ -40,7 +40,7 @@ public class FestivalServlet extends HttpServlet {
 		
 		// uri에 따른 작업 구분
 		if(uri.indexOf("festival.do")!=-1) {
-			views(req, resp);
+			festival(req, resp);
 		} else if(uri.indexOf("list.do")!=-1) {
 			list(req, resp);
 		} else if(uri.indexOf("article.do")!=-1) {
@@ -74,21 +74,21 @@ public class FestivalServlet extends HttpServlet {
 		int offset = (current_page-1)*rows;
 		
 		// String keyword = req.getParameter("page");
-		String areaCode = req.getParameter("areaCode");
+		String seasonCode = req.getParameter("seasonCode");
 		List<FestivalDTO> list;
 		int dataCount = 0;
 		
-		String list_url = cp+"/views/list.do";
-		String article_url = cp+"/views/article.do?page="+current_page;
+		String list_url = cp+"/festival/list.do";
+		String article_url = cp+"/festival/article.do?page="+current_page;
 		
-		if(areaCode == null) {
+		if(seasonCode == null) {
 			list = dao.somenailList(offset, rows);
 			dataCount = dao.dataCount();
 		} else {
-			list = dao.somenailList(offset, rows,Integer.parseInt(areaCode));
-			dataCount = dao.dataCount(Integer.parseInt(areaCode));
-			list_url += "?areaCode="+areaCode;
-			article_url +="&areaCode="+areaCode;
+			list = dao.somenailList(offset, rows,Integer.parseInt(seasonCode));
+			dataCount = dao.dataCount(Integer.parseInt(seasonCode));
+			list_url += "?seasonCode="+seasonCode;
+			article_url +="&seasonCode="+seasonCode;
 		}
 		
 		int total_page = util.pageCount(rows, dataCount);
@@ -96,23 +96,23 @@ public class FestivalServlet extends HttpServlet {
 		String paging = util.paging(current_page, total_page, list_url);
 		
 		req.setAttribute("page", current_page);
-		req.setAttribute("areaCode", areaCode);
+		req.setAttribute("seasonCode", seasonCode);
 		req.setAttribute("list", list);
 		req.setAttribute("articleUrl", article_url);
 		req.setAttribute("paging", paging);
 		req.setAttribute("dataCount", dataCount);
 		
-		forward(req, resp, "/WEB-INF/views/views/list.jsp");
+		forward(req, resp, "/WEB-INF/views/festival/list.jsp");
 		
 	}
 	
-	private void views(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {		
+	private void festival(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {		
 		FestivalDAO dao = new FestivalDAO();
 		Map<String, String> map= dao.seasonList();
-		req.setAttribute("seasonList", map);
+		req.setAttribute("seasonMap", map);
 		
 		
-		forward(req, resp, "/WEB-INF/views/views/views.jsp");
+		forward(req, resp, "/WEB-INF/views/festival/festival.jsp");
 	}
 
 	
@@ -123,7 +123,7 @@ public class FestivalServlet extends HttpServlet {
 		List<FestivalDTO> list = dao.readViews(num);
 		
 		req.setAttribute("list", list);
-		forward(req, resp, "/WEB-INF/views/views/article.jsp");
+		forward(req, resp, "/WEB-INF/views/festival/article.jsp");
 	}
 	
 	private void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -193,7 +193,7 @@ public class FestivalServlet extends HttpServlet {
 		req.setAttribute("paging", paging);
 
 		// 포워딩
-		forward(req, resp, "/WEB-INF/views/views/listReply.jsp");
+		forward(req, resp, "/WEB-INF/views/festival/listReply.jsp");
 	}
 	
 	private void insertFavorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

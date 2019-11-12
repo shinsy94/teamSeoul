@@ -52,6 +52,8 @@ public class MemberServlet extends HttpServlet {
 			updateSubmit(req, resp);
 		} else if(uri.indexOf("userIdCheck.do")!=-1) {
 			userIdCheck(req, resp);
+		} else if(uri.indexOf("mypage.do")!=-1) {
+			mypage(req, resp);
 		}
 	}
 
@@ -90,7 +92,6 @@ public class MemberServlet extends HttpServlet {
 				SessionInfo info = new SessionInfo();
 				info.setUserId(dto.getUserId());
 				info.setUserName(dto.getUserName());
-				info.setNickName(dto.getNickname());
 				
 				// 세션에 member라는 이름으로 SessionInfo 객체를 저장
 				session.setAttribute("member", info);
@@ -295,6 +296,13 @@ public class MemberServlet extends HttpServlet {
 		PrintWriter out=resp.getWriter();
 		
 		out.print(job.toString());
+		
+	}
+	
+	private void mypage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String path="/WEB-INF/views/member/mypage.jsp";
+		forward(req, resp, path);
 		
 	}
 	

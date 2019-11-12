@@ -122,8 +122,9 @@ public class AdminServlet extends HttpServlet{
 			req.setAttribute("dto", dto);
 			req.setAttribute("bigareaCode", list.get(0).getBigArea());
 			req.setAttribute("table", table);
-			
 			req.setAttribute("num",num);
+		}else if(table.equals("festival")) {
+			
 		}
 		
 		forward(req, resp, "/WEB-INF/views/admin/update.jsp");
@@ -159,7 +160,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 	AdminDAO dao=new AdminDAO();
 	if(table.equals("views")) {
 		
-		Map<String,String> map=dao.ListAreaCode("2");
+		Map<String,String> map=dao.ListAreaCode(req.getParameter("bigareaCode"));
 		
 		req.setAttribute("table", table);
 	
@@ -171,7 +172,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 	}else if(table.equals("festival")) {
 		req.setAttribute("table", table);
-		req.setAttribute("seasonCode", "2");
+		req.setAttribute("seasonCode",req.getParameter("seasonCode"));
 	}
 	
 

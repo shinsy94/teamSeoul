@@ -10,15 +10,15 @@
 <tr height="35">
     <td>
        <div style="clear: both;">
-           <div style="float: left;"><span style="color: #3EA9CD; font-weight: bold;">댓글 ${replyCount}개</span> <span>[댓글 목록, ${pageNo}/${total_page} 페이지]</span></div>
+           <div style="float: left;"><span style="color: #fd9f28; font-weight: bold;">댓글 ${replyCount}개</span> <span>[댓글 목록, ${pageNo}/${total_page} 페이지]</span></div>
            <div style="float: right; text-align: right;"></div>
        </div>
     </td>
 </tr>
 
 <c:forEach var="dto" items="${listReply}">
-    <tr height='35' style='background: #eee;'>
-       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;'>
+    <tr height='35' style="background-color: #F6F6F6;">
+       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none; color: #004B58;'>
            <span><b>${dto.userName}</b></span>
         </td>
        <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>

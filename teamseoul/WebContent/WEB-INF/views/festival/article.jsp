@@ -40,7 +40,7 @@ $(function(){
 		content = encodeURIComponent(content);
 		
 		var query="num="+num+"&content="+content;
-		var url="<%=cp%>/views/insertReply.do";
+		var url="<%=cp%>/festival/insertReply.do";
 		$.ajax({
 			type:"post"
 			,url:url
@@ -75,7 +75,7 @@ $(function(){
 });
 
 function listPage(page) {
-	var url="<%=cp%>/views/listReply.do";
+	var url="<%=cp%>/festival/listReply.do";
 	var query="num=${list.get(0).num}&pageNo="+page;
 	
 	$.ajax({
@@ -109,7 +109,7 @@ function sendFavorite(num) {
 	location.href="<%=cp%>/member/login.do";
 	</c:if>
 	
-	var url="<%=cp%>/views/favorite.do";
+	var url="<%=cp%>/festival/favorite.do";
 	$.ajax({
 		type:"post"
 		,url:url
@@ -198,7 +198,7 @@ $(document).ready(function(){
 	    		<ul>
 	    		<c:forEach var="dto" items="${list}">
 	    		<li>
-	    			<img src="<%=cp%>/uploads/views/${dto.imageFileName}" width="500" >
+	    			<img src="<%=cp%>/uploads/festival/${dto.imageFileName}" width="500" >
 	    		</li>
 	    		</c:forEach>
 	    		</ul>
@@ -209,7 +209,7 @@ $(document).ready(function(){
     		<hr>
     		<c:if test="${sessionScope.member.userId == 'admin'}">
     		<div class="adminBtn">
-    			<button onclick="javascript:location.href=<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table='views'">수정</button>
+    			<button onclick="javascript:location.href=<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table='festival'">수정</button>
     			<button>삭제</button>
     		</div>
     		</c:if>

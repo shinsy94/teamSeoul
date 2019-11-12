@@ -14,7 +14,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "INSERT INTO member(userId, userPwd, userName, userTel, userEmail, userBirth, nickname) VALUES(?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO member(userId, userPwd, userName, userTel, userEmail, userBirth) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getUserPwd());
@@ -22,7 +22,6 @@ public class MemberDAO {
 			pstmt.setString(4, dto.getUserTel());
 			pstmt.setString(5, dto.getUserEmail());
 			pstmt.setString(6, dto.getUserBirth());
-			pstmt.setString(7, dto.getNickname());
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -117,13 +116,13 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE member set userPwd=?, userTel=?, userEmail=?, userBitrh=?, userNickname=? ";
+			sql = "UPDATE member set userPwd=?, userTel=?, userEmail=?, userBitrh=? ";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserPwd());
 			pstmt.setString(2, dto.getUserTel());
 			pstmt.setString(3, dto.getUserEmail());
 			pstmt.setString(4, dto.getUserBirth());
-			pstmt.setString(5, dto.getNickname());
+
 
 			
 			pstmt.executeUpdate();
@@ -146,7 +145,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT userId, userPwd, userName, userTel, userEmail, userBirth, nickname, yoloCount, tierCode FROM member WHERE userId = ?";
+			sql = "SELECT userId, userPwd, userName, userTel, userEmail, userBirth, yoloCount, tierCode FROM member WHERE userId = ?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			rs=pstmt.executeQuery();
@@ -158,7 +157,6 @@ public class MemberDAO {
 				dto.setUserTel(rs.getString("userTel"));
 				dto.setUserEmail(rs.getString("userEmail"));
 				dto.setUserBirth(rs.getString("userBirth"));
-				dto.setNickname(rs.getString("nickname"));
 				dto.setYoloCount(rs.getInt("yoloCount"));
 				dto.setTierCode(rs.getInt("tierCode"));			
 			}

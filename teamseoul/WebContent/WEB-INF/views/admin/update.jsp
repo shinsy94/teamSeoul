@@ -151,7 +151,7 @@ $(document).ready(function() {
 var url="<%=cp%>/admin/update_sub.do";
 	$("select[name=selectTable]").val(table);
 	if(table=="views"){
-		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${areaCode}"},function(data){
+		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${dto.areaCode}"},function(data){
 			
 			 $("#sel").after(data);
 			 

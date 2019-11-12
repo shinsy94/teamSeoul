@@ -637,7 +637,7 @@ public List<YoloReplyDTO> listReply(int num, int offset, int rows) {
 	StringBuffer sb=new StringBuffer();
 	
 	try {
-		sb.append("SELECT y.num,replynum, yr.userId, yr.content, yr.created, m.userName FROM yolo y JOIN yoloreply yr ON y.num = yr.num JOIN member m ON yr.userId = m.userId WHERE y.num=? ORDER BY replynum OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
+		sb.append("SELECT y.num,replynum, yr.userId, yr.content, yr.created, m.userName FROM yolo y JOIN yoloreply yr ON y.num = yr.num JOIN member m ON yr.userId = m.userId WHERE y.num=? ORDER BY replynum desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 		
 		pstmt = conn.prepareStatement(sb.toString());
 		pstmt.setInt(1, num);

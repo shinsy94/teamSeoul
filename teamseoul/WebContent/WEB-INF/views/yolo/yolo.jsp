@@ -16,6 +16,14 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
+<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+
+<style type="text/css">
+.category {
+font-family: 'Jua', sans-serif;
+}
+</style>
+
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -35,7 +43,7 @@ function searchList() {
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;">
     <div class="body-container"> 
-		<div class="body-title" style="width: 100%; text-align: left;">
+		<div class="body-title category" style="width: 100%; text-align: left;">
             <img src="<%=cp%>/resource/images/yolo.png" width="3%" style="margin: 0px 10px;"><h3>욜로족</h3>
         </div>
         
