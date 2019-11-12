@@ -43,7 +43,7 @@ function searchList() {
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;">
     <div class="body-container"> 
-		<div class="body-title category" style="width: 100%; text-align: left;">
+		<div class="body-title Jua" style="width: 100%; text-align: left;">
             <img src="<%=cp%>/resource/images/yolo.png" width="3%" style="margin: 0px 10px;"><h3>욜로족</h3>
         </div>
         
