@@ -46,3 +46,14 @@
 	padding-top: 10px;
 	padding-bottom: 0px;
 }
+
+.bigArea{
+	border: none;
+	background: white;
+	cursor: pointer;
+}
+
+.bigArea:hover {
+	border: none;
+	color: tomato;
+}

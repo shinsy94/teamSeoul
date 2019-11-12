@@ -208,7 +208,7 @@ public class FestivalServlet extends HttpServlet {
 		FavoriteDTO dto = new FavoriteDTO();
 		dto.setNum(num);
 		dto.setUserId(info.getUserId());
-		dto.setCategory("views");
+		dto.setCategory("festival");
 		
 		int result=dao.insertFavorite(dto);
 		if(result==1)
