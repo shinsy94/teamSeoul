@@ -52,6 +52,8 @@ public class MemberServlet extends HttpServlet {
 			updateSubmit(req, resp);
 		} else if(uri.indexOf("userIdCheck.do")!=-1) {
 			userIdCheck(req, resp);
+		} else if(uri.indexOf("mypage.do")!=-1) {
+			mypage(req, resp);
 		}
 	}
 
@@ -295,6 +297,13 @@ public class MemberServlet extends HttpServlet {
 		PrintWriter out=resp.getWriter();
 		
 		out.print(job.toString());
+		
+	}
+	
+	private void mypage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String path="/WEB-INF/views/member/mypage.jsp";
+		forward(req, resp, path);
 		
 	}
 	
