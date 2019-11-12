@@ -214,7 +214,7 @@ $(document).ready(function(){
 	    			<button>삭제</button>
 	    		</div>
 	    		<div class="listBtn" style="text-align: right;">
-	    			<button onclick="javascript:location.href='<%=cp%>/views/'">리스트</button>
+	    			<button onclick="javascript:location.href='<%=cp%>/views/views.do?page=${page}&areaCode=${areaCode}'">리스트</button>
 	    		</div>
     		</div>
     		</c:if>
