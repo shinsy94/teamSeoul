@@ -75,7 +75,7 @@ function searchList() {
 			      <td align="left" style="padding-left: 10px;">
 			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
 			      </td>
-			      <td>${dto.userId}</td>
+			      <td>${sessionScope.member.userName}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
 			     
@@ -88,7 +88,7 @@ function searchList() {
 			      <td align="left" style="padding-left: 10px;">
 			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
 			      </td>
-			      <td>${dto.userId}</td>
+			      <td>${sessionScope.member.userName}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
 			      

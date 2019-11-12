@@ -170,7 +170,7 @@ $(function(){
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td width="50%" align="left" style="padding-left: 5px;">
-			       이름 : ${dto.userId}
+			       이름 : ${sessionScope.member.userName}
 			    </td>
 			    <td width="50%" align="right" style="padding-right: 5px;">
 			        ${dto.created} | 조회 ${dto.hitCount}
