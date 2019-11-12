@@ -32,13 +32,13 @@ box-sizing: border-box;
 
 td{
 box-sizing: border-box;
-}
+} 
 
 .trs{
-height: 60px;
+height: 50px;
 width: 15%;
 font-size:18px;
-border-bottom: 1px solid #FFBE3C;
+border-bottom: 1px solid #004B58;
 text-align: center;
 }
 
@@ -47,9 +47,10 @@ height: 70px ;
 width: 200px;
 text-align-last:center;
 border:none;
-font-size: 20px;
+font-size: 25px;
 cursor:pointer;
- transition:900ms ease all;
+transition:900ms ease all;
+margin: 8px;
 
 }
 textarea:focus {
@@ -58,7 +59,9 @@ outline:none;
 }
 
 select:hover{
-background: #FFE641;
+background: #004B58;  
+color: white;
+
 }
 select:focus{
 outline:none;
@@ -82,7 +85,7 @@ textarea{
 
 
 button{
-  background:#FFBE3C;
+  background: #004B58;  
   color:white;
   border:none;
   position:relative;
@@ -124,23 +127,31 @@ span{
 }
 .ccc{
 	width: 45%;
-
+	height: 30px;
+	border-bottom: 1px solid #004B58;
 }
 
 .ccc:hover{
-	border: 1px solid #FFBE3C;
+	border: 1px solid #004B58;
 	transition:500ms ease all;
 }
-
+  
 option{
 	text-align: center;
 }
 
+input{
+	border: none;
+	width: 270px;  
+	height: 50px;
+	margin: 3px;
+	float: left;
+}
 
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-var fileNum=1;
+var fileNum=${fn:length(dto.imageFileName)};
 var aId="admin_aId";
 var acode=1;
 var fileNum2=0;
@@ -151,36 +162,31 @@ $(document).ready(function() {
 var url="<%=cp%>/admin/update_sub.do";
 	$("select[name=selectTable]").val(table);
 	if(table=="views"){
+		
 		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${dto.areaCode}"},function(data){
 			
 			 $("#sel").after(data);
 			 
-			$("select[name=bigarea]").val("2");
-			$("select[name=areaCode]").val("14");
-			$("#hidden3").css("display", "none"); 
-			$("#hidden1").css("display", ""); 	
-			$("#hidden2").css("display", ""); 
+			$("select[name=bigarea]").val("${bigareaCode}");
+			$("select[name=areaCode]").val("${dto.areaCode}"); 
 		});
 	}else if(table=="festival"){
 		$.get(url,{table:table,seasonCode:"${seasonCode}"},function(data){
 			$("#sel").after(data);
 			$("select[name=season]").val("2");
-			$("#hidden3").css("display", "none"); 
-			$("#hidden1").css("display", ""); 	
-			$("#hidden2").css("display", ""); 
+
 		});
-	}else if(v=="event"){
+	}else if(table=="event"){
 		$("#hidden").css("display", "");
 	}else{
-		$("#hidden3").css("display", ""); 
-		$("#hidden1").css("display", "none"); 
-		$("#hidden2").css("display", "none"); 
+		$("#hidden3").css("display", "");
 	}
 	
    
 });
 
 function op(obj){
+	var table="${table}";
 	var v=obj.value;
 	if(v=="views"){
 		$(function() {	
@@ -214,21 +220,21 @@ function op(obj){
 	}
 	
 
-	if(v=="views"||v=="festival"||v=="event"){
+	if(v=="views"|v=="festival"|v=="event"&&table=="notice"){
 		$(function() {
-			$("#hidden3").css("display", "none"); 
+			$("#nohidden").css("display", "none"); 
 			$("#hidden1").css("display", ""); 	
 			$("#hidden2").css("display", ""); 
 		});
 	}else if(v=="subject"){
-		$("#hidden3").css("display", "none"); 
+		$("#nohidden").css("display", "none"); 
 		$("#hidden1").css("display", "none"); 
 		$("#hidden2").css("display", "none");
-	 }else {
-		$("#hidden3").css("display", ""); 
-		$("#hidden1").css("display", "none"); 
-		$("#hidden2").css("display", "none"); 
-		}
+	 }else if(v=="notice"&&table!="notice"){
+		 $("#nohidden").css("display", ""); 
+		 $("#hidden1").css("display", "none"); 
+		 $("#hidden2").css("display", "none");
+	 }
 	
 	if(v=="event"){
 		$("#hidden").css("display", "");
@@ -339,7 +345,7 @@ function fileMore(){
 	});
 }
 
-function deleteFile(as){
+function fileDelete(as){
 	var dele="#"+$(as).attr('id');
 	$(function() {
 		$(dele).closest("tr").remove();
@@ -348,7 +354,20 @@ function deleteFile(as){
 }
 	
 
+function someupdate(){
+	
+}
 
+function bodyupdate(){
+	
+}
+function someupdateDel(){
+	
+}
+
+function notiupdate(){
+	
+}
 </script>
 </head>
 <body>
@@ -367,9 +386,9 @@ function deleteFile(as){
 				<td class="trs"><h3>제목</h3> </td>
 				<td class="ccc" >
 				<textarea  id="title" name="title" maxlength="25"
-				style="padding-top: 30px; padding-left: 10px; ">${dto.title}</textarea></td>
+				style="padding-top: 30px; padding-left: 20px; ">${dto.title}</textarea></td>
 			</tr>
-
+  
 			<tr >
 				<td class="trs" ><h3>게시판</h3></td>
 				<td  class="ccc"> 
@@ -390,58 +409,71 @@ function deleteFile(as){
 			<tr>
 				<td class="trs"><h3>글 본문</h3> </td>
 				<td  class="ccc">
-					<textarea id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 30px;padding-top: 50px;">
-					${dto.content}</textarea></td>
+					<textarea id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 20px;padding-top: 30px;">${dto.content}</textarea></td>
 			</tr>
 			<tr id="hidden" style="display: none;">
 				<td class="trs"><h3>이벤트 링크</h3></td>
 				<td  class="tdMidle"><input type="text" name='eventLink' >${dto.eventLink}</td>
 			</tr>
+			
+		<c:if test="${table!='notice'}">	
+			<tr id="upfile1">
+				<td  class='trs'>
+					<h3>썸네일 이미지</h3>
+				</td>
+				
+				<td class="ccc">
+					<input readonly="readonly" type="text" value="${some}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdate();">수정</a>
+				</td>			
+			</tr>
+									
+			<tr id="upfile2" >
+				<td class='trs'>
+			
+					<h3>본문 이미지</h3>
+				</td>
+				
+				<td class="ccc">
+					<input readonly="readonly" type="text" value="${body}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdate();">수정</a>
+				</td>
+			</tr>
+				
+			<c:forEach var="fi" items="${dto.imageFileName}" varStatus="status">
+				<tr>
+					<td class='trs'>
+						<h3>추가된 이미지</h3>
+					</td>  
+					<td class="ccc">	
+						<input id="upfile${status.count}" readonly="readonly" type="text" value="${fi}"><a style="float:right;padding-top: 20px;padding-right:5px"  href="javascript:fileDelete();">삭제</a>
+					</td>
+				</tr>			
+			</c:forEach>
+		</c:if>
+		
 			<tr id="hidden1" style="display: none;">
-				<td class="trs"><h3>썸네일 이미지</h3></td>
+				<td class="trs"><h3>썸네일 수정</h3></td>
 				<td  class="ccc">
-				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">추가</a></td>
+				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">더 올리기</a><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdateDel();">취소</a></td>
 			<tr>
 			
-			<c:forEach var="fi" items="${dto.imageFileName}">
-				<c:set var="filename" value="fi">
-					<c:choose>
-					<c:when test="${fn:contains(fi,'some')}">
-							<tr><td class='trs'>
-							<h3>썸네일 이미지</h3><input readonly="readonly" type="text" value="${fi}">
-							</td></tr>
-					</c:when>
-				
-			
-					<c:when test="${fn:contains(fi,'body')}">
-						<tr><td class='trs'>
-						<h3>본문 이미지</h3><input readonly="readonly" type="text" value="${fi}">
-						</td></tr>
-					</c:when>
-					
-					<c:otherwise>
-						<tr><td class='trs'>
-						<h3>추가 이미지</h3><input readonly="readonly" type="text" value="${fi}">
-						</td></tr>
-					</c:otherwise>
-					</c:choose>
-			</c:set>
-			</c:forEach>
-			
-			
 			<tr id="hidden2" style="display: none;">
-				<td class="trs"><h3>본문 이미지</h3></td>
+				<td class="trs"><h3>본문 수정</h3></td>
 				<td  class="ccc">
-				<input type='file' id="body_upload" name='body_upload' accept='image/*'></td>
+				<input type='file' id="body_upload" name='body_upload' accept='image/*'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdateDel();">취소</a></td>
 			</tr>
-			
 			
 			
 			<tr id="hidden3" style="display: none;">
 				<td class="trs"><h3>첨부 파일</h3></td>
 				<td  class="ccc">
-				<input type='file' id="notice_upload" name='notice_upload'></td>
-			</tr>	
+				<input type='text' readonly="readonly" name='notice_upload'>${dto.originalFileName}<a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdate();">수정</a></td>
+			</tr>
+			
+			<tr id="nohedden" style="display: none;">
+				<td class="trs"><h3>첨부 파일</h3></td>
+				<td  class="ccc">
+				<input type="file" readonly="readonly" id="notice_upload" name='notice_upload'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdateDel();">취소</a></td>
+			</tr>
 			
 			</table>
 			<br>

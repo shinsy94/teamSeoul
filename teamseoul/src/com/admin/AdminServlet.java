@@ -107,19 +107,39 @@ public class AdminServlet extends HttpServlet{
 		if(table.equals("views")) {
 			
 			ViewsDAO dao=new ViewsDAO();
-			
+			System.out.println(num);
 			List<ViewsDTO> list = dao.readViews(num);
 			
+			List<String> img=new ArrayList<String>();
+			
+			System.out.println(list.size());
 			AdminDTO dto=new AdminDTO();
 			dto.setAreaCode(list.get(0).getAreaCode());
 			dto.setContent(list.get(0).getContent());
 			dto.setTitle(list.get(0).getTitle());
 			dto.setUserId(list.get(0).getUserId());
-			for(ViewsDTO dtt : list) {
-				dto.getImageFileName().add(dtt.getImageFileName());
-			}
 			
+			String some="";
+			String body="";
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getImageFileName().contains("some")) {
+					
+					some=list.get(i).getImageFileName();
+					
+				}else if(list.get(i).getImageFileName().contains("body")) {
+					
+					body=list.get(i).getImageFileName();
+					
+				}else {
+					
+					img.add(list.get(i).getImageFileName());
+				
+				}
+			}
+			dto.setImageFileName(img);
 			req.setAttribute("dto", dto);
+			req.setAttribute("some", some);
+			req.setAttribute("body", body);
 			req.setAttribute("bigareaCode", list.get(0).getBigArea());
 			req.setAttribute("table", table);
 			req.setAttribute("num",num);
