@@ -108,10 +108,10 @@ $(function(){
     <div class="body-container" >
 	    <div class="views-menu" style="min-height: 400px;">
 	    	<ul>
-	    		<li><button onclick="javascript:location.href='<%=cp%>/views/views.do'">전체보기</button></li>
+	    		<li><button onclick="javascript:location.href='<%=cp%>/views/views.do'" style="font-size:18px; font-weight: bold;">전체보기</button></li>
 	    		
 	    		<c:forEach var="dto" items="${bigAreaList}">
-	    		<li><button type="button" class="bigArea" value="${dto.areaCode}">${dto.local}</button>
+	    		<li><button type="button" class="bigArea" value="${dto.areaCode}"><span style="font-size:15px;">◆</span>${dto.local}</button>
 	    			<ul class="subArea" style="display: none;">
 	    			
 	    			</ul>
