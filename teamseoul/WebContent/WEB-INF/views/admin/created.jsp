@@ -20,7 +20,7 @@
 
 
 table{
-	width:60%;
+	width:50%;
 	margin: 0px auto;
     border-collapse: collapse;
     border-spacing: 0;
@@ -42,6 +42,11 @@ border-bottom: 1px solid #004B58;
 text-align: center;
 }
 
+
+textarea:focus {
+
+outline:none;
+}
 select{
 height: 70px ;
 width: 200px;
@@ -49,15 +54,10 @@ text-align-last:center;
 border:none;
 font-size: 25px;
 cursor:pointer;
-transition:900ms ease all;
+transition:600ms ease all;
 margin: 8px;
 
 }
-textarea:focus {
-
-outline:none;
-}
-
 select:hover{
 background: #004B58;  
 color: white;
@@ -83,10 +83,8 @@ textarea{
  
 }
 
-.bb{
-}
 
-.bb button{
+.bb{
   background: #004B58;  
   color:white;
   border:none;
@@ -98,11 +96,11 @@ textarea{
   transition:800ms ease all;
   outline:none;
 }
-.bb button:hover{
+.bb:hover{
   background:white;
   color:black;
 }
-.bb button:before,button:after{
+.bb:before,.bb:after{
   content:'';
   position:absolute;
   top:0;
@@ -112,17 +110,16 @@ textarea{
   background: black;
   transition:400ms ease all;
 }
-.bb button:after{
+.bb:after{
   right:inherit;
   top:inherit;
   left:0;
   bottom:0;
 }
-.bb button:hover:before,button:hover:after{
+.bb:hover:before,.bb:hover:after{
   width:100%;
   transition:800ms ease all;
 }
-
 span{
 	float: left;
 	

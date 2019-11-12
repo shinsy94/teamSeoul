@@ -55,7 +55,7 @@ public class AdminServlet extends HttpServlet{
 		
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) { // 濡쒓렇�씤�릺吏� �븡�� 寃쎌슦
+		if(info==null) { // 嚥≪뮄�젃占쎌뵥占쎈┷筌욑옙 占쎈륫占쏙옙 野껋럩�뒭
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
@@ -76,23 +76,19 @@ public class AdminServlet extends HttpServlet{
 			updateForm(req,resp);
 		}else if(uri.indexOf("update_sub.do")!=-1) {
 			updateSub(req,resp);
+		}else if(uri.indexOf("deleteFile.do")!=-1) {
+			deleteFiles(req,resp);
+		}else if (uri.indexOf("eventupdate_ok.do")!=-1) {
+			eventUpdateSubmit(req, resp);
+		}else if (uri.indexOf("festivalupdate_ok.do")!=-1) {
+			festivalUpdateSubmit(req, resp);
+		}else if (uri.indexOf("noticeupdate_ok.do")!=-1) {
+			noticeUpdateSubmit(req, resp);
+		}else if (uri.indexOf("viewsupdate_ok.do")!=-1) {
+			viewsUpdateSubmit(req, resp);
 		}
-		
-		/* else if (uri.indexOf("article.do")!=-1) {
-			article(req, resp);
-		} else if (uri.indexOf("update.do")!=-1) {
-			updateForm(req, resp);
-		} else if (uri.indexOf("update_ok.do")!=-1) {
-			updateSubmit(req, resp);
-		}  else if (uri.indexOf("delete.do")!=-1) {
-			delete(req, resp);
-		}  else if (uri.indexOf("deleteFile.do")!=-1) {
-			deleteFile(req, resp);
-		}  
-
-		*/
-	}
 	
+	}
 	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("mode", "created");
@@ -107,12 +103,10 @@ public class AdminServlet extends HttpServlet{
 		if(table.equals("views")) {
 			
 			ViewsDAO dao=new ViewsDAO();
-			System.out.println(num);
 			List<ViewsDTO> list = dao.readViews(num);
 			
 			List<String> img=new ArrayList<String>();
 			
-			System.out.println(list.size());
 			AdminDTO dto=new AdminDTO();
 			dto.setAreaCode(list.get(0).getAreaCode());
 			dto.setContent(list.get(0).getContent());
@@ -183,16 +177,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		Map<String,String> map=dao.ListAreaCode(req.getParameter("bigareaCode"));
 		
 		req.setAttribute("table", table);
-	
-		req.setAttribute("bigareaCode", req.getParameter("bigareaCode"));
-	
-		req.setAttribute("areaCode",req.getParameter("areaCode"));
-		
 		req.setAttribute("map", map);
 		
 	}else if(table.equals("festival")) {
 		req.setAttribute("table", table);
+		Map<String,String> map=dao.ListAreaCode(req.getParameter("seasonCode"));
 		req.setAttribute("seasonCode",req.getParameter("seasonCode"));
+		req.setAttribute("map", map);
+		
 	}
 	
 
@@ -205,14 +197,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//�뙆�씪 ���옣�븷 寃쎈줈
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"views";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
+		if(! f.exists()) { // 占쎈쨨占쎈쐭揶쏉옙 鈺곕똻�삺占쎈릭筌욑옙 占쎈륫占쎌몵筌롳옙
 			f.mkdirs();
 		}		
 		
@@ -221,8 +213,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
-		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
+		//     占쎌뵠占쎈선占쎈튊 占쎈솁占쎌뵬占쎌뵠 占쎈씜嚥≪뮆諭� 揶쏉옙占쎈뮟占쎈릭�⑨옙 request�몴占� 占쎌뵠占쎌뒠占쎈릭占쎈연 
+		//     占쎈솁占쎌뵬沃섎챸苑ｇ몴占� 占쎄퐜野껓옙 獄쏆룇�뱽 占쎈땾 占쎈씨占쎈뼄.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -230,7 +222,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
-		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
+		if(mreq.getFile("someNail_upload")!=null&&mreq.getFile("body_upload")!=null) {
 			
 			
 			List<String> files=new ArrayList<String>();
@@ -269,7 +261,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setContent(mreq.getParameter("content"));
 			dto.setAreaCode(Integer.parseInt(mreq.getParameter("areaCode")));
 	
-			// ���옣
+			// 占쏙옙占쎌삢
 			dao.insertView(dto);
 		
 		resp.sendRedirect(cp);
@@ -281,14 +273,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//�뙆�씪 ���옣�븷 寃쎈줈
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"festival";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
+		if(! f.exists()) { // 占쎈쨨占쎈쐭揶쏉옙 鈺곕똻�삺占쎈릭筌욑옙 占쎈륫占쎌몵筌롳옙
 			f.mkdirs();
 		}		
 		
@@ -297,8 +289,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
-		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
+		//     占쎌뵠占쎈선占쎈튊 占쎈솁占쎌뵬占쎌뵠 占쎈씜嚥≪뮆諭� 揶쏉옙占쎈뮟占쎈릭�⑨옙 request�몴占� 占쎌뵠占쎌뒠占쎈릭占쎈연 
+		//     占쎈솁占쎌뵬沃섎챸苑ｇ몴占� 占쎄퐜野껓옙 獄쏆룇�뱽 占쎈땾 占쎈씨占쎈뼄.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -306,7 +298,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
-		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
+		if(mreq.getFile("someNail_upload")!=null&&mreq.getFile("body_upload")!=null) {
 			
 			
 			List<String> files=new ArrayList<String>();
@@ -345,7 +337,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setContent(mreq.getParameter("content"));
 			dto.setSeasonCode(Integer.parseInt(mreq.getParameter("season")));
 	
-			// ���옣
+			// 占쏙옙占쎌삢
 			dao.insertFestival(dto);
 		
 		resp.sendRedirect(cp);
@@ -356,14 +348,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//�뙆�씪 ���옣�븷 寃쎈줈
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"event";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
+		if(! f.exists()) { // 占쎈쨨占쎈쐭揶쏉옙 鈺곕똻�삺占쎈릭筌욑옙 占쎈륫占쎌몵筌롳옙
 			f.mkdirs();
 		}		
 		
@@ -372,8 +364,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
-		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
+		//     占쎌뵠占쎈선占쎈튊 占쎈솁占쎌뵬占쎌뵠 占쎈씜嚥≪뮆諭� 揶쏉옙占쎈뮟占쎈릭�⑨옙 request�몴占� 占쎌뵠占쎌뒠占쎈릭占쎈연 
+		//     占쎈솁占쎌뵬沃섎챸苑ｇ몴占� 占쎄퐜野껓옙 獄쏆룇�뱽 占쎈땾 占쎈씨占쎈뼄.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
@@ -381,7 +373,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
-		if(mreq.getFile("someNail_upload")!=null||mreq.getFile("body_upload")!=null) {
+		if(mreq.getFile("someNail_upload")!=null&&mreq.getFile("body_upload")!=null) {
 			
 			
 			List<String> files=new ArrayList<String>();
@@ -430,14 +422,14 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//�뙆�씪 ���옣�븷 寃쎈줈
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
 		String root=session.getServletContext().getRealPath("/");
 		
 		pathname=root+File.separator+"uploads"+File.separator+"notice";
 		
 		File f=new File(pathname);
 		
-		if(! f.exists()) { // �뤃�뜑媛� 議댁옱�븯吏� �븡�쑝硫�
+		if(! f.exists()) { // 占쎈쨨占쎈쐭揶쏉옙 鈺곕똻�삺占쎈릭筌욑옙 占쎈륫占쎌몵筌롳옙
 			f.mkdirs();
 		}		
 		
@@ -446,13 +438,13 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		
 		
 		// <form enctype="multipart/form-data"....
-		//     �씠�뼱�빞 �뙆�씪�씠 �뾽濡쒕뱶 媛��뒫�븯怨� request瑜� �씠�슜�븯�뿬 
-		//     �뙆�씪誘명꽣瑜� �꽆寃� 諛쏆쓣 �닔 �뾾�떎.
+		//     占쎌뵠占쎈선占쎈튊 占쎈솁占쎌뵬占쎌뵠 占쎈씜嚥≪뮆諭� 揶쏉옙占쎈뮟占쎈릭�⑨옙 request�몴占� 占쎌뵠占쎌뒠占쎈릭占쎈연 
+		//     占쎈솁占쎌뵬沃섎챸苑ｇ몴占� 占쎄퐜野껓옙 獄쏆룇�뱽 占쎈땾 占쎈씨占쎈뼄.
 		String encType="utf-8";
 		int maxSize=5*1024*1024;
 		
 	
-			// ���옣
+			// 占쏙옙占쎌삢
 			MultipartRequest mreq=new MultipartRequest(
 					req, pathname, maxSize, encType,
 					new DefaultFileRenamePolicy());
@@ -469,48 +461,282 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setTitle(mreq.getParameter("title"));
 			dto.setContent(mreq.getParameter("content"));
 		
-				// ���옣
+				// 占쏙옙占쎌삢
 				dao.insertNotice(dto);;
 		
 		resp.sendRedirect(cp);
 		
 	}
 	
-
-	/*
-
-	
-	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		SessionInfo info=loginUser(req);
+	protected void deleteFiles(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();
+		HttpSession session=req.getSession();
 		
-		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.do");
-			return;
-		}
+		String table=req.getParameter("table");
+		String imageFileName=req.getParameter("imageFileName");
+		int num=Integer.parseInt(req.getParameter("num"));
+		
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+table;
+		
+		FileManager.doFiledelete(pathname,imageFileName);
+		
+		AdminDAO dao=new AdminDAO();
+		
+		dao.deleteVEF(num, table, imageFileName);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out= resp.getWriter();
+		
+		out.print("삭제가 완료되었습니다.");
+		
+		
+		
+	}	
+	
+	protected void viewsUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+			HttpSession session=req.getSession();
+			SessionInfo info=(SessionInfo)session.getAttribute("member");
+	
+			String root=session.getServletContext().getRealPath("/");
+			
+			pathname=root+File.separator+"uploads"+File.separator+"views";
+			
+			File f=new File(pathname);
+			
+			if(! f.exists()) { 
+				f.mkdirs();
+			}		
+			
+			AdminDAO dao=new AdminDAO();
+			AdminDTO dto=new AdminDTO();
+			
+			String table=req.getParameter("table");
+			
+			String encType="utf-8";
+			int maxSize=5*1024*1024;
+			
+			MultipartRequest mreq=new MultipartRequest(
+					req, pathname, maxSize, encType,
+					new DefaultFileRenamePolicy());
+			
+				
+				List<String> files=new ArrayList<String>();
+				Enumeration<?> e = mreq.getFileNames();
+				while(e.hasMoreElements()) {
+					String paramName = (String)e.nextElement();
+					
+					if(mreq.getFile(paramName) == null&&paramName.equals("someNail_upload")==false&&paramName.equals("body_upload")==false) {
+						continue;
+						}
+					
+					if(paramName.equals("someNail_upload")==true) {
+						
+						FileManager.doFiledelete(pathname, mreq.getParameter("orisome"));
+						dao.deleteVEF(Integer.parseInt(mreq.getParameter("num")),table, mreq.getParameter("orisome"));
+						
+						String someNail_upload= FileManager.doFilerenameSomeNail(pathname,mreq.getFilesystemName(paramName));
+						
+						files.add(someNail_upload);
+						
+					}else if(paramName.equals("body_upload")==true) {
+					
+						FileManager.doFiledelete(pathname,mreq.getParameter("oribody"));
+						dao.deleteVEF(Integer.parseInt(mreq.getParameter("num")),table, mreq.getParameter("oribody"));
+						
+						String body_upload=FileManager.doFilerenameBody(pathname, mreq.getFilesystemName(paramName));
+						
+						files.add(body_upload);
+					
+					}else {
+						
+						String fileNames=FileManager.doFilerename(pathname,mreq.getFilesystemName(paramName));
+						
+						files.add(fileNames);
+					
+					}
+				
+				}	
+				dto.setImageFileName(files);
+				dto.setNum(Integer.parseInt(mreq.getParameter("num")));
+				dto.setUserId(info.getUserId());
+				dto.setTitle(mreq.getParameter("title"));
+				dto.setContent(mreq.getParameter("content"));
+				dto.setAreaCode(Integer.parseInt(mreq.getParameter("areaCode")));
+				// 占쏙옙占쎌삢
+				dao.updateViews(dto);
+			
+
+		forward(req, resp, "/WEB-INF/views/views/views.jsp");
+	
 	}
 	
-	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		SessionInfo info=loginUser(req);
-		String cp=req.getContextPath();
+	protected void festivalUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.do");
-			return;
-		}
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
+		String root=session.getServletContext().getRealPath("/");
 		
+		pathname=root+File.separator+"uploads"+File.separator+"festival";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { 
+			f.mkdirs();
+		}		
+		
+		AdminDAO dao=new AdminDAO();
+		AdminDTO dto=new AdminDTO();
+		
+		String table=req.getParameter("table");
+		
+	
+		String encType="utf-8";
+		int maxSize=5*1024*1024;
+		
+		MultipartRequest mreq=new MultipartRequest(
+				req, pathname, maxSize, encType,
+				new DefaultFileRenamePolicy());
+		
+			
+			List<String> files=new ArrayList<String>();
+			Enumeration<?> e = mreq.getFileNames();
+			while(e.hasMoreElements()) {
+				String paramName = (String)e.nextElement();
+				
+				if(mreq.getFile(paramName) == null&&paramName.equals("someNail_upload")==false&&paramName.equals("body_upload")==false) {
+					continue;
+					}
+				
+				if(paramName.equals("someNail_upload")==true) {
+					
+					FileManager.doFiledelete(pathname, mreq.getParameter("orisome"));
+					dao.deleteVEF(Integer.parseInt(mreq.getParameter("num")),table, mreq.getParameter("orisome"));
+					
+					String someNail_upload= FileManager.doFilerenameSomeNail(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(someNail_upload);
+					
+				}else if(paramName.equals("body_upload")==true) {
+				
+					FileManager.doFiledelete(pathname,mreq.getParameter("oribody"));
+				
+					dao.deleteVEF(Integer.parseInt(mreq.getParameter("num")),table, mreq.getParameter("oribody"));
+					
+					String body_upload=FileManager.doFilerenameBody(pathname, mreq.getFilesystemName(paramName));
+					
+					files.add(body_upload);
+				
+				}else {
+					
+					String fileNames=FileManager.doFilerename(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(fileNames);
+				
+				}
+			
+			}	
+			dto.setImageFileName(files);
+			dto.setNum(Integer.parseInt(mreq.getParameter("num")));
+			dto.setUserId(info.getUserId());
+			dto.setTitle(mreq.getParameter("title"));
+			dto.setContent(mreq.getParameter("content"));
+			dto.setAreaCode(Integer.parseInt(mreq.getParameter("season")));
+			// 占쏙옙占쎌삢
+			dao.updateFestival(dto);
+
+		forward(req, resp, "/WEB-INF/views/festival/festival.jsp");
 	}
 	
-	
-	protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		SessionInfo info=loginUser(req);
-		String cp=req.getContextPath();
+	protected void eventUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.do");
-			return;
-		}
-	  }
-	*/
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+"festival";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { 
+			f.mkdirs();
+		}		
+		
+		AdminDAO dao=new AdminDAO();
+		AdminDTO dto=new AdminDTO();
+		
+		String table=req.getParameter("table");
+		
+	
+		String encType="utf-8";
+		int maxSize=5*1024*1024;
+		
+		MultipartRequest mreq=new MultipartRequest(
+				req, pathname, maxSize, encType,
+				new DefaultFileRenamePolicy());
+		
+			
+			List<String> files=new ArrayList<String>();
+			Enumeration<?> e = mreq.getFileNames();
+			while(e.hasMoreElements()) {
+				String paramName = (String)e.nextElement();
+				
+				if(mreq.getFile(paramName) == null&&paramName.equals("someNail_upload")==false&&paramName.equals("body_upload")==false) {
+					continue;
+					}
+				
+				if(paramName.equals("someNail_upload")==true) {
+					
+					FileManager.doFiledelete(pathname, mreq.getParameter("orisome"));
+					dao.deleteVEF(Integer.parseInt(mreq.getParameter("num")),table, mreq.getParameter("orisome"));
+					
+					String someNail_upload= FileManager.doFilerenameSomeNail(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(someNail_upload);
+					
+				}else if(paramName.equals("body_upload")==true) {
+				
+					FileManager.doFiledelete(pathname,mreq.getParameter("oribody"));
+				
+					dao.deleteVEF(Integer.parseInt(mreq.getParameter("num")),table, mreq.getParameter("oribody"));
+					
+					String body_upload=FileManager.doFilerenameBody(pathname, mreq.getFilesystemName(paramName));
+					
+					files.add(body_upload);
+				
+				}else {
+					
+					String fileNames=FileManager.doFilerename(pathname,mreq.getFilesystemName(paramName));
+					
+					files.add(fileNames);
+				
+				}
+			
+			}	
+			dto.setImageFileName(files);
+			dto.setNum(Integer.parseInt(mreq.getParameter("num")));
+			dto.setUserId(info.getUserId());
+			dto.setTitle(mreq.getParameter("title"));
+			dto.setContent(mreq.getParameter("content"));
+			dto.setEventLink(mreq.getParameter("eventLink"));
+			// 占쏙옙占쎌삢
+			dao.updateEvent(dto);
+
+
+		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
+	}
+	
+	protected void noticeUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+
+		forward(req, resp, "/WEB-INF/views/notice/list.jsp");
+	}
+	
+
 
 }

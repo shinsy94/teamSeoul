@@ -12,7 +12,7 @@
 </head>
 <body>
 	<c:if test="${table=='views'}">
-<span><select id='bigarea' name='bigarea' onchange='loc(this);'  >
+<span><select id='bigarea' name='bigarea' onchange='loc(this);' >
 		<option value='1'>서울북부</option>
 		<option value='2'>서울동부</option>
 		<option value='3'>서울서부</option>
@@ -21,7 +21,8 @@
 		<c:forEach var="ke" items="${map}"  >
 			<option value='${ke.key}'>${ke.value}</option>
 		</c:forEach>
-		</select></span>
+	</select>
+</span>
 	</c:if>
 	
 	<c:if test="${table=='festival'}">

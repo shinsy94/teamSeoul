@@ -20,7 +20,7 @@
 <style type="text/css">
 
 table{
-	width:60%;
+	width:50%;
 	margin: 0px auto;
     border-collapse: collapse;
     border-spacing: 0;
@@ -42,33 +42,27 @@ border-bottom: 1px solid #004B58;
 text-align: center;
 }
 
-select{
-height: 70px ;
-width: 200px;
-text-align-last:center;
-border:none;
-font-size: 25px;
-cursor:pointer;
-transition:900ms ease all;
-margin: 8px;
-
+.in{
+	text-align: center;
+	font-size: 25px;
+	background: #004B58;  
+	color: white;
+	outline:none;
+	height: 70px ;
+	width: 200px;
+	border:none;
+	font-size: 25px;
+	cursor:pointer;
+	transition:900ms ease all;
+	margin: 8px;
+	outline: none;
 }
+
+
+
 textarea:focus {
 
 outline:none;
-}
-
-select:hover{
-background: #004B58;  
-color: white;
-
-}
-select:focus{
-outline:none;
-}
-
-select::-ms-expand {
-display: none;
 }
 
 textarea{
@@ -84,7 +78,7 @@ textarea{
 }
 
 
-button{
+.bb{
   background: #004B58;  
   color:white;
   border:none;
@@ -96,11 +90,11 @@ button{
   transition:800ms ease all;
   outline:none;
 }
-button:hover{
+.bb:hover{
   background:white;
   color:black;
 }
-button:before,button:after{
+.bb:before,.bb:after{
   content:'';
   position:absolute;
   top:0;
@@ -110,13 +104,13 @@ button:before,button:after{
   background: black;
   transition:400ms ease all;
 }
-button:after{
+.bb:after{
   right:inherit;
   top:inherit;
   left:0;
   bottom:0;
 }
-button:hover:before,button:hover:after{
+.bb:hover:before,.bb:hover:after{
   width:100%;
   transition:800ms ease all;
 }
@@ -147,6 +141,30 @@ input{
 	margin: 3px;
 	float: left;
 }
+select{
+height: 70px ;
+width: 200px;
+text-align-last:center;
+border:none;
+font-size: 25px;
+cursor:pointer;
+transition:600ms ease all;
+margin: 8px;
+
+}
+select:hover{
+background: #004B58;  
+color: white;
+
+}
+select:focus{
+outline:none;
+}
+
+select::-ms-expand {
+display: none;
+}
+
 
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -166,14 +184,14 @@ var url="<%=cp%>/admin/update_sub.do";
 		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${dto.areaCode}"},function(data){
 			
 			 $("#sel").after(data);
-			 
-			$("select[name=bigarea]").val("${bigareaCode}");
-			$("select[name=areaCode]").val("${dto.areaCode}"); 
+			 $("#bigarea").val("${bigareaCode}");
+			 $("#areaCode").val("${dto.areaCode}");
+
 		});
 	}else if(table=="festival"){
 		$.get(url,{table:table,seasonCode:"${seasonCode}"},function(data){
 			$("#sel").after(data);
-			$("select[name=season]").val("2");
+			$("#seasonCode").val("${seasonCode}")
 
 		});
 	}else if(table=="event"){
@@ -185,64 +203,7 @@ var url="<%=cp%>/admin/update_sub.do";
    
 });
 
-function op(obj){
-	var table="${table}";
-	var v=obj.value;
-	if(v=="views"){
-		$(function() {	
-		  $("#bigarea").parent().remove();
-		  $("#season").remove();
-		  var urls="<%=cp%>/admin/created_sub.do";
-		  $.get(urls,{bigareaCode:"1"},function(data){
-		  $("#sel").after("<span><select id='bigarea' name='bigarea' onchange='loc(this);'>"
-			+"<option value='1'>서울북부</option><option value='2'>서울동부</option>"
-			+"<option value='3'>서울서부</option><option value='4'>서울남부</option></select> "+data+"</span>");
-			
-		  });
-			$("#selectTable").focus();
-		});
-	}else if(v=="festival"){
-		$(function() {	
-			$("#bigarea").parent().remove();
-			
-			$("#sel").after("<span><select id='season' name='season'>"
-					+"<option value='1'>봄</option><option value='2'>여름</option>"
-					+"<option value='3'>가을</option><option value='4'>겨울</option></select></span>");
-	
-			
-			$("#sel").focus();
-		});
-	}else{
-		$(function() {	
-			$("#season").parent().remove();
-			$("#bigarea").parent().after().remove();
-		});
-	}
-	
 
-	if(v=="views"|v=="festival"|v=="event"&&table=="notice"){
-		$(function() {
-			$("#nohidden").css("display", "none"); 
-			$("#hidden1").css("display", ""); 	
-			$("#hidden2").css("display", ""); 
-		});
-	}else if(v=="subject"){
-		$("#nohidden").css("display", "none"); 
-		$("#hidden1").css("display", "none"); 
-		$("#hidden2").css("display", "none");
-	 }else if(v=="notice"&&table!="notice"){
-		 $("#nohidden").css("display", ""); 
-		 $("#hidden1").css("display", "none"); 
-		 $("#hidden2").css("display", "none");
-	 }
-	
-	if(v=="event"){
-		$("#hidden").css("display", "");
-	}else{
-		$("#hidden").css("display", "none");
-	}
-	
-}
 
 function loc(obj){
 	var bigareaCode=obj.value;
@@ -256,11 +217,13 @@ function loc(obj){
 	
 }
 
-function update() {
+function updatecheck() {
 	
-	var cre=document.getElementById("createds");
+	var cre=document.getElementById("updated");
 	
 	var tit=cre.title.value;
+	
+	var seltable="${table}";
 	
 	
 	if(tit.trim()==""){
@@ -269,12 +232,6 @@ function update() {
 		return;
 	}
 	
-	var selecdata=cre.selectTable.value;
-	if(selecdata=="subject"){
-		alert("게시글 테이블을 설정해 주세요.");
-		$("#sel").focus();
-		return;
-	}
 	
 	var conts=cre.content.value;
 	
@@ -283,22 +240,12 @@ function update() {
 		$("#content").focus();
 		return;
 	}
-
-	if((selecdata=="views"|selecdata=="festival"|selecdata=="event")&&cre.someNail_upload.value==""){
-		alert("썸네일 사진을 올려주세요");
-		return;
-	}
 	
-	if(selecdata=="views"|selecdata=="festival"|selecdata=="event"&&cre.body_upload.value==""){
-		alert("본문 사진을 올려주세요");
-		return;
-	}
-	
-	if(selecdata=="event"&&cre.eventLink.value.trim()==""){
+	if(seltable=="event"&&cre.eventLink.value.trim()==""){
 		alert("이벤트링크 주소를 입력해 주세요");
 		return;
 	}
-	if(selecdata=="views"||selecdata=="festival"||selecdata=="event"){
+	if(seltable=="views"|seltable=="festival"|seltable=="event"&&cre.someNail_upload.value!=""||cre.body_upload.value!=""){
 		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(cre.someNail_upload.value)||
 				! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(cre.body_upload.value)) {
 			alert('이미지 파일만 업로드가 가능합니다.');
@@ -308,22 +255,20 @@ function update() {
 	}
 	
 
-	  if(selecdata=="views"){
-		  $("#hidden3").remove();
-		  cre.action="<%=cp%>/admin/viewscreated_ok.do";
+	  if(seltable=="views"){
 		
-	  	 }else if(selecdata=="event"){
-	  		 $("#hidden3").remove();
-	  		cre.action="<%=cp%>/admin/eventcreated_ok.do";
+		  cre.action="<%=cp%>/admin/viewsupdate_ok.do";
+		 
+	  	 }else if(seltable=="event"){
+	  
+	  		cre.action="<%=cp%>/admin/eventupdate_ok.do";
 			   
-	 	 }else if(selecdata=="festival"){
-	 		 $("#hidden3").remove();
-	  		cre.action="<%=cp%>/admin/festivalcreated_ok.do";
+	 	 }else if(seltable=="festival"){
+	
+	  		cre.action="<%=cp%>/admin/festivalupdate.do";
 			   
-	  	 }else if(selecdata=="notice"){
-	  		 $("#hidden1").remove();
-	  		 $("#hidden2").remove();
-	    	cre.action="<%=cp%>/admin/noticecreated_ok.do";
+	  	 }else if(seltable=="notice"){
+	    	cre.action="<%=cp%>/admin/noticeupdate_ok.do";
 			   
 	     }
 
@@ -332,17 +277,16 @@ function update() {
 }
 
 function fileMore(){
-	if((fileNum+fileNum2)==6){
+	if((fileNum+fileNum2)==5){
 		alert("파일은 5개까지만 추가 하실 수 있습니다.");
 		return;
 	}
-	$(function() {
-		$("#hidden2").after("<tr><td class='trs'><h3>추가 이미지</h3></td><td class='ccc' >"
+	
+		$("#addFiles").append("<tr><td class='trs'><h3>추가 이미지</h3></td><td class='ccc' >"
 		+"<input type='file' id='upload"+(fileNum)+"' name='upload"+(fileNum)+"' >"
-		+"<input type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);' value='삭제'></td><tr>");
+		+"<button type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);'>삭제</button></td></tr>");
 		fileNum++;
 
-	});
 }
 
 function fileDelete(as){
@@ -355,18 +299,46 @@ function fileDelete(as){
 	
 
 function someupdate(){
-	
+	$("#hidden1").css("display", ""); 
+	$("#upfile1").css("display", "none");
 }
 
 function bodyupdate(){
+	$("#hidden2").css("display", ""); 
+	$("#upfile2").css("display", "none");
 	
 }
 function someupdateDel(){
-	
+	$("#hidden1").val("");
+	$("#hidden1").css("display", "none"); 
+	$("#upfile1").css("display", "");
+}
+function bodyupdateDel(){
+	$("#hidden2").val("");
+	$("#hidden2").css("display", "none"); 
+	$("#upfile2").css("display", "");
 }
 
 function notiupdate(){
+	$("#notice_upload").css("display", ""); 
+	$("#notifile").css("display", "none");
+}
+function notiupdateDel(){
+	$("#notice_upload").val("");
+	$("#notice_upload").css("display", "none"); 
+	$("#notifile").css("display", "");
+}
+
+function removeFile(obj){
+	var name=$("input[name="+obj+"]").val();
 	
+	if(confirm(name+" 파일을 삭제하시겠습니까?\n삭제된 파일은 복구가 불가능합니다.")){
+		var delfurl="<%=cp%>/admin/deleteFile.do";
+		$.get(delfurl,{table:"${table}",num:"${num}",imageFileName:name},function(data){
+			alert(data);
+			$("input[name="+obj+"]").closest("tr").remove();
+		});
+	}
 }
 </script>
 </head>
@@ -379,7 +351,7 @@ function notiupdate(){
 <div style="position: relative; top: 155px; z-index: 1; clear:both; width:100%;  margin: 0px auto; text-align: center;" >
     <div class="body-title" style="width: 60%; margin: 10px auto; text-align: left;"><h3>글쓰기</h3></div> 
     	<div>
-		<form id="createds" method="post" enctype="multipart/form-data">
+		<form id="updated" method="post" enctype="multipart/form-data">
 		<table style="border-collapse: collapse;border-spacing: 0;">
   
 			<tr >
@@ -393,13 +365,8 @@ function notiupdate(){
 				<td class="trs" ><h3>게시판</h3></td>
 				<td  class="ccc"> 
 					<span id="sel">
-					  <select  name="selectTable" onchange="op(this);">
-						<option value="subject">선택</option>
-						<option value="views">관광</option>
-						<option value="festival">축제</option>
-						<option value="event">이벤트</option>
-						<option value="notice">공지사항</option>
-					</select>
+					  <input class="in" readonly="readonly"  name="selectTable" onchange="op(this);" value="${table=='event'?'이벤트':(table=='views'?'관광':(table=='notice'?'공지':'축제'))}">
+					
 					</span>
 				</td>
 
@@ -411,11 +378,12 @@ function notiupdate(){
 				<td  class="ccc">
 					<textarea id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 20px;padding-top: 30px;">${dto.content}</textarea></td>
 			</tr>
+		<c:if test="${table!='event'}">
 			<tr id="hidden" style="display: none;">
 				<td class="trs"><h3>이벤트 링크</h3></td>
-				<td  class="tdMidle"><input type="text" name='eventLink' >${dto.eventLink}</td>
+				<td  class="tdMidle"><input type="text" name='eventLink' value="${dto.eventLink}" ></td>
 			</tr>
-			
+		</c:if>
 		<c:if test="${table!='notice'}">	
 			<tr id="upfile1">
 				<td  class='trs'>
@@ -423,9 +391,14 @@ function notiupdate(){
 				</td>
 				
 				<td class="ccc">
-					<input readonly="readonly" type="text" value="${some}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdate();">수정</a>
+					<input name="orisome" readonly="readonly" type="text" value="${some}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdate();">수정</a>
 				</td>			
 			</tr>
+			<tr id="hidden1" style="display: none;">
+				<td class="trs"><h3>썸네일 수정</h3></td>
+				<td  class="ccc">
+				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">더 올리기</a><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdateDel();">취소</a></td>
+			<tr>
 									
 			<tr id="upfile2" >
 				<td class='trs'>
@@ -434,8 +407,15 @@ function notiupdate(){
 				</td>
 				
 				<td class="ccc">
-					<input readonly="readonly" type="text" value="${body}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdate();">수정</a>
+					<input name="oribody" readonly="readonly" type="text" value="${body}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdate();">수정</a>
 				</td>
+			</tr>
+			<tr id="hidden2" style="display: none;">
+				<td class="trs">
+					<h3>본문 수정</h3>
+				</td>
+				<td  class="ccc">
+				<input type='file' id="body_upload" name='body_upload' accept='image/*'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdateDel();">취소</a></td>
 			</tr>
 				
 			<c:forEach var="fi" items="${dto.imageFileName}" varStatus="status">
@@ -444,40 +424,42 @@ function notiupdate(){
 						<h3>추가된 이미지</h3>
 					</td>  
 					<td class="ccc">	
-						<input id="upfile${status.count}" readonly="readonly" type="text" value="${fi}"><a style="float:right;padding-top: 20px;padding-right:5px"  href="javascript:fileDelete();">삭제</a>
+						<input name="upfile${status.count}" readonly="readonly" type="text" value="${fi}"><a style="float:right;padding-top: 20px;padding-right:5px"  href="javascript:removeFile('upfile${status.count}');">삭제</a>
 					</td>
 				</tr>			
 			</c:forEach>
 		</c:if>
-		
-			<tr id="hidden1" style="display: none;">
-				<td class="trs"><h3>썸네일 수정</h3></td>
-				<td  class="ccc">
-				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">더 올리기</a><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdateDel();">취소</a></td>
-			<tr>
 			
-			<tr id="hidden2" style="display: none;">
-				<td class="trs"><h3>본문 수정</h3></td>
+		<c:if test="${table=='notice'}">
+			<tr id="hidden3" >
+				<td class="trs">
+					<h3>첨부 파일</h3>
+				</td>
 				<td  class="ccc">
-				<input type='file' id="body_upload" name='body_upload' accept='image/*'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdateDel();">취소</a></td>
-			</tr>
-			
-			
-			<tr id="hidden3" style="display: none;">
-				<td class="trs"><h3>첨부 파일</h3></td>
-				<td  class="ccc">
-				<input type='text' readonly="readonly" name='notice_upload'>${dto.originalFileName}<a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdate();">수정</a></td>
+					<input type='text' readonly="readonly" name='notifile' value="${dto.originalFileName}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdate();">삭제</a>
+				</td>
 			</tr>
 			
 			<tr id="nohedden" style="display: none;">
-				<td class="trs"><h3>첨부 파일</h3></td>
+				<td class="trs">
+					<h3>첨부 파일</h3>
+				</td>
+				
 				<td  class="ccc">
-				<input type="file" readonly="readonly" id="notice_upload" name='notice_upload'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdateDel();">취소</a></td>
+					<input type="file"  id="notice_upload" name='notice_upload'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdateDel();">취소</a>
+				</td>
 			</tr>
-			
+		</c:if>
 			</table>
+			<table id="addFiles" style="border-collapse: collapse;border-spacing: 0;margin: 0px auto;"></table>
 			<br>
-			<button type="button" onclick="updatecheck();">수정완료</button> <button>취소</button>
+			<button class="bb" type="button" onclick="updatecheck();">수정완료</button> <button class="bb">취소</button>
+			
+			<input type="hidden" name="originalFileName" value="${originalFileName}">
+			<input type="hidden" name="saveFileName" value="${saveFileName}">
+			<input type="hidden" name="fileSize" value="${fileSize}">
+			<input type="hidden" name="numbers" value="${num}">
+			<input type="hidden" name="table" value="${table}">
 		</form>
 	</div>
 </div>

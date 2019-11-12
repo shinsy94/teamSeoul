@@ -48,7 +48,132 @@ public class AdminDAO {
 		
 	   }
 	
-	public void updateView() {
+	public void updateViews(AdminDTO dto) {
+		String sql;
+		PreparedStatement pstmt=null;
+		try {
+			sql="update views set title=?,content=?,userId=?,areaCode=? where num=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setInt(4, dto.getAreaCode());
+			pstmt.setInt(5, dto.getNum());
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			if(dto.getImageFileName()==null) {
+				return;
+			}
+			sql="insert into viewsFile(num,imagefilename) values(?,?)";
+			for(int i=0;i<dto.getImageFileName().size();i++) {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, dto.getNum());
+				pstmt.setString(2, dto.getImageFileName().get(i));
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	   }
+	
+	public void updateFestival(AdminDTO dto) {
+
+		String sql;
+		PreparedStatement pstmt=null;
+		try {
+			sql="update Festival set title=?,content=?,userId=?,seasonCode=? where num=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setInt(4, dto.getSeasonCode());
+			pstmt.setInt(5, dto.getNum());
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			if(dto.getImageFileName()==null) {
+				return;
+			}
+			sql="insert into FestivalFile(num,imagefilename) values(?,?)";
+			for(int i=0;i<dto.getImageFileName().size();i++) {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, dto.getNum());
+				pstmt.setString(2, dto.getImageFileName().get(i));
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	   }
+	
+	public void updateEvent(AdminDTO dto) {
+
+		String sql;
+		PreparedStatement pstmt=null;
+		try {
+			sql="update Event set title=?,content=?,userId=?,EventLink=? where num=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setString(4, dto.getEventLink());
+			pstmt.setInt(5, dto.getNum());
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			if(dto.getImageFileName()==null) {
+				return;
+			}
+			sql="insert into EventFile(num,imagefilename) values(?,?)";
+			for(int i=0;i<dto.getImageFileName().size();i++) {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, dto.getNum());
+				pstmt.setString(2, dto.getImageFileName().get(i));
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	   }
+	
+	public void deleteViews() {
 		String sql;
 		PreparedStatement pstmt=null;
 		try {
@@ -66,23 +191,6 @@ public class AdminDAO {
 		
 	   }
 	
-	public void deleteView() {
-		String sql;
-		PreparedStatement pstmt=null;
-		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}finally {
-			if(pstmt!=null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			 }
-		  }
-		
-	   }
 	
 	public void insertFestival(AdminDTO dto) {
 		StringBuilder sb= new StringBuilder();
@@ -202,8 +310,71 @@ public class AdminDAO {
 				map.put(rs.getString("areaCode"), rs.getString("local"));
 			}
 		} catch (Exception e) {
+	
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		}
+		return map;
+	}
+	
+	public Map<String,String> ListseasonCode(String seasonCode) {
+		Map<String,String> map =new HashMap<String,String>();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql;
+		try {
+			sql="select seasonCode,season from sea where seasonCode=? ";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, seasonCode);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				map.put(rs.getString("seasonCode"), rs.getString("season"));
+			}
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return map;
 	}
+	
+	public void deleteVEF(int num,String table,String imageFileName) {
+		PreparedStatement pstmt=null;
+		String sql;
+		try {
+			sql="delete from "+table+"file where num=? and imagefilename=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, num);
+			pstmt.setString(2, imageFileName);
+			
+		
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		}
+	}
+	
+	
 }
