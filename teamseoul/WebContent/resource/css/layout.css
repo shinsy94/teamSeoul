@@ -12,6 +12,7 @@
     width:100%;
     margin: 0px auto;
     text-align: center;
+    padding: 40px 0px;
 }
 
 .body-container {
@@ -66,7 +67,7 @@
 }
 
 .note-top{
-	width: 970px;
+	width: 990px;
 	padding: 10px;
 	margin: 0px auto;
 	font-size: 17px;
@@ -76,7 +77,7 @@
 }
 
 .note-bottom{
-	width: 900px;
+	width: 990px;
 	padding: 10px;
 	margin: 0px auto;
 	font-size: 16px;
@@ -86,7 +87,6 @@
 }
 .body-title {
     color: #424951;
-    padding-top: 50px;
     padding-bottom: 5px;
     margin: 0 0 25px 0;
 }
@@ -209,11 +209,11 @@ ul.nav li:hover > ul li a:hover {
   text-decoration: none;
 }
 
-.main {
+.NanumMyeongjo {
 font-family: 'Nanum Myeongjo', serif;
 }
 
-.category {
+.Jua {
 font-family: 'Jua', sans-serif;
 }
 
