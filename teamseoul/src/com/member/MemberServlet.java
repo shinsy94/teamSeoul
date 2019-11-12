@@ -82,7 +82,8 @@ public class MemberServlet extends HttpServlet {
 		String userPwd = req.getParameter("userPwd");
 
 		MemberDTO dto = dao.readMember(userId);
-		if(userId != null) {
+		if(dto != null) {
+			
 			if(dto.getUserPwd().equals(userPwd)) {
 				// 로그인 성공
 				// 세션의 유지 시간을 20분으로 설정 ( 기본 : 30)
