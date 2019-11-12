@@ -214,7 +214,7 @@ $(document).ready(function(){
 	    			<button>삭제</button>
 	    		</div>
 	    		<div class="listBtn" style="text-align: right;">
-	    			<button>리스트</button>
+	    			<button onclick="javascript:location.href='<%=cp%>/festival/festival.do?page=${page}&seasonCode=${seasonCode}'">리스트</button>
 	    		</div>
     		</div>
     		</c:if>

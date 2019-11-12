@@ -1,16 +1,41 @@
 @charset "UTF-8";
 
 .body-container .festival-menu{
-	width: 20%;
+	width: 80%;
 	margin: 0px auto;
 }
 
 .body-container .festival-menu ul{
 	list-style: none;
-	display: flex;
+	display: -webkit-inline-box;
+}
+
+.body-container .festival-menu ul li{
+	padding: 0px 10px;
+}
+
+.body-container .festival-menu ul li{
+	padding: 0px 10px;
+}
+
+.seasonCode{
+	border: 1px solid #ccc;
+	border-radius:5px;
+	width: 100px;
+	height: 40px;
+	background: white;
+	cursor: pointer;
+}
+
+.seasonCode:hover{
+	background: #e4e4e4;
+}
+
+.seasonCode:active{
+	background: #e4e4e4;
 }
 
 .body-container .festival-list{
 	width: 80%;
-	margin: 0px auto;
+	margin: 20px auto;
 }

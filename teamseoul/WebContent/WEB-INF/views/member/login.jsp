@@ -17,6 +17,8 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
+<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+
 <style type="text/css">
 .lbl {
    position:absolute; 
@@ -75,22 +77,14 @@ function sendLogin() {
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container" >
-	<img src="<%=cp%>/resource/images/jpg" width="1300">
-	<p class="container" style="font-weight: bold; text-align: center; font-size:27px; color: #111111;"> 로그인</p>
-	<div>
-	
-	    <div style="margin: 80px auto 70px; width:360px;">
-	    	<!--  
-	    	<div style="text-align: center;">
-	        	<span style="font-weight: bold; font-size:27px; color: #424951;">회원 로그인</span>
-	        </div>
-	        -->
+<div class="container Jua" >
+	<img src="<%=cp%>/resource/images/key.png" width="35">&nbsp;&nbsp;<span style="font-size: 50px;">로그인</span>
+	    <div style="margin: 30px auto 0px; width:360px; font-size:20px;">
 			<form name="loginForm" method="post" action="">
 			  <table style="margin: 15px auto; width: 360px; border-spacing: 0px;">
 			  <tr align="center" height="60"> 
 			      <td> 
-	                <label for="userId" id="lblUserId" class="lbl" >아이디</label>
+	                <label for="userId" id="lblUserId" class="lbl" style="font-size:20px;">아이디</label>
 			        <input type="text" name="userId" id="userId" class="loginTF" maxlength="15"
 			                   tabindex="1"
 	                           onfocus="document.getElementById('lblUserId').style.display='none';"
@@ -99,7 +93,7 @@ function sendLogin() {
 			  </tr>
 			  <tr align="center" height="60"> 
 			      <td>
-			        <label for="userPwd" id="lblUserPwd" class="lbl" >패스워드</label>
+			        <label for="userPwd" id="lblUserPwd" class="lbl" style="font-size:20px;">패스워드</label>
 			        <input type="password" name="userPwd" id="userPwd" class="loginTF" maxlength="20" 
 			                   tabindex="2"
 	                           onfocus="document.getElementById('lblUserPwd').style.display='none';"
@@ -108,7 +102,7 @@ function sendLogin() {
 			  </tr>
 			  <tr align="center" height="65" > 
 			      <td>
-			        <button type="button" onclick="sendLogin();" class="btnConfirm">로그인</button>
+			        <button type="button" onclick="sendLogin();" class="btnConfirm Jua" style="font-size:20px; background-color: #004B58;">로그인</button>
 			      </td>
 			  </tr>
 
@@ -129,7 +123,6 @@ function sendLogin() {
 		</div>
 
 	</div>
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

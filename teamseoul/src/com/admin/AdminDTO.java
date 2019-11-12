@@ -17,7 +17,21 @@ public class AdminDTO {
 	private String saveFileName;
 	private long filesize;
 	private String updated;
+	private String local;
+	private String seacon;
 	
+	public String getLocal() {
+		return local;
+	}
+	public void setLocal(String local) {
+		this.local = local;
+	}
+	public String getSeacon() {
+		return seacon;
+	}
+	public void setSeacon(String seacon) {
+		this.seacon = seacon;
+	}
 	public List<String> getImageFileName() {
 		return imageFileName;
 	}

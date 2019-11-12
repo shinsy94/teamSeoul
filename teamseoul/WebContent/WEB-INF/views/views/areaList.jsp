@@ -8,6 +8,7 @@
 
 <c:forEach var="map" items="${areaMap}">
 	<li><input type="hidden" name="areaCode" value="${map.key}">
-		<a href="#" class="areaName">${map.value}</a>
+		<button class="areaName" style="font-size:15px;">${map.value}</button>
 	</li>
 </c:forEach>
+

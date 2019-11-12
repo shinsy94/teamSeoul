@@ -18,8 +18,9 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <style type="text/css">
 
+
 table{
-	width:60%;
+	width:50%;
 	margin: 0px auto;
     border-collapse: collapse;
     border-spacing: 0;
@@ -31,33 +32,36 @@ box-sizing: border-box;
 
 td{
 box-sizing: border-box;
-}
+} 
 
 .trs{
-height: 60px;
+height: 50px;
 width: 15%;
 font-size:18px;
-border-bottom: 1px solid #FFBE3C;
+border-bottom: 1px solid #004B58;
 text-align: center;
 }
 
+
+textarea:focus {
+
+outline:none;
+}
 select{
 height: 70px ;
 width: 200px;
 text-align-last:center;
 border:none;
-font-size: 20px;
+font-size: 25px;
 cursor:pointer;
- transition:900ms ease all;
+transition:600ms ease all;
+margin: 8px;
 
 }
-textarea:focus {
-
-outline:none;
-}
-
 select:hover{
-background: #FFE641;
+background: #004B58;  
+color: white;
+
 }
 select:focus{
 outline:none;
@@ -80,8 +84,8 @@ textarea{
 }
 
 
-button{
-  background:#FFBE3C;
+.bb{
+  background: #004B58;  
   color:white;
   border:none;
   position:relative;
@@ -92,11 +96,11 @@ button{
   transition:800ms ease all;
   outline:none;
 }
-button:hover{
+.bb:hover{
   background:white;
   color:black;
 }
-button:before,button:after{
+.bb:before,.bb:after{
   content:'';
   position:absolute;
   top:0;
@@ -106,36 +110,42 @@ button:before,button:after{
   background: black;
   transition:400ms ease all;
 }
-button:after{
+.bb:after{
   right:inherit;
   top:inherit;
   left:0;
   bottom:0;
 }
-button:hover:before,button:hover:after{
+.bb:hover:before,.bb:hover:after{
   width:100%;
   transition:800ms ease all;
 }
-
 span{
 	float: left;
 	
 }
 .ccc{
 	width: 45%;
-
+	height: 30px;
+	border-bottom: 1px solid #004B58;
 }
 
 .ccc:hover{
-	border: 1px solid #FFBE3C;
+	border: 1px solid #004B58;
 	transition:500ms ease all;
 }
-
+  
 option{
 	text-align: center;
 }
 
-
+input{
+	border: none;
+	width: 270px;  
+	height: 50px;
+	margin: 3px;
+	float: left;
+}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -296,7 +306,7 @@ function fileMore(){
 	$(function() {
 		$("#hidden2").after("<tr><td class='trs'><h3>추가 이미지</h3></td><td class='ccc' >"
 		+"<input type='file' id='upload"+(fileNum)+"' name='upload"+(fileNum)+"' >"
-		+"<input type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);' value='삭제'></td><tr>");
+		+"<button type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);'>삭제</button></td></tr>");
 		fileNum++;
 
 	});
@@ -304,10 +314,8 @@ function fileMore(){
 
 function deleteFile(as){
 	var dele="#"+$(as).attr('id');
-	$(function() {
-		$(dele).closest("tr").remove();
-		fileNum2--;
-	});
+	$(dele).closest("tr").remove();
+	fileNum2--;
 }
 	
 function update(){
@@ -334,7 +342,7 @@ function update(){
 				<td class="trs"><h3>제목</h3> </td>
 				<td class="ccc" >
 				<textarea placeholder="    제목을 입력해 주세요" id="title" name="title" maxlength="25"
-				style="padding-top: 30px; padding-left: 10px; "></textarea></td>
+				style="padding-top: 30px; padding-left: 20px; "></textarea></td>
 			</tr>
 
 			<tr >
@@ -357,7 +365,7 @@ function update(){
 			<tr>
 				<td class="trs"><h3>글 본문</h3> </td>
 				<td  class="ccc">
-					<textarea  placeholder="  본문내용을 입력해 주세요" id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 30px;padding-top: 50px;"></textarea></td>
+					<textarea  placeholder="  본문내용을 입력해 주세요" id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 20px;padding-top: 30px;"></textarea></td>
 			</tr>
 			
 			<tr id="hidden" style="display: none;">
@@ -386,9 +394,9 @@ function update(){
 				<input type='file' id="notice_upload" name='notice_upload'></td>
 			</tr>	
 			
-			</table>
+			</table>  
 			<br>
-			<button type="button" onclick="check();">업로드</button> <button onclick="update();">취소</button>
+			<button class="bb" type="button" onclick="check();">업로드</button> <button class="bb" onclick="update();">취소</button>
 		</form>
 	</div>
 </div>

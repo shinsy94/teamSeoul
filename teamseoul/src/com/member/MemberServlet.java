@@ -301,6 +301,17 @@ public class MemberServlet extends HttpServlet {
 	
 	private void mypage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		HttpSession session=req.getSession();
+		String cp=req.getContextPath();
+		
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		if(info==null) { 
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		MemberDAO dao = new MemberDAO();
+		MemberDTO memberList = dao.readMember(cp);
 		String path="/WEB-INF/views/member/mypage.jsp";
 		forward(req, resp, path);
 		

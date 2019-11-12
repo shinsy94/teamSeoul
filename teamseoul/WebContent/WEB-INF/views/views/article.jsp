@@ -2,6 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%
    String cp = request.getContextPath();
 %>
@@ -214,7 +215,7 @@ $(document).ready(function(){
 	    			<button>삭제</button>
 	    		</div>
 	    		<div class="listBtn" style="text-align: right;">
-	    			<button onclick="javascript:location.href='<%=cp%>/views/'">리스트</button>
+	    			<button onclick="javascript:location.href='<%=cp%>/views/views.do?page=${page}&areaCode=${areaCode}'">리스트</button>
 	    		</div>
     		</div>
     		</c:if>
