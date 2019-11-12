@@ -209,7 +209,7 @@ $(document).ready(function(){
     		<hr>
     		<c:if test="${sessionScope.member.userId == 'admin'}">
     		<div class="adminBtn">
-    			<button onclick="javascript:location.href=<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table='views'">수정</button>
+    			<button onclick="javascript:location.href='<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table=views'">수정</button>
     			<button>삭제</button>
     		</div>
     		</c:if>

@@ -60,7 +60,7 @@ $(function(){
 		type:"GET",
 		url:url,
 		success:function(data){
-			 $(".views-list").html(data);
+			 $(".festival-list").html(data);
 			
 		},
 		error:function(e){
@@ -101,20 +101,16 @@ $(function(){
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
     <div class="body-container" >
-	    <div class="views-menu" style="min-height: 400px;">
-	    	<ul>
-	    		<li><a href="<%=cp%>/views/views.do">전체보기</a></li>
+	    <div class="festival-menu" style="min-height: 400px;">
+	    	<ul style="display: inline;">
+	    		<li><a href="<%=cp%>/festival/festival.do">전체보기</a></li>
 	    		
-	    		<c:forEach var="dto" items="${bigAreaList}">
-	    		<li><button type="button" id="bigArea" value="${dto.areaCode}">${dto.local}</button>
-	    			<ul class="subArea" style="display: none;">
-	    			
-	    			</ul>
-	    		</li>
+	    		<c:forEach var="map" items="${seasonMap}">
+	    		<li><button type="button" id="seasonCode" value="${map.key}">${map.value}</button></li>
 	    		</c:forEach>
 	    	</ul>
 	    </div>
-	    <div class="views-list">
+	    <div class="festival-list">
 
 	    </div>
 	    

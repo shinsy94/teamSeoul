@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.body-container .festival-menu{
+	float: left;
+	width: 20%;
+	
+}
+
+.body-container .festival-menu ul{
+	list-style: none;
+}
+
+.body-container .festival-list{
+	float: left;
+	width: 80%;
+}
