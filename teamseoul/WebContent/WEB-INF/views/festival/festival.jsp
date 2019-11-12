@@ -11,7 +11,11 @@
 <head>
 <meta charset="UTF-8">
 <title>spring</title>
-
+<style type="text/css">
+button:focus{
+	outline: none;
+}
+</style>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/festival.css" type="text/css">
@@ -72,7 +76,7 @@ $(function(){
     <div class="body-container" >
 	    <div class="festival-menu">
 	    	<ul>
-	    		<li><a href="<%=cp%>/festival/festival.do">전체보기</a></li>
+	    		<li><button class="seasonCode" onclick="javascript:location.href='<%=cp%>/festival/festival.do'">전체보기</button></li>
 	    		
 	    		<c:forEach var="map" items="${seasonMap}">
 	    		<li><button type="button" class="seasonCode" value="${map.key}">${map.value}</button></li>
@@ -82,9 +86,6 @@ $(function(){
 	    <div class="festival-list">
 
 	    </div>
-	    
-	    
- 	    
 	</div>
    
 </div>

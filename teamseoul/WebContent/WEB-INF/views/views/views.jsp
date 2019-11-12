@@ -11,7 +11,11 @@
 <head>
 <meta charset="UTF-8">
 <title>spring</title>
-
+<style type="text/css">
+button:focus{
+	outline: none;
+}
+</style>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/views.css" type="text/css">
@@ -104,7 +108,7 @@ $(function(){
     <div class="body-container" >
 	    <div class="views-menu" style="min-height: 400px;">
 	    	<ul>
-	    		<li><a href="<%=cp%>/views/views.do">전체보기</a></li>
+	    		<li><button onclick="javascript:location.href='<%=cp%>/views/views.do'">전체보기</button></li>
 	    		
 	    		<c:forEach var="dto" items="${bigAreaList}">
 	    		<li><button type="button" class="bigArea" value="${dto.areaCode}">${dto.local}</button>

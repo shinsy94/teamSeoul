@@ -1,5 +1,6 @@
 @charset "EUC-KR";
 
+
 .slide{
   width: 500px;
   min-height: 300px;
@@ -8,8 +9,6 @@
   overflow: hidden;
   position: relative;
 }
-
-
 
 .slide ul{
   list-style: none;
@@ -52,13 +51,19 @@
 	padding-bottom: 0px;
 }
 
-.bigArea{
-	border: none;
-	background: white;
-	cursor: pointer;
-}
-
 .bigArea:hover {
 	border: none;
 	color: tomato;
+}
+
+.areaName:hover{
+	border: none;
+	color: tomato;
+}
+
+.views-menu button{
+	border: none;
+	background: white;
+	cursor: pointer;
+	font-size: 18px;
 }
