@@ -19,7 +19,7 @@
 <c:forEach var="dto" items="${listReply}">
     <tr height='35' style="background-color: #F6F6F6;">
        <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none; color: #004B58;'>
-           <span><b>${dto.userName}</b></span>
+           <span><b>${dto.userId}</b></span>
         </td>
        <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
            <span>${dto.created}</span> |
