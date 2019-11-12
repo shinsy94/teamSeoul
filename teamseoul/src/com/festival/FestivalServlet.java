@@ -40,7 +40,7 @@ public class FestivalServlet extends HttpServlet {
 		
 		// uri에 따른 작업 구분
 		if(uri.indexOf("festival.do")!=-1) {
-			views(req, resp);
+			festival(req, resp);
 		} else if(uri.indexOf("list.do")!=-1) {
 			list(req, resp);
 		} else if(uri.indexOf("article.do")!=-1) {
@@ -78,8 +78,8 @@ public class FestivalServlet extends HttpServlet {
 		List<FestivalDTO> list;
 		int dataCount = 0;
 		
-		String list_url = cp+"/views/list.do";
-		String article_url = cp+"/views/article.do?page="+current_page;
+		String list_url = cp+"/festival/list.do";
+		String article_url = cp+"/festival/article.do?page="+current_page;
 		
 		if(seasonCode == null) {
 			list = dao.somenailList(offset, rows);
@@ -87,8 +87,8 @@ public class FestivalServlet extends HttpServlet {
 		} else {
 			list = dao.somenailList(offset, rows,Integer.parseInt(seasonCode));
 			dataCount = dao.dataCount(Integer.parseInt(seasonCode));
-			list_url += "?areaCode="+seasonCode;
-			article_url +="&areaCode="+seasonCode;
+			list_url += "?seasonCode="+seasonCode;
+			article_url +="&seasonCode="+seasonCode;
 		}
 		
 		int total_page = util.pageCount(rows, dataCount);
@@ -106,7 +106,7 @@ public class FestivalServlet extends HttpServlet {
 		
 	}
 	
-	private void views(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {		
+	private void festival(HttpServletRequest req, 	HttpServletResponse resp) throws ServletException, IOException {		
 		FestivalDAO dao = new FestivalDAO();
 		Map<String, String> map= dao.seasonList();
 		req.setAttribute("seasonMap", map);

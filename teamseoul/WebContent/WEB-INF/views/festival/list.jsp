@@ -8,9 +8,9 @@
 <table>
 	<c:forEach var="dto" items="${list}">
 		<tr>
-			<td><input type="hidden" name="areaCode" value="${dto.areaCode}">
+			<td><input type="hidden" name="seasonCode" value="${dto.seasonCode}">
 				<a href="${articleUrl}&num=${dto.num}">
-				<img src="<%=cp%>/uploads/views/${dto.somenailImg}" width="40%">
+				<img src="<%=cp%>/uploads/festival/${dto.somenailImg}" width="40%">
 				</a>
 			</td>
 		</tr>
