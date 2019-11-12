@@ -15,7 +15,6 @@ public class SessionInfo {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
 	public String getTierCode() {
 		return tierCode;
 	}
