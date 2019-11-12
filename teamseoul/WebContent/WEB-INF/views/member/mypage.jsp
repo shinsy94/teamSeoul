@@ -33,36 +33,36 @@
    		<div class="body-title" style="width: 45%; float: left;">
            		<h3>회원정보</h3>          	        	
         	<table style="width: 80%; float: left; text-align: left; margin-left: 50px;">   
-        	     		
+        	 <c:forEach var="dto" items="#">    		
             	<tr>
             		<td style="text-align: right;"><label>아이디</label></td>
-            		<td class="member" id="userId">userid</td>
+            		<td class="member" id="userId">${dto.userId}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>이름</label></td>
-          	  		<td class="member" id="userName">name</td>
+          	  		<td class="member" id="userName">${dto.userName }</td>
           	  	</tr>
           	  	<tr>
           	  		<td style="text-align: right;"><label>연락처</label></td>
-            		<td class="member" id="userTel">tel</td>
+            		<td class="member" id="userTel">${dto.userTel}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>이메일</label></td>
-            		<td class="member" id="userEmail">email</td>
+            		<td class="member" id="userEmail">${dto.userEmail}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>생년월일</label></td>
-            		<td class="member" id="userBirth">birth</td>
+            		<td class="member" id="userBirth">${dto.userBirth}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>??</label></td>
-            		<td class="member" id="yoloCount">yolocount</td>
+            		<td class="member" id="yoloCount">${dto.yoloCount}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>유저등급</label></td>
-            		<td class="member" id="tierCode">tier</td>
+            		<td class="member" id="tierCode">${dto.tierCode}</td>
             	</tr>
-        
+        	</c:forEach>
           		<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
@@ -78,7 +78,7 @@
 			<div style="width: 90%; margin: 10px auto 0px;">
 				<table>
 			    	<tr>
-			    		<td>즐겨찾기1</td>
+			    		<td>즐겨찾기 내용</td>
 			   		</tr>
 			    </table>
 			</div>
