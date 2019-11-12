@@ -84,7 +84,7 @@ $(function(){
             </c:if>
             
             <c:if test="${not empty sessionScope.member}">
-           		<span style="color:#f48e36;">${sessionScope.member.tierName}</span>
+           		<span style="color:#f48e36;">${sessionScope.member.tierCode}</span>
                 <span style="color:black;">${sessionScope.member.userName}</span>님
                     <a href="<%=cp%>/member/logout.do" style="display: block;">로그아웃</a>
             </c:if>
