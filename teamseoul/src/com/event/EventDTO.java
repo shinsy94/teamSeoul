@@ -1,11 +1,14 @@
 package com.event;
 
+import java.util.List;
+
 public class EventDTO {
 	private int num; //글번호
 	private String title;//제목
 	private String content; //내용
 	private String userId; //작성자
-	private String imageFileName; //이미지파일이름
+	private List<String> imageFileName; //이미지파일이름
+	private String imageName;
 	private String eventLink; //이벤트 링크 주소
 	private String created; //작성일자
 	
@@ -33,12 +36,7 @@ public class EventDTO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getImageFileName() {
-		return imageFileName;
-	}
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName = imageFileName;
-	}
+
 	public String getEventLink() {
 		return eventLink;
 	}
@@ -50,6 +48,18 @@ public class EventDTO {
 	}
 	public void setCreated(String created) {
 		this.created = created;
+	}
+	public List<String> getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(List<String> imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+	public String getImageName() {
+		return imageName;
+	}
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 }

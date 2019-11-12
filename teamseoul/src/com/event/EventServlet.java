@@ -9,6 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.member.SessionInfo;
+import com.util.FileManager;
 import com.util.MyUtil;
 
 @WebServlet("/event/*")
@@ -33,6 +37,8 @@ public class EventServlet extends HttpServlet{
 			eventList(req, resp);
 		} else if(uri.indexOf("eventarticle.do")!=-1) {
 			eventarticle(req, resp);
+		} else if(uri.indexOf("eventdelet.do")!=-1) {
+			eventdelet(req, resp);
 		}
 	}
 
@@ -55,12 +61,14 @@ public class EventServlet extends HttpServlet{
 		
 		int dataCount=dao.dataCount();
 		
-		int rows=4;
+		int rows=5;
 		int total_page=util.pageCount(rows, dataCount);
 		if(current_page>total_page)
 			current_page=total_page;
+		
+		int offset=(current_page-1)*rows;
 
-		List<EventDTO> list=dao.listEvent();
+		List<EventDTO> list=dao.listEvent(offset, rows);
 		
 		// ∆‰¿Ã¬° √≥∏Æ
 		String eventlistUrl=cp+"/event/eventlist.do";
@@ -70,9 +78,10 @@ public class EventServlet extends HttpServlet{
 		req.setAttribute("list", list);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("eventarticleUrl", eventarticleUrl);
+		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("page", current_page);
-		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
+		req.setAttribute("total_page", total_page);
 		
 		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
 	}
@@ -100,4 +109,32 @@ public class EventServlet extends HttpServlet{
 		forward(req, resp, "/WEB-INF/views/event/eventarticle.jsp");
 	}
 	
+	private void eventdelet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String cp=req.getContextPath();
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		EventDAO dao=new EventDAO();
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		EventDTO dto=dao.readEvent(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/event/eventlist.do?page="+page);
+			return;
+		}
+		
+		if(! dto.getUserId().equals(info.getUserId())&& ! info.getUserId().equals("admin")) {
+			resp.sendRedirect(cp+"/event/list.do?page"+page);
+			return;
+		}
+		
+		FileManager.doFiledelete(page, dto.getImageName());
+		
+		dao.deleteEvent(num);
+		
+		resp.sendRedirect(cp+"/event/list.do?page="+page);
+	}
 }

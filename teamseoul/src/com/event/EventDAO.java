@@ -46,16 +46,18 @@ public class EventDAO {
 		return result;
 	}
 	
-	public List<EventDTO> listEvent() {
+	public List<EventDTO> listEvent(int offset, int rows) {
 		List<EventDTO> list=new ArrayList<EventDTO>();
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT e.num, title, content, userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num ORDER BY num DESC");
+			sb.append("SELECT e.num, title, content, userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num WHERE INSTR(f.imageFileName, 'some')=1 ORDER BY num DESC OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			
 			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, rows);
 			
 			rs=pstmt.executeQuery();
 			
@@ -65,7 +67,7 @@ public class EventDAO {
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setUserId(rs.getString("userId"));
-				dto.setImageFileName(rs.getString("imageFileName"));
+				dto.setImageName(rs.getString("imageFileName"));
 				dto.setEventLink(rs.getString("eventLink"));
 				dto.setCreated(rs.getString("created"));
 				list.add(dto);
@@ -100,7 +102,7 @@ public class EventDAO {
 		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sb.append("SELECT e.num, title, content, e.userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num JOIN member m ON e.userId=m.userId WHERE e.num=?");
+			sb.append("SELECT e.num, title, content, e.userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num JOIN member m ON e.userId=m.userId WHERE e.num=? AND INSTR(f.imageFileName, 'body')=1 ");
 			
 			pstmt=conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, num);
@@ -111,7 +113,7 @@ public class EventDAO {
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setUserId(rs.getString("userId"));
-				dto.setImageFileName(rs.getString("imageFileName"));
+				dto.setImageName(rs.getString("imageFileName"));
 				dto.setEventLink(rs.getString("eventLink"));
 				dto.setCreated(rs.getString("created"));
 				
@@ -137,4 +139,27 @@ public class EventDAO {
 		
 		return dto;
 	}
+	
+	public void deleteEvent(int num) {
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="DELETE FROM eventfile WHERE num=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+	
 }
