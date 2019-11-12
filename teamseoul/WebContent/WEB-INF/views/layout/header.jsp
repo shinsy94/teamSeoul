@@ -37,7 +37,7 @@ $(function(){
 	        </li>
 				
 	        <li>
-	            <a href="<%=cp%>/event/festival.do">축제</a>
+	            <a href="<%=cp%>/festival/festival.do">축제</a>
 	        </li>
 	
 	        <li>
