@@ -6,6 +6,14 @@
    String cp = request.getContextPath();
 %>
 
+<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+
+<style type="text/css">
+.category {
+font-family: 'Jua', sans-serif;
+}
+</style>
+
 <script type="text/javascript">
 //엔터 처리
 $(function(){
@@ -30,8 +38,8 @@ $(function(){
         </p>
     </div>
     
-    <div class="menu">
-	    <ul class="nav" >
+    <div class="menu category">
+	    <ul class="nav">
 	        <li>
 	            <a href="<%=cp%>/views/views.do">관광지</a>
 	        </li>

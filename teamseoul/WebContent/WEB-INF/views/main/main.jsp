@@ -25,7 +25,6 @@
 .main {
 font-family: 'Nanum Myeongjo', serif;
 }
-
 .category {
 font-family: 'Jua', sans-serif;
 }
