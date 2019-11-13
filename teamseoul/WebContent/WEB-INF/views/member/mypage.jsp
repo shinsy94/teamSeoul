@@ -32,31 +32,30 @@
 
    		<div class="body-title" style="width: 45%; float: left;">
    		  
-   			<img src="<%=cp%>/resource/images/mymem.jpg" width="6%"><h3>회원정보</h3>
+   			<img src="<%=cp%>/resource/images/mymem.jpg" width="6%">&nbsp;&nbsp;<h3>회원정보</h3>
         <table style="width: 80%; float: left; text-align: left;  border-radius: 10px;">   
-       	        	
-        	 <c:forEach  items="#">    		
+       	        	  		
             	<tr>
             		<td style="text-align: right;"><label>아이디</label></td>
-            		<td class="member" id="userId">${dto.userId}</td>
+            		<td class="member" id="userId">${userDto.userId}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>이름</label></td>
-          	  		<td class="member" id="userName">${dto.userName }</td>
+          	  		<td class="member" id="userName">${userDto.userName }</td>
           	  	</tr>
           	  	<tr>
           	  		<td style="text-align: right;"><label>연락처</label></td>
-            		<td class="member" id="userTel">${dto.userTel}</td>
+            		<td class="member" id="userTel">${userDto.userTel}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>이메일</label></td>
-            		<td class="member" id="userEmail">${dto.userEmail}</td>
+            		<td class="member" id="userEmail">${userDto.userEmail}</td>
             	</tr>
             	<tr>
             		<td style="text-align: right;"><label>생년월일</label></td>
-            		<td class="member" id="userBirth">${dto.userBirth}</td>
+            		<td class="member" id="userBirth">${userDto.userBirth}</td>
             	</tr>
-        	</c:forEach>
+            	
           		<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
@@ -69,7 +68,7 @@
             
             
         <div class="body-title" style="width: 45%; float: left;">
-            <img src="<%=cp%>/resource/images/myfav.png" width="6%"><h3>즐겨 찾기 </h3>
+            <img src="<%=cp%>/resource/images/myfav.png" width="6%">&nbsp;&nbsp;<h3>즐겨 찾기 </h3>
 			 		
 			<div style="width: 90%; margin: 10px auto 0px;">
 				<table>
@@ -84,7 +83,7 @@
    		
    		
    		<div class="body-title" style="width: 90%; float: left;">
-   			<img src="<%=cp%>/resource/images/mytxt.png" width="4%"><h3>내가 쓴 글</h3>
+   			<img src="<%=cp%>/resource/images/mytxt.png" width="4%">&nbsp;&nbsp;<h3>내가 쓴 글</h3>
    			<div style="width: 80%; margin: 10px auto 0px;">
    				<table>
    				  

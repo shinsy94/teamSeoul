@@ -306,7 +306,8 @@ public class MemberServlet extends HttpServlet {
 			return;
 		}
 		MemberDAO dao = new MemberDAO();
-		MemberDTO dto = dao.readMember(cp);
+		MemberDTO dto = dao.readMember(info.getUserId());
+		req.setAttribute("userDto", dto);
 		String path="/WEB-INF/views/member/mypage.jsp";
 		forward(req, resp, path);
 		
