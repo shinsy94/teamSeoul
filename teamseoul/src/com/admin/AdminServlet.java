@@ -89,6 +89,8 @@ public class AdminServlet extends HttpServlet{
 			noticeUpdateSubmit(req, resp);
 		}else if (uri.indexOf("viewsupdate_ok.do")!=-1) {
 			viewsUpdateSubmit(req, resp);
+		}else if (uri.indexOf("delete_ok.do")!=-1) {
+			deleteBoard(req, resp);
 		}
 	
 	}
