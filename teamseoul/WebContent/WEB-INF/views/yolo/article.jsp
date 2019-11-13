@@ -179,7 +179,8 @@ $(function(){
 		
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
-			      <img alt="" src="<%=cp%>/uploads/notice/${dto.imageFileName}">
+			      <img alt="" src="<%=cp%>/uploads/notice/${dto.imageFileName}" style="max-width: 100%; height: auto;">
+			      
 			      <br><br>
 			      ${dto.content}
 			   </td>
