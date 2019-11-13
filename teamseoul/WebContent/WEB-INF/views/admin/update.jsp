@@ -191,7 +191,7 @@ var url="<%=cp%>/admin/update_sub.do";
 	}else if(table=="festival"){
 		$.get(url,{table:table,seasonCode:"${seasonCode}"},function(data){
 			$("#sel").after(data);
-			$("#seasonCode").val("${seasonCode}")
+			$("#season").val("${seasonCode}")
 
 		});
 	}else if(table=="event"){
@@ -274,7 +274,7 @@ function updatecheck() {
 			   
 	 	 }else if(seltable=="festival"){
 	
-	  		cre.action="<%=cp%>/admin/festivalupdate.do";
+	  		cre.action="<%=cp%>/admin/festivalupdate_ok.do";
 			   
 	  	 }else if(seltable=="notice"){
 	    	cre.action="<%=cp%>/admin/noticeupdate_ok.do";
