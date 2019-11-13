@@ -3,9 +3,13 @@ package com.admin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.event.EventDTO;
 import com.util.DBConn;
 
 public class AdminDAO {
@@ -228,6 +232,52 @@ public class AdminDAO {
 		  }
 		
 	   }
+	public List<EventDTO> readEvent(int num) {
+		EventDTO dto=null;
+		List<EventDTO> list=new ArrayList<EventDTO>();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		StringBuffer sb=new StringBuffer();
+		
+		try {
+			sb.append("SELECT e.num, title, content, e.userId, f.imageFileName, eventLink, created FROM event e JOIN eventfile f ON e.num = f.num JOIN member m ON e.userId=m.userId WHERE e.num=? ");
+			
+			pstmt=conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, num);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				dto=new EventDTO();
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setImageName(rs.getString("imageFileName"));
+				dto.setEventLink(rs.getString("eventLink"));
+				dto.setCreated(rs.getString("created"));
+				list.add(dto);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return list;
+	}
 	
 	public void insertEvent(AdminDTO dto) {
 		StringBuilder sb= new StringBuilder();

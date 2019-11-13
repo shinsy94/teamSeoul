@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.event.EventDTO;
+import com.festival.FestivalDAO;
+import com.festival.FestivalDTO;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -100,6 +103,9 @@ public class AdminServlet extends HttpServlet{
 		
 		String table=req.getParameter("table");
 		int num = Integer.parseInt(req.getParameter("num"));
+		
+		String some="";
+		String body="";
 		if(table.equals("views")) {
 			
 			ViewsDAO dao=new ViewsDAO();
@@ -113,8 +119,6 @@ public class AdminServlet extends HttpServlet{
 			dto.setTitle(list.get(0).getTitle());
 			dto.setUserId(list.get(0).getUserId());
 			
-			String some="";
-			String body="";
 			for(int i=0;i<list.size();i++) {
 				if(list.get(i).getImageFileName().contains("some")) {
 					
@@ -132,15 +136,83 @@ public class AdminServlet extends HttpServlet{
 			}
 			dto.setImageFileName(img);
 			req.setAttribute("dto", dto);
+			req.setAttribute("bigareaCode", list.get(0).getBigArea());
 			req.setAttribute("some", some);
 			req.setAttribute("body", body);
-			req.setAttribute("bigareaCode", list.get(0).getBigArea());
-			req.setAttribute("table", table);
-			req.setAttribute("num",num);
+			
 		}else if(table.equals("festival")) {
+			FestivalDAO dao=new FestivalDAO();
+			List<FestivalDTO> list = dao.readFestival(num);
+			
+			List<String> img=new ArrayList<String>();
+			
+			AdminDTO dto=new AdminDTO();
+			dto.setSeasonCode(list.get(0).getSeasonCode());
+			dto.setContent(list.get(0).getContent());
+			dto.setTitle(list.get(0).getTitle());
+			dto.setUserId(list.get(0).getUserId());
+			
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getImageFileName().contains("some")) {
+					
+					some=list.get(i).getImageFileName();
+					
+				}else if(list.get(i).getImageFileName().contains("body")) {
+					
+					body=list.get(i).getImageFileName();
+					
+				}else {
+					
+					img.add(list.get(i).getImageFileName());
+				
+				}
+			}
+			dto.setImageFileName(img);
+			req.setAttribute("dto", dto);
+			req.setAttribute("seasonCode", list.get(0).getSeasonCode());
+			req.setAttribute("some", some);
+			req.setAttribute("body", body);
+			
+		}else if(table.equals("event")) {
+			
+			AdminDAO dao=new AdminDAO();
+			List<EventDTO> list = dao.readEvent(num);
+			
+			List<String> img=new ArrayList<String>();
+			
+			AdminDTO dto=new AdminDTO();
+			dto.setEventLink(list.get(0).getEventLink());
+			dto.setContent(list.get(0).getContent());
+			dto.setTitle(list.get(0).getTitle());
+			dto.setUserId(list.get(0).getUserId());
+			
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getImageName().contains("some")) {
+					
+					some=list.get(i).getImageName();
+					
+				}else if(list.get(i).getImageName().contains("body")) {
+					
+					body=list.get(i).getImageName();
+					
+				}else {
+					
+					img.add(list.get(i).getImageName());
+				
+				}
+			}
+			dto.setImageFileName(img);
+			req.setAttribute("dto", dto);
+			req.setAttribute("some", some);
+			req.setAttribute("body", body);
+			
+		}else {
+			
 			
 		}
 		
+		req.setAttribute("table", table);
+		req.setAttribute("num",num);
 		forward(req, resp, "/WEB-INF/views/admin/update.jsp");
 	}
 	
@@ -172,11 +244,13 @@ public class AdminServlet extends HttpServlet{
 protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	String table=req.getParameter("table");
 	AdminDAO dao=new AdminDAO();
+	
+	req.setAttribute("table", table);
+	
 	if(table.equals("views")) {
 		
 		Map<String,String> map=dao.ListAreaCode(req.getParameter("bigareaCode"));
 		
-		req.setAttribute("table", table);
 		req.setAttribute("map", map);
 		
 	}else if(table.equals("festival")) {
