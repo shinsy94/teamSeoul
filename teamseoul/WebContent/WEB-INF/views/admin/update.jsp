@@ -458,7 +458,7 @@ function removeFile(obj){
 			<input type="hidden" name="originalFileName" value="${originalFileName}">
 			<input type="hidden" name="saveFileName" value="${saveFileName}">
 			<input type="hidden" name="fileSize" value="${fileSize}">
-			<input type="hidden" name="numbers" value="${num}">
+			<input type="hidden" name="num" value="${num}">
 			<input type="hidden" name="table" value="${table}">
 		</form>
 	</div>
