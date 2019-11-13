@@ -56,19 +56,13 @@
             		<td style="text-align: right;"><label>생년월일</label></td>
             		<td class="member" id="userBirth">${dto.userBirth}</td>
             	</tr>
-            	<tr>
-            		<td style="text-align: right;"><label>욜로카운트</label></td>
-            		<td class="member" id="yoloCount">${dto.yoloCount}</td>
-            	</tr>
-            	<tr>
-            		<td style="text-align: right;"><label>유저등급</label></td>
-            		<td class="member" id="tierCode">${dto.tierCode}</td>
-            	</tr>
         	</c:forEach>
           		<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: center; text-align: right;"><a href="#" style="color: #3e3d3d; ">정보수정&gt; </a></td>		
+            	 <c:if test="${not empty sessionScope.member}">
+            		<td style= "float: center; text-align: right;"><a href="<%=cp%>/member/pwd.do?mode=update">정보수정&gt; </a></td>
+            	 </c:if>			
             	</tr>
             </table>
             </div>
@@ -93,17 +87,18 @@
    			<img src="<%=cp%>/resource/images/mytxt.png" width="4%"><h3>내가 쓴 글</h3>
    			<div style="width: 80%; margin: 10px auto 0px;">
    				<table>
+   				  
             		<tr>
-            			<td class="title"><a href="<%=cp%>/notice/list.do">title</a></td>
-            			<td class="userId" >userId</td>
-            			<td class="created" >created</td>
+            			<td class="title"><a href="<%=cp%>/yolo/list.do">${dto.title}</a></td>
+            			<td class="userId" >${dto.userId}</td>
+            			<td class="created" >${dto.created}</td>
             		</tr>
-         	<tr>
+
+         		<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do">더보기&gt; </a></td>
-            		
-            </tr>
+            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do">더보기&gt; </a></td>		
+           		</tr>
             </table>
    				
    			</div>

@@ -41,19 +41,19 @@ function memberOk() {
 	str = f.userPwd.value;
 	str = str.trim();
 	if(!str) {
-		alert("패스워드를 입력하세요.");
+		alert("비밀번호를 입력하세요.");
 		f.userPwd.focus();
 		return;
 	}
 	if(!/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str)) {
-		alert("패스워드는 5-10자이고 하나 이상의 숫자나 특수문자를 가져야합니다.");
+		alert("비밀번호는 5-10자이고 하나 이상의 숫자나 특수문자를 가져야합니다.");
 		f.userPwd.focus();
 		return;
 	}
 	f.userPwd.value = str;
 	
 	if(str!= f.userPwdCheck.value) {
-		alert("패스워드가 불일치합니다.");
+		alert("비밀번호가 불일치합니다.");
 		f.userPwdCheck.focus();
 		return;
 	}
@@ -326,7 +326,7 @@ $(function(){
 				      <td style="text-align: left; padding: 0 0 15px 15px;">
 				        <p style="margin-top: 7px; margin-bottom: 5px;">
 				             <label>
-				                 <input id="agree" name="agree" type="checkbox" checked="checked"
+				                 <input id="agree" name="agree" type="checkbox"
 				                      onchange="form.sendButton.disabled = !checked"> <a href="#">이용약관</a>에 동의합니다.
 				             </label>
 				        </p>

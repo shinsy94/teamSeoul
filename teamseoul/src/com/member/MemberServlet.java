@@ -184,8 +184,6 @@ public class MemberServlet extends HttpServlet {
 		String mode = req.getParameter("mode");
 		if(mode.equals("update")) {
 			req.setAttribute("title", "회원 정보 수정");
-		} else {
-			req.setAttribute("title", "회원 탈퇴");
 		}
 		req.setAttribute("mode", mode);
 		
@@ -196,6 +194,7 @@ public class MemberServlet extends HttpServlet {
 	private void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session=req.getSession();
 		String cp=req.getContextPath();
+		MemberDAO dao = new MemberDAO();
 		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		if(info==null) { // 로그인이 안된 경우
@@ -203,7 +202,7 @@ public class MemberServlet extends HttpServlet {
 			return;
 		}
 		
-		MemberDAO dao = new MemberDAO();
+		// MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.readMember(info.getUserId());
 		
 		if(dto==null) {
@@ -226,10 +225,7 @@ public class MemberServlet extends HttpServlet {
 			return;
 		}
 		
-		if(mode.equals("delete")) {
-			// 회원 탈퇴
-			
-		} else if(mode.equals("update")) {
+			if(mode.equals("update")) {
 			// 회원 정보 수정 폼
 			req.setAttribute("title", "회원 정보 수정");
 			req.setAttribute("dto", dto);
