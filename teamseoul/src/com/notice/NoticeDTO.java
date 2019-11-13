@@ -1,16 +1,17 @@
 package com.notice;
 
 public class NoticeDTO {
-	private int num;				 //글번호
-	private int listNum;			 // 리스트 글번호
-	private String title;			 //글제목
-	private String content;			 //글내용
-	private String saveFileName;	 //저장파일이름
-	private String originalFileName; //기존파일이름
-	private long fileSize;			 //파일크기
-	private String created;			 //글 작성일
-	private String updated;			 //글 수정일
-	private String userId;			 //작성자 아이디
+	private int num;	
+	private int listNum;
+	private String title;			 
+	private String content;	
+	private String saveFileName;
+	private String originalFileName;
+	private String created;	
+	private String updated;	
+	private String userId;	
+	private long fileSize;	
+	private long noticeNew;
 	
 	public String getUserId() {
 		return userId;
@@ -73,6 +74,12 @@ public class NoticeDTO {
 	}
 	public void setUpdated(String updated) {
 		this.updated = updated;
+	}
+	public long getNoticeNew() {
+		return noticeNew;
+	}
+	public void setNoticeNew(long noticeNew) {
+		this.noticeNew = noticeNew;
 	}
 	
 	

@@ -73,11 +73,11 @@ function sendLogin() {
 </head>
 <body>
 
-<div class="header">
+<div class="header" style="position: fixed; z-index: 2;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container Jua" >
+<div class="container Jua" style="position: relative; top: 155px; z-index: 1;" >
 	<img src="<%=cp%>/resource/images/key.png" width="35">&nbsp;&nbsp;<span style="font-size: 50px;">로그인</span>
 	    <div style="margin: 30px auto 0px; width:360px; font-size:20px;">
 			<form name="loginForm" method="post" action="">
@@ -124,7 +124,7 @@ function sendLogin() {
 
 	</div>
 
-<div class="footer">
+<div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>
 

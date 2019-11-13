@@ -54,11 +54,11 @@
 </head>
 <body>
 
-<div class="header">
+<div class="header" style="position: fixed; z-index: 2;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
+<div class="container" style="position: relative; top: 155px; z-index: 1;" >
     <div class="body-container" style="width: 700px;">
         <div class="body-title">
             <h3><span style="font-family: Webdings">2</span> 공지사항 </h3>
@@ -71,13 +71,6 @@
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
 			          <input type="text" name="title" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.title}">
-			      </td>
-			  </tr>
-
-			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">공지여부</td>
-			      <td style="padding-left:10px;"> 
-			          <input type="checkbox" name="notice" value="1"> <label>공지</label>
 			      </td>
 			  </tr>
 
@@ -139,7 +132,7 @@
     </div>
 </div>
 
-<div class="footer">
+<div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>
 
