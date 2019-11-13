@@ -84,7 +84,7 @@
 			      <td>${dto.listNum}</td>
 			      <td align="left" style="padding-left: 10px;">
 			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
-			           <c:if test="${dto.noticeNew<24}"><img src="<%=cp%>/resource/images/new.gif"></c:if>          
+			           <c:if test="${dto.noticeNew<3}"><img src="<%=cp%>/resource/images/new.gif"></c:if>          
 			      </td>
 			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
