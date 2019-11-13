@@ -202,7 +202,6 @@ public class MemberServlet extends HttpServlet {
 			return;
 		}
 		
-		// MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.readMember(info.getUserId());
 		
 		if(dto==null) {

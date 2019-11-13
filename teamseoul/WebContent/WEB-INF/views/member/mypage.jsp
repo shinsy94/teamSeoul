@@ -33,8 +33,8 @@
    		<div class="body-title" style="width: 45%; float: left;">
    		  
    			<img src="<%=cp%>/resource/images/mymem.jpg" width="6%"><h3>회원정보</h3>
+        <table style="width: 80%; float: left; text-align: left;  border-radius: 10px;">   
        	        	
-        	<table style="width: 80%; float: left; text-align: left;  border-radius: 10px;">   
         	 <c:forEach  items="#">    		
             	<tr>
             		<td style="text-align: right;"><label>아이디</label></td>

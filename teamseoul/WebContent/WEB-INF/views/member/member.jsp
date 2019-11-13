@@ -270,7 +270,7 @@ $(function(){
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="text-align: left; margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="userBirth" value="${dto.birth}" maxlength="10" 
+			            <input type="text" name="userBirth" value="${dto.userBirth}" maxlength="10" 
 			                       class="boxTF" style="width: 50%;" placeholder="생년월일">
 			        </p>
 			        <p class="help-block" style="text-align: left;">생년월일은 YYYY-MM-DD 양식으로 입력해주세요.</p>

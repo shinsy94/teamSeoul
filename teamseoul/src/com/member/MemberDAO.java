@@ -116,12 +116,13 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE member set userPwd=?, userTel=?, userEmail=?, userBitrh=? ";
+			sql = "UPDATE member set userPwd=?, userTel=?, userEmail=?, userBirth=? where userId=?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserPwd());
 			pstmt.setString(2, dto.getUserTel());
 			pstmt.setString(3, dto.getUserEmail());
 			pstmt.setString(4, dto.getUserBirth());
+			pstmt.setString(5, dto.getUserId());
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
