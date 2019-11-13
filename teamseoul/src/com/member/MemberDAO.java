@@ -143,7 +143,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT userId, userPwd, userName, userTel, userEmail, userBirth, yoloCount FROM member WHERE userId = ?";
+			sql = "SELECT userId, userPwd, userName, userTel, userEmail, userBirth FROM member WHERE userId = ?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			rs=pstmt.executeQuery();
@@ -154,8 +154,7 @@ public class MemberDAO {
 				dto.setUserName(rs.getString("userName"));
 				dto.setUserTel(rs.getString("userTel"));
 				dto.setUserEmail(rs.getString("userEmail"));
-				dto.setUserBirth(rs.getString("userBirth"));
-				dto.setYoloCount(rs.getInt("yoloCount"));		
+				dto.setUserBirth(rs.getString("userBirth"));	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

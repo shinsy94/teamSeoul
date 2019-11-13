@@ -7,14 +7,8 @@ public class MemberDTO {
 	private String userTel, tel1, tel2, tel3;
 	private String userEmail, email1, email2;
 	private String userBirth;
-	private int yoloCount;
 
-	public int getYoloCount() {
-		return yoloCount;
-	}
-	public void setYoloCount(int yoloCount) {
-		this.yoloCount = yoloCount;
-	}
+
 	public String getUserId() {
 		return userId;
 	}

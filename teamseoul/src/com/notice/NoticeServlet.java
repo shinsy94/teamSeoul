@@ -129,6 +129,7 @@ public class NoticeServlet extends HttpServlet {
 			dto.setCreated(dto.getCreated().substring(0, 10));
 		}
 		
+		
 
 		
 		// 리스트 글번호 만들기
