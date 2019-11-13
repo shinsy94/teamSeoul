@@ -110,6 +110,7 @@ public class EventDAO {
 			
 			if(rs.next()) {
 				dto=new EventDTO();
+				dto.setNum(rs.getInt("num"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setUserId(rs.getString("userId"));

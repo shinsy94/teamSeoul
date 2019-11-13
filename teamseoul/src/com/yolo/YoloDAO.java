@@ -756,5 +756,30 @@ public int deleteReply(int replyNum, String userId) {
 	
 	return result;
 }
+	public int updateYoloCount(String userId) {
+		int result =0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE member SET yolocount = yolocount+1 WHERE userId = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}	
+		
+		return result;
+		
+	}
+	
 
 }
