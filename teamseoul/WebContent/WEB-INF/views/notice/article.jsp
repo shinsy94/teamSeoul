@@ -105,7 +105,7 @@ function deleteNotice(num) {
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do?${query}';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do?';">리스트</button>
 			    </td>
 			</tr>
 			</table>

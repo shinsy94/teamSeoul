@@ -52,12 +52,11 @@
    			<div class="body-title Jua" style="width: 100%; text-align: left;">
            		 <img src="<%=cp%>/resource/images/notice.png" width="4%">&nbsp;&nbsp;<h3>공지사항 </h3>
       		</div>
-            <table>
-            	
-            	
+            <table >
+            	    	
             <c:forEach var="dto" items="${noticeList}">	
             	<tr>
-            		<td class="title"><a href="<%=cp%>/notice/list.do">${dto.title}</a></td>
+            		<td class="title"><a href="<%=cp%>/notice/article.do?page=${page}&num=${dto.num}">${dto.title}</a></td>
             		<td class="userId" >${dto.userId}</td>
             		<td class="created" >${dto.created}</td>
             	</tr>
