@@ -25,7 +25,7 @@
 
 function eventupdate(num) {
 	<c:if test="${sessionScope.member.userId==dto.userId}">
-	    var url="<%=cp%>/admin/updateForm.do?num="+num+"&table='event'";
+	    var url="<%=cp%>/admin/updateForm.do?num="+num+"&table=event";
 	    location.href=url;
 	</c:if>
 	<c:if test="${sessionScope.member.userId!=dto.userId}">
