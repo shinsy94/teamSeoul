@@ -61,7 +61,7 @@ function sendOk() {
 
 </head>
 <body>
-<div class="header">
+<div class="header" style="position: fixed; z-index: 2;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
@@ -69,7 +69,6 @@ function sendOk() {
     <div class="body-container">내용</div>
 </div>
 
-<div class="container">
 	<div>
 	
 	    <div style="margin: 70px auto 60px; width:420px;">
@@ -130,11 +129,7 @@ function sendOk() {
 			
 	</div>
 
-</div>
-
-
-
-<div class="footer">
+<div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>
 
