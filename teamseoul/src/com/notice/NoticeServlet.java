@@ -124,12 +124,16 @@ public class NoticeServlet extends HttpServlet {
 		
 		// 공지글
 		List<NoticeDTO> listNotice=null;
-		listNotice = dao.listNotice();
-		for(NoticeDTO dto : listNotice){
-			dto.setCreated(dto.getCreated().substring(0, 10));
+		if(current_page==1) {
+			listNotice = dao.listNotice();
+			for(NoticeDTO dto : listNotice){
+				dto.setCreated(dto.getCreated().substring(0, 10));
+			}
 		}
 		
-		
+		long noticeNew;
+		Date curDate = new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		
 		// 리스트 글번호 만들기
@@ -137,6 +141,12 @@ public class NoticeServlet extends HttpServlet {
 		for(NoticeDTO dto : list){
 			listNum=dataCount-(offset+n);
 			dto.setListNum(listNum);
+			try {
+				Date date=sdf.parse(dto.getCreated());
+				noticeNew = (curDate.getTime() - date.getTime()) /(1000*60*60);
+				dto.setNoticeNew(noticeNew);
+			} catch (Exception e) {
+			}
 			dto.setCreated(dto.getCreated().substring(0, 10));
 			n++;
 		}

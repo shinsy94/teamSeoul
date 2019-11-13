@@ -83,7 +83,8 @@
 			  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
 			      <td>${dto.listNum}</td>
 			      <td align="left" style="padding-left: 10px;">
-			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>          
+			           <a href="${articleUrl}&num=${dto.num}">${dto.title}</a>
+			           <c:if test="${dto.noticeNew<24}"><img src="<%=cp%>/resource/images/new.gif"></c:if>          
 			      </td>
 			      <td>${dto.userId}</td>
 			      <td>${dto.created}</td>
