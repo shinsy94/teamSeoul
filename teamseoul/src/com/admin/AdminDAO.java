@@ -177,13 +177,25 @@ public class AdminDAO {
 		
 	   }
 	
-	public void deleteViews() {
+	public void updateNotice(AdminDTO dto) {
 		String sql;
 		PreparedStatement pstmt=null;
 		try {
+			sql="UPDATE notice SET title=?, content=?,userId=?, saveFilename=?, originalFilename=?, filesize=?,updated=SYSDATE ";
+			sql+= " WHERE num=? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getUserId());
+			pstmt.setString(4, dto.getSaveFileName());
+			pstmt.setString(5, dto.getOriginalFileName());
+			pstmt.setLong(6, dto.getFilesize());
+			pstmt.setInt(7, dto.getNum());
+			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 			if(pstmt!=null) {
 				try {
@@ -192,8 +204,7 @@ public class AdminDAO {
 				}
 			 }
 		  }
-		
-	   }
+	}
 	
 	
 	public void insertFestival(AdminDTO dto) {
@@ -424,6 +435,85 @@ public class AdminDAO {
 			}
 		}
 	}
+	
+	public void deleteBoards(String table,int num) {
+		String sql;
+		PreparedStatement pstmt=null;
+		try {
+			if(!table.equals("notice")) {
+				
+			sql="delete from "+table+"file where num=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			sql="delete from "+table+"comment where num=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			}
+			
+			sql="delete from "+table+" where num=?";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		
+	  }
+	
+	public List<String> readFiles(String table,int num) {
+		String sql;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<String> list=new ArrayList<String>();
+		try {
+				
+			sql="select imageFileName from "+table+"file where num=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				list.add(rs.getString("imageFileName"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.next();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			 }
+		  }
+		return list;
+	  }
+	
+	
 	
 	
 }

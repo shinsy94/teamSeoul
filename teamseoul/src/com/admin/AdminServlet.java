@@ -100,7 +100,7 @@ public class AdminServlet extends HttpServlet{
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		String cp=req.getContextPath();
 		String table=req.getParameter("table");
 		int num = Integer.parseInt(req.getParameter("num"));
 		
@@ -218,7 +218,7 @@ public class AdminServlet extends HttpServlet{
 	
 	protected void createdSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		
+		String cp=req.getContextPath();
 		String bigareaCode=req.getParameter("bigareaCode");
 		AdminDAO dao=new AdminDAO();
 		Map<String,String> map=dao.ListAreaCode(bigareaCode);
@@ -242,6 +242,8 @@ public class AdminServlet extends HttpServlet{
 	}
 	
 protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	String cp=req.getContextPath();
 	String table=req.getParameter("table");
 	AdminDAO dao=new AdminDAO();
 	
@@ -338,7 +340,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			// 占쏙옙占쎌삢
 			dao.insertView(dto);
 		
-		resp.sendRedirect(cp);
+			resp.sendRedirect(cp+"/views/list.do");
 		}
 	}	
 
@@ -414,7 +416,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			// 占쏙옙占쎌삢
 			dao.insertFestival(dto);
 		
-		resp.sendRedirect(cp);
+			resp.sendRedirect(cp+"/festival/list.do");
 		}
 	}
 	protected void eventcreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -488,7 +490,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			
 			dao.insertEvent(dto);
 		}
-		resp.sendRedirect(cp);
+			resp.sendRedirect(cp+"/event/eventlist.do");
 		
 	}
 	protected void noticecreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -538,12 +540,12 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				// 占쏙옙占쎌삢
 				dao.insertNotice(dto);;
 		
-		resp.sendRedirect(cp);
+				resp.sendRedirect(cp+"/notice/list.do");
 		
 	}
 	
 	protected void deleteFiles(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		String cp=req.getContextPath();
 		HttpSession session=req.getSession();
 		
 		String table=req.getParameter("table");
@@ -570,7 +572,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 	}	
 	
 	protected void viewsUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+			String cp=req.getContextPath();
 			HttpSession session=req.getSession();
 			SessionInfo info=(SessionInfo)session.getAttribute("member");
 	
@@ -643,12 +645,12 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				dao.updateViews(dto);
 			
 
-		forward(req, resp, "/WEB-INF/views/views/views.jsp");
+				resp.sendRedirect(cp+"/views/list.do");
 	
 	}
 	
 	protected void festivalUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		String cp=req.getContextPath();
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
@@ -723,10 +725,11 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			// 占쏙옙占쎌삢
 			dao.updateFestival(dto);
 
-		forward(req, resp, "/WEB-INF/views/festival/festival.jsp");
+			resp.sendRedirect(cp+"/festival/list.do");
 	}
 	
 	protected void eventUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
@@ -802,14 +805,97 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dao.updateEvent(dto);
 
 
-		forward(req, resp, "/WEB-INF/views/event/eventlist.jsp");
+			resp.sendRedirect(cp+"/event/eventlist.do");
 	}
 	
 	protected void noticeUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
+		String root=session.getServletContext().getRealPath("/");
+		
+		pathname=root+File.separator+"uploads"+File.separator+"notice";
+		
+		File f=new File(pathname);
+		
+		if(! f.exists()) { 
+			f.mkdirs();
+		}		
+		
+		AdminDAO dao=new AdminDAO();
+		AdminDTO dto=new AdminDTO();
+		
+		String encType="utf-8";
+		int maxSize=5*1024*1024;
+		
+	
+			MultipartRequest mreq=new MultipartRequest(
+					req, pathname, maxSize, encType,
+					new DefaultFileRenamePolicy());
+						
+					
+			if(mreq.getFile("notice_upload")!=null) { 
+				
+				FileManager.doFiledelete(pathname, req.getParameter("saveFileName"));
+				
+				dto.setSaveFileName(mreq.getFilesystemName("notice_upload"));
+				
+				dto.setOriginalFileName(mreq.getOriginalFileName("notice_upload"));
+				
+				dto.setFilesize(mreq.getFile("notice_upload").length());
+					
+				}	
+			
+			dto.setUserId(info.getUserId());
+			dto.setTitle(mreq.getParameter("title"));
+			dto.setContent(mreq.getParameter("content"));
+		
+			dao.updateNotice(dto);
+		
+			resp.sendRedirect(cp+"/notice/list.do");
+	}
+	
+	protected void deleteBoard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		String cp=req.getContextPath();
+		//占쎈솁占쎌뵬 占쏙옙占쎌삢占쎈막 野껋럥以�
+		String root=session.getServletContext().getRealPath("/");
+		
+		String table=req.getParameter("table");
+		
+		pathname=root+File.separator+"uploads"+File.separator+table;
+		
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		
+		AdminDAO dao= new AdminDAO();
+		
+		if(!table.equals("notice")) {
+			List<String> list=dao.readFiles(table, num);
+			for(String img:list) {
+				FileManager.doFiledelete(pathname, img);
+			}
+			
+			dao.deleteBoards(table, num);
+			
+			if(table.equals("event")) {
+				resp.sendRedirect(cp+"/"+table+"/list.do");
+			}else {
+				resp.sendRedirect(cp+"/event/eventlist.do");
+			}
+		}else {
+			FileManager.doFiledelete(pathname, req.getParameter("saveFileName"));
+			dao.deleteBoards(table, num);
+			resp.sendRedirect(cp+"/notice/list.do");
+		}
+		
 		
 
-		forward(req, resp, "/WEB-INF/views/notice/list.jsp");
+		
 	}
+	
 	
 
 
