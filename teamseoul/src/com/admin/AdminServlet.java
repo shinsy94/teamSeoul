@@ -342,7 +342,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			// 占쏙옙占쎌삢
 			dao.insertView(dto);
 		
-			resp.sendRedirect(cp+"/views/list.do");
+			resp.sendRedirect(cp+"/views/views.do");
 		}
 	}	
 
@@ -418,7 +418,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			// 占쏙옙占쎌삢
 			dao.insertFestival(dto);
 		
-			resp.sendRedirect(cp+"/festival/list.do");
+			resp.sendRedirect(cp+"/festival/festival.do");
 		}
 	}
 	protected void eventcreatedSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -647,7 +647,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				dao.updateViews(dto);
 			
 
-				resp.sendRedirect(cp+"/views/list.do");
+				resp.sendRedirect(cp+"/views/views.do");
 	
 	}
 	
@@ -727,7 +727,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			// 占쏙옙占쎌삢
 			dao.updateFestival(dto);
 
-			resp.sendRedirect(cp+"/festival/list.do");
+			resp.sendRedirect(cp+"/festival/festival.do");
 	}
 	
 	protected void eventUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -885,7 +885,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			if(table.equals("event")) {
 				resp.sendRedirect(cp+"/"+table+"/eventlist.do");
 			}else {
-				resp.sendRedirect(cp+"/"+table+"/list.do");
+				resp.sendRedirect(cp+"/"+table+"/"+table+".do");
 			}
 		}else {
 			FileManager.doFiledelete(pathname, req.getParameter("saveFileName"));
