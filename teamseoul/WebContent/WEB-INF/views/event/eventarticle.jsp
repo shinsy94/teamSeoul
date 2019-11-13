@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
 <link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
@@ -36,7 +36,7 @@ function eventupdate(num) {
 function eventdelete(num) {
 <c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
     if(confirm("게시물을 삭제 하시겠습니까 ?")) {
-    	 var url="<%=cp%>/admin/eventupdate_ok.do?num="+num+"&page=${page}";
+    	 var url="<%=cp%>/admin/delete_ok.do?num="+num+"&table=event";
     	 location.href=url;
     }	
 </c:if>
@@ -56,14 +56,15 @@ function eventdelete(num) {
 </div>
 
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
-<div class="body-title Jua" style="width: 60%; margin: 5px auto; text-align: left;">
-	<img src="<%=cp%>/resource/images/event.jpg" width="3%" style="margin: 0px 10px;">
-	<h3 style= "width: 30%; text-align: left; margin: 10px; font-size: xx-large;">두유 노 이벤트~?</h3>
+<div class="body-title Jua" style="width: 65%; margin: 5px auto; text-align: left;">
+	<h3 style= "width: 30%; text-align: left; margin: 10px; font-size: xx-large;">${dto.title}</h3>
+	</div>
 	
-	</div>
-	<div style="text-align: center; font-size: x-Large">
-	<h3>${dto.title}</h3>
-	</div>
+		<div style="width: 64%; margin: 5px auto; text-align: left; font-size: x-large;">
+			${dto.content}
+		</div>
+	
+
 	<div class="body-title" style="width: 60%; margin: 5px auto; text-align: left;">
 <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
      	<tr style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
@@ -73,17 +74,13 @@ function eventdelete(num) {
 		</tr>
 	</table>
     </div>	
-	    <div style="width: 80%; margin: 10px auto 0px;">
+	    <div style="width: 80%; margin: 10px auto 0px; text-align: center;">
 	    	<a href="${dto.eventLink}">
 	    		<img src="<%=cp%>/uploads/event/${dto.imageName}" width="70%" style="margin: 0px 10px;">
 	    	</a>
-	    <div class="note-top">
-    		<br>
-				${dto.content}
-			</div>
-			
+
 			<div class="note-bottom">
-				
+			<br><br>
 			</div>
 
 	   <table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px; ">

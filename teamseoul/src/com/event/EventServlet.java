@@ -9,10 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.member.SessionInfo;
-import com.util.FileManager;
 import com.util.MyUtil;
 
 @WebServlet("/event/*")
@@ -37,9 +34,7 @@ public class EventServlet extends HttpServlet{
 			eventList(req, resp);
 		} else if(uri.indexOf("eventarticle.do")!=-1) {
 			eventarticle(req, resp);
-		} else if(uri.indexOf("eventupdate_ok.do")!=-1) {
-			eventdelet(req, resp);
-		}
+		} 
 	}
 
 	protected void forward(HttpServletRequest req, 	HttpServletResponse resp, String path)
@@ -61,7 +56,7 @@ public class EventServlet extends HttpServlet{
 		
 		int dataCount=dao.dataCount();
 		
-		int rows=3;
+		int rows=4;
 		int total_page=util.pageCount(rows, dataCount);
 		if(current_page>total_page)
 			current_page=total_page;
@@ -109,33 +104,4 @@ public class EventServlet extends HttpServlet{
 		forward(req, resp, "/WEB-INF/views/event/eventarticle.jsp");
 	}
 	
-	private void eventdelet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
-		String cp=req.getContextPath();
-		HttpSession session=req.getSession();
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		
-		EventDAO dao=new EventDAO();
-		
-		int num=Integer.parseInt(req.getParameter("num"));
-		String page=req.getParameter("page");
-		
-		EventDTO dto=dao.readEvent(num);
-		if(dto==null) {
-			resp.sendRedirect(cp+"/event/eventlist.do?page="+page);
-			return;
-		}
-		
-		if(! dto.getUserId().equals(info.getUserId())&& ! info.getUserId().equals("admin")) {
-			resp.sendRedirect(cp+"/event/eventlist.do?page"+page);
-			return;
-		}
-		
-		FileManager.doFiledelete(page, dto.getImageName());
-		
-		dao.deleteEvent(num);
-		
-		resp.sendRedirect(cp+"/event/eventlist.do?page="+page);
-	}
 }

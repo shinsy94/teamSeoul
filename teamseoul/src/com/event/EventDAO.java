@@ -140,27 +140,4 @@ public class EventDAO {
 		
 		return dto;
 	}
-	
-	public void deleteEvent(int num) {
-		PreparedStatement pstmt=null;
-		String sql;
-		
-		try {
-			sql="DELETE FROM eventfile WHERE num=?";
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		} finally {
-			if(pstmt!=null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-				}
-			}
-		}
-	}
-	
 }
