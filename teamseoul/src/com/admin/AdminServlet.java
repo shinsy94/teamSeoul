@@ -723,7 +723,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setUserId(info.getUserId());
 			dto.setTitle(mreq.getParameter("title"));
 			dto.setContent(mreq.getParameter("content"));
-			dto.setAreaCode(Integer.parseInt(mreq.getParameter("season")));
+			dto.setSeasonCode(Integer.parseInt(mreq.getParameter("season")));
 			// 占쏙옙占쎌삢
 			dao.updateFestival(dto);
 
