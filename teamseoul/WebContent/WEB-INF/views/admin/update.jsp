@@ -387,7 +387,7 @@ function removeFile(obj){
 				<td  class="ccc">
 					<textarea id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 20px;padding-top: 30px;">${dto.content}</textarea></td>
 			</tr>
-		<c:if test="${table!='event'}">
+		<c:if test="${table=='event'}">
 			<tr id="hidden" style="display: none;">
 				<td class="trs"><h3>이벤트 링크</h3></td>
 				<td  class="tdMidle"><input type="text" name='eventLink' value="${dto.eventLink}" ></td>
