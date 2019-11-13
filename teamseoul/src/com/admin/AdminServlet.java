@@ -883,9 +883,9 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dao.deleteBoards(table, num);
 			
 			if(table.equals("event")) {
-				resp.sendRedirect(cp+"/"+table+"/list.do");
+				resp.sendRedirect(cp+"/"+table+"/eventlist.do");
 			}else {
-				resp.sendRedirect(cp+"/event/eventlist.do");
+				resp.sendRedirect(cp+"/"+table+"/list.do");
 			}
 		}else {
 			FileManager.doFiledelete(pathname, req.getParameter("saveFileName"));
