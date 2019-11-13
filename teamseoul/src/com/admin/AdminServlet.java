@@ -586,8 +586,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			
 			AdminDAO dao=new AdminDAO();
 			AdminDTO dto=new AdminDTO();
-			
-			String table=req.getParameter("table");
+		
 			
 			String encType="utf-8";
 			int maxSize=5*1024*1024;
@@ -596,7 +595,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 					req, pathname, maxSize, encType,
 					new DefaultFileRenamePolicy());
 			
-				
+			String table=mreq.getParameter("table");
+			
 				List<String> files=new ArrayList<String>();
 				Enumeration<?> e = mreq.getFileNames();
 				while(e.hasMoreElements()) {
@@ -666,7 +666,6 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		AdminDAO dao=new AdminDAO();
 		AdminDTO dto=new AdminDTO();
 		
-		String table=req.getParameter("table");
 		
 	
 		String encType="utf-8";
@@ -676,7 +675,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
-			
+		String table=mreq.getParameter("table");
+		
 			List<String> files=new ArrayList<String>();
 			Enumeration<?> e = mreq.getFileNames();
 			while(e.hasMoreElements()) {
@@ -744,7 +744,6 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 		AdminDAO dao=new AdminDAO();
 		AdminDTO dto=new AdminDTO();
 		
-		String table=req.getParameter("table");
 		
 	
 		String encType="utf-8";
@@ -754,7 +753,8 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				req, pathname, maxSize, encType,
 				new DefaultFileRenamePolicy());
 		
-			
+		String table=mreq.getParameter("table");	
+	
 			List<String> files=new ArrayList<String>();
 			Enumeration<?> e = mreq.getFileNames();
 			while(e.hasMoreElements()) {

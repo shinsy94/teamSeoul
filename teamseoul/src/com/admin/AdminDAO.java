@@ -413,7 +413,7 @@ public class AdminDAO {
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 			if(pstmt!=null) {
 				try {

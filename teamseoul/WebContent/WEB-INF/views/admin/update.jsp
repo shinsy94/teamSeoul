@@ -245,14 +245,23 @@ function updatecheck() {
 		alert("이벤트링크 주소를 입력해 주세요");
 		return;
 	}
-	if(seltable=="views"|seltable=="festival"|seltable=="event"&&cre.someNail_upload.value!=""||cre.body_upload.value!=""){
-		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(cre.someNail_upload.value)||
-				! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(cre.body_upload.value)) {
+	
+	if((seltable=="views"||seltable=="festival"||seltable=="event")&&cre.someNail_upload.value!=""){
+		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(cre.someNail_upload.value)){
 			alert('이미지 파일만 업로드가 가능합니다.');
 			f.upload.focus();
 			return;
 		}
 	}
+	
+	if((seltable=="views"||seltable=="festival"||seltable=="event")&&cre.body_upload.value!=""){
+		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(cre.body_upload.value)){
+			alert('이미지 파일만 업로드가 가능합니다.');
+			f.upload.focus();
+			return;
+		}
+	}
+	
 	
 
 	  if(seltable=="views"){
@@ -289,7 +298,7 @@ function fileMore(){
 
 }
 
-function fileDelete(as){
+function deleteFile(as){
 	var dele="#"+$(as).attr('id');
 	$(function() {
 		$(dele).closest("tr").remove();
