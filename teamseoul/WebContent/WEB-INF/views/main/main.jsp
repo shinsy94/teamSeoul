@@ -71,7 +71,7 @@
             </table>
              <div class="body-title Jua" style="width: 100%; text-align: left;">
            		<img src="<%=cp%>/resource/images/view.png" width="4%">&nbsp;&nbsp;<h3>관광지&amp;축제 </h3>
-		    </div>
+		     </div>
 		    <c:forEach begin="1" end="3">	 		
 			    <div style="width: 100%; margin: 10px auto 0px;">
 			    	<img src="<%=cp%>/resource/images/main_3.jpg" width="30%" style="margin: 0px 10px;">

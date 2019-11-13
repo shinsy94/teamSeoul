@@ -31,9 +31,11 @@
     <div class="body-container">
 
    		<div class="body-title" style="width: 45%; float: left;">
-           		<h3>회원정보</h3>          	        	
-        	<table style="width: 80%; float: left; text-align: left; margin-left: 50px;">   
-        	 <c:forEach var="dto" items="#">    		
+   		  
+   			<img src="<%=cp%>/resource/images/mymem.jpg" width="6%"><h3>회원정보</h3>
+       	        	
+        	<table style="width: 80%; float: left; text-align: left;  border-radius: 10px;">   
+        	 <c:forEach  items="#">    		
             	<tr>
             		<td style="text-align: right;"><label>아이디</label></td>
             		<td class="member" id="userId">${dto.userId}</td>
@@ -55,7 +57,7 @@
             		<td class="member" id="userBirth">${dto.userBirth}</td>
             	</tr>
             	<tr>
-            		<td style="text-align: right;"><label>??</label></td>
+            		<td style="text-align: right;"><label>욜로카운트</label></td>
             		<td class="member" id="yoloCount">${dto.yoloCount}</td>
             	</tr>
             	<tr>
@@ -73,12 +75,12 @@
             
             
         <div class="body-title" style="width: 45%; float: left;">
-            <h3>즐겨 찾기 </h3>
+            <img src="<%=cp%>/resource/images/myfav.png" width="6%"><h3>즐겨 찾기 </h3>
 			 		
 			<div style="width: 90%; margin: 10px auto 0px;">
 				<table>
 			    	<tr>
-			    		<td>즐겨찾기 내용</td>
+			    		<td><a href:"#">즐겨찾기 내용</a></td>
 			   		</tr>
 			    </table>
 			</div>
@@ -88,7 +90,7 @@
    		
    		
    		<div class="body-title" style="width: 90%; float: left;">
-   			<h3>내가 쓴 글</h3>
+   			<img src="<%=cp%>/resource/images/mytxt.png" width="4%"><h3>내가 쓴 글</h3>
    			<div style="width: 80%; margin: 10px auto 0px;">
    				<table>
             		<tr>
@@ -99,7 +101,7 @@
          	<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do">게시판 더보기&gt; </a></td>
+            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do">더보기&gt; </a></td>
             		
             </tr>
             </table>
