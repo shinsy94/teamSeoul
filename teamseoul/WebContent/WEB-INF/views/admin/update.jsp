@@ -365,7 +365,7 @@ function removeFile(obj){
 				<td class="trs" ><h3>게시판</h3></td>
 				<td  class="ccc"> 
 					<span id="sel">
-					  <input class="in" readonly="readonly"  name="selectTable" onchange="op(this);" value="${table=='event'?'이벤트':(table=='views'?'관광':(table=='notice'?'공지':'축제'))}">
+					  <input class="in" readonly="readonly"  name="selectTable" onchange="op(this);" value="${table=='event' ? '이벤트':(table=='views' ? '관광':(table=='notice' ? '공지':'축제'))}">
 					
 					</span>
 				</td>

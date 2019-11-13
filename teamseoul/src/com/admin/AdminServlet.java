@@ -602,7 +602,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 				while(e.hasMoreElements()) {
 					String paramName = (String)e.nextElement();
 					
-					if(mreq.getFile(paramName) == null&&paramName.equals("someNail_upload")==false&&paramName.equals("body_upload")==false) {
+					if(mreq.getFile(paramName) == null) {
 						continue;
 						}
 					
@@ -682,7 +682,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			while(e.hasMoreElements()) {
 				String paramName = (String)e.nextElement();
 				
-				if(mreq.getFile(paramName) == null&&paramName.equals("someNail_upload")==false&&paramName.equals("body_upload")==false) {
+				if(mreq.getFile(paramName) == null) {
 					continue;
 					}
 				
@@ -760,7 +760,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			while(e.hasMoreElements()) {
 				String paramName = (String)e.nextElement();
 				
-				if(mreq.getFile(paramName) == null&&paramName.equals("someNail_upload")==false&&paramName.equals("body_upload")==false) {
+				if(mreq.getFile(paramName) == null) {
 					continue;
 					}
 				
