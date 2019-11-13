@@ -49,7 +49,7 @@ function sendOk() {
 
     var str = f.userPwd.value;
     if(!str) {
-        alert("\n패스워드를 입력하세요. ");
+        alert("\n비밀번호를 입력하세요. ");
         f.userPwd.focus();
         return;
     }
@@ -65,23 +65,16 @@ function sendOk() {
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
-<div class="container" style="position: relative; top: 155px; z-index: 1;" >
-    <div class="body-container">내용</div>
-</div>
+<div class="container Jua" style="position: relative; top: 155px; z-index: 1;" >
 
-	<div>
-	
-	    <div style="margin: 70px auto 60px; width:420px;">
-		
-	    	<div style="text-align: center;">
-	        	<span style="font-weight: bold; font-size:27px; color: #424951;">패스워드 재확인</span>
-	        </div>
-		
+	  <img src="<%=cp%>/resource/images/key.png" width="35">&nbsp;&nbsp;<span style="font-size: 40px;">비밀번호 재확인</span>
+	  	<div style="margin: 30px auto 0px; width:360px; font-size:20px;">
 			<form name="pwdForm" method="post" action="">
-			  <table style="width:420px; margin: 20px auto; padding:30px;  border-collapse: collapse; border: 1px solid #DAD9FF;">
+			
+			  <table style="width:420px; margin: 20px auto; padding:30px;  border-collapse: collapse;">
 			  <tr style="height:50px;"> 
 			      <td style="padding-left: 30px; text-align: left;">
-			          정보보호를 위해 패스워드를 다시 한 번 입력해주세요.
+			          비밀번호를 다시 한 번 입력해주세요.
 			      </td>
 			  </tr>
 
@@ -109,7 +102,7 @@ function sendOk() {
 			  <tr align="center" height="65" > 
 			      <td>
 			        &nbsp;
-			        <button type="button" onclick="sendOk();" class="btnConfirm">확인</button>
+			        <button type="button" onclick="sendOk();" class="btnConfirm Jua" style="font-size:20px; background-color: #004B58;">확인</button>
 					<input type="hidden" name="mode" value="${mode}">
 			        &nbsp;
 			      </td>
@@ -125,10 +118,8 @@ function sendOk() {
 			    	<td><span style="color: blue;">${message}</span></td>
 			  </tr>
 			</table>
-		</div>
-			
 	</div>
-
+</div>
 <div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>

@@ -109,10 +109,15 @@ function deleteNotice(num) {
 			    </td>
 			</tr>
 			</table>
+			<table>
+				
+			</table>
         </div>
         
     </div>
 </div>
+
+
 
 <div class="footer" style="position: relative; top:300px;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

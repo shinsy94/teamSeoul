@@ -136,7 +136,7 @@ public class NoticeServlet extends HttpServlet {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		
-		// 리스트 글번호 만들기
+		// 리스트 글번호
 		int listNum, n=0;
 		for(NoticeDTO dto : list){
 			listNum=dataCount-(offset+n);

@@ -60,7 +60,7 @@ function sendLogin() {
 
     str = f.userPwd.value;
     if(!str) {
-        alert("패스워드를 입력하세요. ");
+        alert("비밀번호를 입력하세요. ");
         f.userPwd.focus();
         return;
     }
@@ -93,7 +93,7 @@ function sendLogin() {
 			  </tr>
 			  <tr align="center" height="60"> 
 			      <td>
-			        <label for="userPwd" id="lblUserPwd" class="lbl" style="font-size:20px;">패스워드</label>
+			        <label for="userPwd" id="lblUserPwd" class="lbl" style="font-size:20px;">비밀번호</label>
 			        <input type="password" name="userPwd" id="userPwd" class="loginTF" maxlength="20" 
 			                   tabindex="2"
 	                           onfocus="document.getElementById('lblUserPwd').style.display='none';"
@@ -109,7 +109,7 @@ function sendLogin() {
 			  <tr align="center" height="45">
 			      <td>
 			       		<a href="<%=cp%>/">아이디찾기</a>&nbsp;&nbsp;&nbsp;
-			       		<a href="<%=cp%>/">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
+			       		<a href="<%=cp%>/">비밀번호찾기</a>&nbsp;&nbsp;&nbsp;
 			       		<a href="<%=cp%>/member/member.do">회원가입</a>
 			      </td>
 			  </tr>
