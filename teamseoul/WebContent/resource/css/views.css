@@ -67,3 +67,11 @@
 	cursor: pointer;
 	font-size: 18px;
 }
+
+.article_btn button {
+	border: 1px solid #ccc;
+	background: white;
+	cursor: pointer;
+	padding: 5px 10px;
+	border-radius: 5px;
+}

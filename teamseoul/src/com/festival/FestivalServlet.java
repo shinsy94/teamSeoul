@@ -122,6 +122,10 @@ public class FestivalServlet extends HttpServlet {
 		FestivalDAO dao = new FestivalDAO();
 		List<FestivalDTO> list = dao.readFestival(num);
 		
+		for(FestivalDTO dto : list) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		}
+		
 		req.setAttribute("list", list);
 		forward(req, resp, "/WEB-INF/views/festival/article.jsp");
 	}

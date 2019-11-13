@@ -212,7 +212,7 @@ $(document).ready(function(){
     		<div class="article_btn">
 	    		<div class="adminBtn" style="float: left;">   
 	    			<button onclick="javascript:location.href='<%=cp%>/admin/updateForm.do?num=${list.get(0).num}&table=views'">수정</button>
-	    			<button>삭제</button>
+	    			<button onclick="javascript:location.href='<%=cp%>/admin/delete_ok.do?num=${list.get(0).num}&table=views'">삭제</button>
 	    		</div>
 	    		<div class="listBtn" style="text-align: right;">
 	    			<button onclick="javascript:location.href='<%=cp%>/views/views.do?page=${page}&areaCode=${areaCode}'">리스트</button>

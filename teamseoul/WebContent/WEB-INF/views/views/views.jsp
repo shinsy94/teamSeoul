@@ -108,7 +108,7 @@ $(function(){
     <div class="body-container" >
 	    <div class="views-menu" style="min-height: 400px;">
 	    	<ul>
-	    		<li><button onclick="javascript:location.href='<%=cp%>/views/views.do'" style="font-size:18px; font-weight: bold;"><img src="<%=cp%>/resource/images/compass.png" width="20%">&nbsp;전체보기</button>
+	    		<li><button onclick="javascript:location.href='<%=cp%>/views/views.do'" style="font-size:18px; font-weight: bold;">전체보기</button>
 	    			<ul style="margin-left: 110px;">	
 			    		<c:forEach var="dto" items="${bigAreaList}">
 			    		<li><button type="button" class="bigArea" value="${dto.areaCode}">◆&nbsp;${dto.local}</button>

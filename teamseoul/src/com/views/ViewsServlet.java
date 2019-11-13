@@ -132,6 +132,10 @@ public class ViewsServlet extends HttpServlet {
 		ViewsDAO dao = new ViewsDAO();
 		List<ViewsDTO> list = dao.readViews(num);
 		
+		for(ViewsDTO dto : list) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		}
+		
 		req.setAttribute("list", list);
 		forward(req, resp, "/WEB-INF/views/views/article.jsp");
 	}
