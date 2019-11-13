@@ -146,6 +146,17 @@ input{
 	margin: 3px;
 	float: left;
 }
+
+.delButton{
+	width: 50px;
+	height: 30px;
+	background: #004B58;
+	color: white;
+	font-size: 14px;
+}
+.delButton:focus{
+outline:none;
+}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -306,9 +317,8 @@ function fileMore(){
 	$(function() {
 		$("#hidden2").after("<tr><td class='trs'><h3>추가 이미지</h3></td><td class='ccc' >"
 		+"<input type='file' id='upload"+(fileNum)+"' name='upload"+(fileNum)+"' >"
-		+"<button type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);'>삭제</button></td></tr>");
+		+"<button  type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);'>삭제</button></td></tr>");
 		fileNum++;
-
 	});
 }
 
@@ -332,13 +342,13 @@ function update(){
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
-<div style="position: relative; top: 155px; z-index: 1; clear:both; width:100%;  margin: 0px auto; text-align: center;" >
-    <div class="body-title" style="width: 60%; margin: 10px auto; text-align: left;"><h3>글쓰기</h3></div> 
+<div style=" position: relative; top: 155px; z-index: 1; clear:both; width:100%;  margin: 0px auto; text-align: center;" >
+    <div class="body-title" style="width: 50%; margin: 10px auto; text-align: left;"><h3>글쓰기</h3></div> 
     	<div>
 		<form id="createds" method="post" enctype="multipart/form-data">
 		<table style="border-collapse: collapse;border-spacing: 0;">
   
-			<tr >
+			<tr>
 				<td class="trs"><h3>제목</h3> </td>
 				<td class="ccc" >
 				<textarea placeholder="    제목을 입력해 주세요" id="title" name="title" maxlength="25"
@@ -372,11 +382,15 @@ function update(){
 				<td class="trs"><h3>이벤트 링크</h3></td>
 				<td  class="tdMidle"><input type="text" name='eventLink' ></td>
 			</tr>
-				
+						
+			<tr  id="hidden1btn" >
+				<td class="trs"></td>  
+				<td class="tdMidle" style="border-bottom:1px solid #004B58 "><button type="button" class="delButton" style="float: right;" onclick="fileMore();">추가</button></td>
+			</tr>
 			<tr id="hidden1" style="display: none;">
 				<td class="trs"><h3>썸네일 이미지</h3></td>
 				<td  class="ccc">
-				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">추가</a></td>
+				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'></td>
 
 			<tr>
 			
