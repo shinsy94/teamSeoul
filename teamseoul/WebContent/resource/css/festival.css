@@ -1,8 +1,9 @@
 @charset "UTF-8";
 
 .body-container .festival-menu{
-	width: 80%;
-	margin: 0px auto;
+	width: 100%;
+    margin: 0px auto;
+    text-align: center;
 }
 
 .body-container .festival-menu ul{
