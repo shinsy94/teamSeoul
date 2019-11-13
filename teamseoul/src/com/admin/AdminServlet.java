@@ -543,7 +543,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 	}
 	
 	protected void deleteFiles(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp=req.getContextPath();
+		
 		HttpSession session=req.getSession();
 		
 		String table=req.getParameter("table");

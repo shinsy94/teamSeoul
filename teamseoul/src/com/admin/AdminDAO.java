@@ -411,8 +411,7 @@ public class AdminDAO {
 			pstmt.setInt(1, num);
 			pstmt.setString(2, imageFileName);
 			
-		
-		
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally {
