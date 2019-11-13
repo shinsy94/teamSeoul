@@ -8,19 +8,12 @@ public class MemberDTO {
 	private String userEmail, email1, email2;
 	private String userBirth;
 	private int yoloCount;
-	private int tierCode;
 
 	public int getYoloCount() {
 		return yoloCount;
 	}
 	public void setYoloCount(int yoloCount) {
 		this.yoloCount = yoloCount;
-	}
-	public int getTierCode() {
-		return tierCode;
-	}
-	public void setTierCode(int tierCode) {
-		this.tierCode = tierCode;
 	}
 	public String getUserId() {
 		return userId;

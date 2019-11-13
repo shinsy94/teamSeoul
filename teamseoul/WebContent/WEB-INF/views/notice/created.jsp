@@ -75,13 +75,6 @@
 			  </tr>
 
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">공지여부</td>
-			      <td style="padding-left:10px;"> 
-			          <input type="checkbox" name="notice" value="1"> <label>공지</label>
-			      </td>
-			  </tr>
-
-			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			      <td style="padding-left:10px;"> 
 			          ${sessionScope.member.userId}

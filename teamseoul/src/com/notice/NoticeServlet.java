@@ -336,11 +336,10 @@ public class NoticeServlet extends HttpServlet {
 		dto.setUserId(info.getUserId());
 		
 		dto.setNum(Integer.parseInt(mreq.getParameter("num")));
-		
+
 		dto.setTitle(mreq.getParameter("title"));
 		dto.setContent(mreq.getParameter("content"));
 		dto.setSaveFileName(mreq.getParameter("saveFileName"));
-		
 		
 		try {
 			dao.updateNotice(dto);

@@ -35,7 +35,7 @@ function deleteNotice(num) {
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
+<div class="container" style="position: relative; top: 155px; z-index: 1;" >
     <div class="body-container" style="width: 700px;">
         <div class="body-title">
             <h3><span style="font-family: Webdings">2</span> 공지사항 </h3>
