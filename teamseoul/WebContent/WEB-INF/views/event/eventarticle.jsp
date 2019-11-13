@@ -16,14 +16,27 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
+<link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+
+
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 
+function eventupdate(num) {
+	<c:if test="${sessionScope.member.userId==dto.userId}">
+	    var url="<%=cp%>/admin/updateForm.do?num="+num+"&table='event'";
+	    location.href=url;
+	</c:if>
+	<c:if test="${sessionScope.member.userId!=dto.userId}">
+	   alert("게시물을 수정할 수  없습니다.");
+	</c:if>
+	}
+
 function eventdelete(num) {
 <c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
     if(confirm("게시물을 삭제 하시겠습니까 ?")) {
-    	 var url="<%=cp%>/evnet/delete.do?num="+num+"&page=${page}";
+    	 var url="<%=cp%>/admin/eventupdate_ok.do?num="+num+"&page=${page}";
     	 location.href=url;
     }	
 </c:if>
@@ -31,6 +44,7 @@ function eventdelete(num) {
     alert("게시물을 삭제할 수  없습니다.");
 </c:if>
 }
+
 
 </script>
 
@@ -42,9 +56,15 @@ function eventdelete(num) {
 </div>
 
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
-<div class="body-title" style="width: 60%; margin: 5px auto; text-align: left;">
-	<h3 style= "width: 30%; text-align: left; margin: 10px; font-size: x-large;">${dto.title}</h3>
+<div class="body-title Jua" style="width: 60%; margin: 5px auto; text-align: left;">
+	<img src="<%=cp%>/resource/images/event.jpg" width="3%" style="margin: 0px 10px;">
+	<h3 style= "width: 30%; text-align: left; margin: 10px; font-size: xx-large;">두유 노 이벤트~?</h3>
 	
+	</div>
+	<div style="text-align: center; font-size: x-Large">
+	<h3>${dto.title}</h3>
+	</div>
+	<div class="body-title" style="width: 60%; margin: 5px auto; text-align: left;">
 <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
      	<tr style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
         	<td width="40%" align="right" style="padding-right: 10px; border-spacing: 0px; border-collapse: collapse;">
@@ -70,10 +90,10 @@ function eventdelete(num) {
 			<tr height="45">
 			    <td width="300" align="left">
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="updateEvent('${dto.num}');">수정</button>
+			          <button type="button" class="btn" onclick="eventupdate('${dto.num}');">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="deleteEvent('${dto.num}');">삭제</button>
+			          <button type="button" class="btn" onclick="eventdelete('${dto.num}');">삭제</button>
 			       </c:if>
 			    </td>
 			

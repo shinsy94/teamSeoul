@@ -37,7 +37,7 @@ public class EventServlet extends HttpServlet{
 			eventList(req, resp);
 		} else if(uri.indexOf("eventarticle.do")!=-1) {
 			eventarticle(req, resp);
-		} else if(uri.indexOf("eventdelet.do")!=-1) {
+		} else if(uri.indexOf("eventupdate_ok.do")!=-1) {
 			eventdelet(req, resp);
 		}
 	}
@@ -61,7 +61,7 @@ public class EventServlet extends HttpServlet{
 		
 		int dataCount=dao.dataCount();
 		
-		int rows=5;
+		int rows=3;
 		int total_page=util.pageCount(rows, dataCount);
 		if(current_page>total_page)
 			current_page=total_page;
@@ -128,7 +128,7 @@ public class EventServlet extends HttpServlet{
 		}
 		
 		if(! dto.getUserId().equals(info.getUserId())&& ! info.getUserId().equals("admin")) {
-			resp.sendRedirect(cp+"/event/list.do?page"+page);
+			resp.sendRedirect(cp+"/event/eventlist.do?page"+page);
 			return;
 		}
 		
@@ -136,6 +136,6 @@ public class EventServlet extends HttpServlet{
 		
 		dao.deleteEvent(num);
 		
-		resp.sendRedirect(cp+"/event/list.do?page="+page);
+		resp.sendRedirect(cp+"/event/eventlist.do?page="+page);
 	}
 }
