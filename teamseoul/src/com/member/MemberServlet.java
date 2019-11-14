@@ -298,16 +298,19 @@ public class MemberServlet extends HttpServlet {
 		
 		HttpSession session=req.getSession();
 		String cp=req.getContextPath();
-		
-		
+			
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		if(info==null) { 
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
+		
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.readMember(info.getUserId());
 		req.setAttribute("userDto", dto);
+		
+		
+		
 		String path="/WEB-INF/views/member/mypage.jsp";
 		forward(req, resp, path);
 		
