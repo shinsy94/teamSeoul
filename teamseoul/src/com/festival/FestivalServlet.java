@@ -81,7 +81,11 @@ public class FestivalServlet extends HttpServlet {
 		//String list_url = cp+"/festival/festival.do";
 		String article_url = cp+"/festival/article.do?page="+current_page;
 		
-		if(seasonCode == null) {
+		if(seasonCode==null) {
+			seasonCode = "0";
+		}
+		
+		if(seasonCode.equals("0")) {
 			list = dao.somenailList(offset, rows);
 			dataCount = dao.dataCount();
 		} else {

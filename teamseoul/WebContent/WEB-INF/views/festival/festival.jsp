@@ -26,11 +26,11 @@ button:focus{
 
 <script type="text/javascript">
 
-function listPage(page,areaCode) {
+function listPage(page,seasonCode) {
 	var url = "<%=cp%>/festival/list.do";
 	
 	
-	$.get(url, {page:page, areaCode:areaCode}, function(data){
+	$.get(url, {page:page, seasonCode:seasonCode}, function(data){
 		$(".festival-list").html(data);
 	});
 }
