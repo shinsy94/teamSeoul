@@ -87,7 +87,7 @@
    		
    		<div class="body-title" style="width: 90%; float: left;">
    			<img src="<%=cp%>/resource/images/mytxt.png" width="4%">&nbsp;&nbsp;<h3>내가 쓴 글</h3>
-   			<div style="width: 80%; margin: 10px auto 0px;">
+   			<div style="width: 95%; margin: 10px auto 0px;">
 			<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
 			  <tr align="center" bgcolor="#004B58" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <th width="60" style="color: white;">번호</th>

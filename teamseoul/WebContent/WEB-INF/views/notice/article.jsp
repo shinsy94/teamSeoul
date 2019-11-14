@@ -97,7 +97,7 @@ function deleteNotice(num) {
 			<tr height="45">
 			    <td width="300" align="left">
 			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
-			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/update.do?num=${dto.num}&page=${page}';">수정</button>
+			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/admin/updateForm.do?num=${dto.num}&table=notice';">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
 			          <button type="button" class="btn" onclick="deleteNotice('${dto.num}');">삭제</button>

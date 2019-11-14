@@ -249,4 +249,71 @@ public class MemberDAO {
 		return list;
 	}
 	
+	public List<FavoriteDTO> favoriteList(String userId){
+		List<FavoriteDTO> list = new ArrayList<FavoriteDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("select f.userId,f.num,title,category from views v	");
+			sb.append("	join favorite f on v.num=f.num	");
+			sb.append("	where f.userId=?	");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				FavoriteDTO dto = new FavoriteDTO();
+				dto.setCategory(rs.getString("category"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("title"));
+				list.add(dto);
+			}
+			sb.delete(0, sb.length());
+			pstmt.close();
+			pstmt = null;
+			
+			rs.close();
+			rs = null;
+			
+			sb.append(" select f.userId,f.num,title,category from festival p	");
+			sb.append("	join favorite f on p.num=f.num 	");
+			sb.append("	where f.userId=?	");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				FavoriteDTO dto = new FavoriteDTO();
+				dto.setCategory(rs.getString("category"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("title"));
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return list;
+	}
+	
 }

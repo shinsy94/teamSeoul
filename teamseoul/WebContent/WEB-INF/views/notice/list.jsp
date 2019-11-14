@@ -32,7 +32,7 @@
 </div>
 	
 <div class="container" style="position: relative; top: 155px; z-index: 1;" >
-    <div class="body-container" style="width: 700px;">
+    <div class="body-container" style="width: 50%;">
         <div class="body-title">
             <h3><span style="font-family: Webdings">2</span> 공지사항 </h3>
         </div>
@@ -55,7 +55,7 @@
 			      <th width="60" style="color: #ffffff;">번호</th>
 			      <th style="color: #ffffff;">제목</th>
 			      <th width="100" style="color: #ffffff;">작성자</th>
-			      <th width="80" style="color: #ffffff;">작성일</th>
+			      <th width="120" style="color: #ffffff;">작성일</th>
 			      <th width="50" style="color: #ffffff;">첨부</th>
 			  </tr>
 			 

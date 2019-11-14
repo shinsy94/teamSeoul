@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.festival.FavoriteDTO;
-import com.festival.FestivalDAO;
-import com.yolo.YoloDAO;
+
 import com.yolo.YoloDTO;
 
 import net.sf.json.JSONObject;
@@ -317,6 +315,13 @@ public class MemberServlet extends HttpServlet {
 		
 		req.setAttribute("userDto", dto);
 		req.setAttribute("yList", yList);
+		
+		List<FavoriteDTO> fList = dao.favoriteList(info.getUserId());
+		
+		
+		
+		
+		
 		
 		String path="/WEB-INF/views/member/mypage.jsp";
 		forward(req, resp, path);
