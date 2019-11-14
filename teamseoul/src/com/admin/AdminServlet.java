@@ -20,6 +20,8 @@ import com.event.EventDTO;
 import com.festival.FestivalDAO;
 import com.festival.FestivalDTO;
 import com.member.SessionInfo;
+import com.notice.NoticeDAO;
+import com.notice.NoticeDTO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.util.FileManager;
@@ -209,7 +211,9 @@ public class AdminServlet extends HttpServlet{
 			req.setAttribute("body", body);
 			
 		}else {
-			
+			NoticeDAO dao=new NoticeDAO();
+			NoticeDTO dto=dao.readNotice(num);
+			req.setAttribute("dto", dto);
 			
 		}
 		

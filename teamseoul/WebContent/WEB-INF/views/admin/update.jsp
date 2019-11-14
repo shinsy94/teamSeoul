@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <style type="text/css">
 
+
 table{
 	width:50%;
 	margin: 0px auto;
@@ -42,27 +43,33 @@ border-bottom: 1px solid #004B58;
 text-align: center;
 }
 
-.in{
-	text-align: center;
-	font-size: 25px;
-	background: #004B58;  
-	color: white;
-	outline:none;
-	height: 70px ;
-	width: 200px;
-	border:none;
-	font-size: 25px;
-	cursor:pointer;
-	transition:900ms ease all;
-	margin: 8px;
-	outline: none;
-}
-
-
 
 textarea:focus {
 
 outline:none;
+}
+select{
+height: 70px ;
+width: 200px;
+text-align-last:center;
+border:none;
+font-size: 25px;
+cursor:pointer;
+transition:600ms ease all;
+margin: 8px;
+
+}
+select:hover{
+background: #004B58;  
+color: white;
+
+}
+select:focus{
+outline:none;
+}
+
+select::-ms-expand {
+display: none;
 }
 
 textarea{
@@ -72,7 +79,7 @@ textarea{
 	border: none;
     font-size: 30px;
     wrap=hard;
-    overflow-y: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
  
 }
@@ -114,7 +121,6 @@ textarea{
   width:100%;
   transition:800ms ease all;
 }
-
 span{
 	float: left;
 	
@@ -141,28 +147,70 @@ input{
 	margin: 3px;
 	float: left;
 }
-select{
-height: 70px ;
-width: 200px;
-text-align-last:center;
-border:none;
-font-size: 25px;
-cursor:pointer;
-transition:600ms ease all;
-margin: 8px;
 
-}
-select:hover{
-background: #004B58;  
-color: white;
 
+
+.delButton{
+	width: 50px;
+	height: 30px;
+	background: #004B58;
+	color: white;
+	font-size: 14px;
+	float: right;
+	outline:none;
+	border:none;
+	margin-top: 12px;
+	margin-right: 10px;
 }
-select:focus{
-outline:none;
+.delButton:hover{
+
+  font-weight:bold;
+  
 }
 
-select::-ms-expand {
-display: none;
+.addButton{
+	width: 70px;
+	height: 40px;
+	background: #004B58;
+	color: white;
+	font-size: 14px;
+	float: right;
+	outline:none;
+	border:none;
+}
+.addButton:hover{
+
+  font-weight:bold;
+}
+
+.addButton{
+	width: 70px;
+	height: 40px;
+	background: #004B58;
+	color: white;
+	font-size: 14px;
+	float: right;
+	outline:none;
+	border:none;
+}
+.addButton:hover{
+
+  font-weight:bold;
+}
+.in{
+   text-align: center;
+   font-size: 25px;
+   background: #004B58;  
+   color: white;
+   outline:none;
+   height: 70px ;
+   width: 200px;
+   border:none;
+   font-size: 25px;
+   cursor:pointer;
+   transition:900ms ease all;
+   margin: 8px;
+   outline: none;
 }
 
 
@@ -293,7 +341,7 @@ function fileMore(){
 	
 		$("#addFiles").append("<tr><td class='trs'><h3>추가 이미지</h3></td><td class='ccc' >"
 		+"<input type='file' id='upload"+(fileNum)+"' name='upload"+(fileNum)+"' >"
-		+"<button type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);'>삭제</button></td></tr>");
+		+"<button class='delButton' style='background:#bf0e0e;' type='button' id='"+aId+(fileNum)+"' onclick='deleteFile(this);'>삭제</button></td></tr>");
 		fileNum++;
 
 }
@@ -383,60 +431,15 @@ function removeFile(obj){
 		
 		
 			<tr>
-				<td class="trs"><h3>글 본문</h3> </td>
+				<td class="trs"><h3>글 본문</h3></td>
 				<td  class="ccc">
 					<textarea id="content" name="content" maxlength="1000"  style="height: 600px; padding-left: 20px;padding-top: 30px;">${dto.content}</textarea></td>
 			</tr>
 		<c:if test="${table=='event'}">
 			<tr id="hidden" style="display: none;">
 				<td class="trs"><h3>이벤트 링크</h3></td>
-				<td  class="tdMidle"><input type="text" name='eventLink' value="${dto.eventLink}" ></td>
+				<td  class="ccc"><input type="text" name='eventLink' value="${dto.eventLink}" ></td>
 			</tr>
-		</c:if>
-		<c:if test="${table!='notice'}">	
-			<tr id="upfile1">
-				<td  class='trs'>
-					<h3>썸네일 이미지</h3>
-				</td>
-				
-				<td class="ccc">
-					<input name="orisome" readonly="readonly" type="text" value="${some}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdate();">수정</a>
-				</td>			
-			</tr>
-			<tr id="hidden1" style="display: none;">
-				<td class="trs"><h3>썸네일 수정</h3></td>
-				<td  class="ccc">
-				<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><a style="color: blue;" href="javascript:fileMore();">더 올리기</a><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:someupdateDel();">취소</a></td>
-			<tr>
-									
-			<tr id="upfile2" >
-				<td class='trs'>
-			
-					<h3>본문 이미지</h3>
-				</td>
-				
-				<td class="ccc">
-					<input name="oribody" readonly="readonly" type="text" value="${body}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdate();">수정</a>
-				</td>
-			</tr>
-			<tr id="hidden2" style="display: none;">
-				<td class="trs">
-					<h3>본문 수정</h3>
-				</td>
-				<td  class="ccc">
-				<input type='file' id="body_upload" name='body_upload' accept='image/*'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:bodyupdateDel();">취소</a></td>
-			</tr>
-				
-			<c:forEach var="fi" items="${dto.imageFileName}" varStatus="status">
-				<tr>
-					<td class='trs'>
-						<h3>추가된 이미지</h3>
-					</td>  
-					<td class="ccc">	
-						<input name="upfile${status.count}" readonly="readonly" type="text" value="${fi}"><a style="float:right;padding-top: 20px;padding-right:5px"  href="javascript:removeFile('upfile${status.count}');">삭제</a>
-					</td>
-				</tr>			
-			</c:forEach>
 		</c:if>
 			
 		<c:if test="${table=='notice'}">
@@ -460,9 +463,62 @@ function removeFile(obj){
 			</tr>
 		</c:if>
 			</table>
-			<table id="addFiles" style="border-collapse: collapse;border-spacing: 0;margin: 0px auto;"></table>
+			<table id="addFiles" style="border-collapse: collapse;border-spacing: 0;margin: 0px auto;">
+				<c:if test="${table!='notice'}">	
+					<tr id="upfile1">
+						<td  class='trs'>
+							<h3>썸네일 이미지</h3>
+						</td>
+				
+						<td class="ccc">
+							<input name="orisome" readonly="readonly" type="text" value="${some}"><button class='delButton' type="button" onclick="javascript:someupdate();">수정</button>
+						</td>			
+					</tr>
+					<tr id="hidden1" style="display: none;">
+						<td class="trs"><h3>썸네일 수정</h3></td>
+						<td  class="ccc">
+							<input type='file' id="someNail_upload" name="someNail_upload" accept='image/*'><button class='delButton' type="button" onclick="someupdateDel();">취소</button>
+						</td>
+					<tr>
+										
+					<tr id="upfile2" >
+						<td class='trs'>
+							<h3>본문 이미지</h3>
+						</td>
+				
+						<td class="ccc">
+							<input name="oribody" readonly="readonly" type="text" value="${body}"><button class='delButton' type="button" onclick="bodyupdate();">수정</button>
+						</td>
+					</tr>
+					<tr id="hidden2" style="display: none;">
+						<td class="trs">
+							<h3>본문 수정</h3>
+						</td>
+						<td  class="ccc">
+							<input type='file' id="body_upload" name='body_upload' accept='image/*'><button class='delButton' type="button" onclick="bodyupdateDel();">취소</button></td>
+					</tr>
+				
+			<c:forEach var="fi" items="${dto.imageFileName}" varStatus="status">
+					<tr>
+						<td class='trs'>
+							<h3>추가된 이미지</h3>
+						</td>  
+						<td class="ccc">	
+							<input name="upfile${status.count}" readonly="readonly" type="text" value="${fi}"><button class="delButton" style='background:#bf0e0e;'type="button" onclick="removeFile('upfile${status.count}');">삭제</button>
+						</td>
+					</tr>			
+			</c:forEach>
+		</c:if>
+			
+			</table>
 			<br>
+		<div  class="body-title" style="width: 50%; margin: 10px auto;">
 			<button class="bb" type="button" onclick="updatecheck();">수정완료</button> <button class="bb">취소</button>
+			
+		<c:if test="${table!='notice'}">	
+			<button type="button" class="addButton"  onclick="fileMore();">파일 추가</button>
+		</c:if>
+		</div>
 			
 			<input type="hidden" name="originalFileName" value="${originalFileName}">
 			<input type="hidden" name="saveFileName" value="${saveFileName}">
