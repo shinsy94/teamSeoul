@@ -3,8 +3,11 @@ package com.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.util.DBConn;
+import com.yolo.YoloDTO;
 
 public class MemberDAO {
 	private Connection conn=DBConn.getConnection();
@@ -198,5 +201,52 @@ public class MemberDAO {
 		}
 	}
 	
+	public List<YoloDTO> listYolo(String userId) {
+		List<YoloDTO> list = new ArrayList<YoloDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs=null;
+		StringBuilder sb=new StringBuilder();
+		
+		try {
+			sb.append("SELECT num, title, userId, TO_CHAR(created, 'YYYY-MM-DD') created, imageFileName, hitCount  ");
+			sb.append("  FROM yolo WHERE userId = ?  ");
+			sb.append("  ORDER BY num DESC   ");
+			sb.append("  OFFSET 0 ROWS FETCH FIRST 5 ROWS ONLY ");
+			
+			pstmt=conn.prepareStatement(sb.toString());
+			pstmt.setString(1, userId);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				YoloDTO dto = new YoloDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setCreated(rs.getString("created"));
+				dto.setImageFileName(rs.getString("imageFileName"));
+				dto.setHitCount(rs.getInt("hitCount"));
+				
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return list;
+	}
 	
 }

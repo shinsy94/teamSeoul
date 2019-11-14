@@ -113,7 +113,7 @@ function searchList() {
 			          <form name="searchForm" action="<%=cp%>/yolo/list.do" method="post">
 			              <select name="condition" class="selectField">
 			                  <option value="title">제목</option>
-			                  <option value="userId">작성자</option>
+			                  <option value="y.userId">작성자</option>
 			                  <option value="content">내용</option>
 			                  <option value="created">등록일</option>
 			            </select>

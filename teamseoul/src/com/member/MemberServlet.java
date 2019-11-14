@@ -313,12 +313,10 @@ public class MemberServlet extends HttpServlet {
 		
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.readMember(info.getUserId());
-		req.setAttribute("userDto", dto);
+		List<YoloDTO> yList = dao.listYolo(info.getUserId());
 		
-		YoloDAO ydao = new YoloDAO();
-		// List<YoloDTO> yList = ydao.listYolo();
-		//req.setAttribute("yList", yList);
-
+		req.setAttribute("userDto", dto);
+		req.setAttribute("yList", yList);
 		
 		String path="/WEB-INF/views/member/mypage.jsp";
 		forward(req, resp, path);

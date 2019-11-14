@@ -72,9 +72,12 @@
 			 		
 			<div style="width: 90%; margin: 10px auto 0px;">
 				<table>
+				  
 			    	<tr>
 			    		<td><a href:"#">즐겨찾기 내용</a></td>
+			    		<td></td>
 			   		</tr>
+			   	  
 			    </table>
 			</div>
 		    
@@ -85,22 +88,38 @@
    		<div class="body-title" style="width: 90%; float: left;">
    			<img src="<%=cp%>/resource/images/mytxt.png" width="4%">&nbsp;&nbsp;<h3>내가 쓴 글</h3>
    			<div style="width: 80%; margin: 10px auto 0px;">
-   				<table>
-   				  
-            		<tr>
-            			<td class="title"><a href="<%=cp%>/yolo/list.do?condition=u">${dt.title}</a></td>
-            			<td class="userId" >${d.userId}</td>
-            			<td class="created" >${d.created}</td>
-            		</tr>
-				  
-         		<tr>
-            		<td>&nbsp;&nbsp;</td>
-            		<td>&nbsp;&nbsp;</td>
-            	
-   				<c:if test="${not empty sessionScope.member}">
-            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do?condition=userId&keyword='${list.get(0).userId} '">더보기&gt; </a></td>
-            	</c:if>			
-           		</tr>
+			<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
+			  <tr align="center" bgcolor="#004B58" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			      <th width="60" style="color: white;">번호</th>
+			      <th style="color: white;">제목</th>
+			      <th width="100" style="color: white;">작성자</th>
+			      <th width="120" style="color: white;">작성일</th>
+			      <th width="60" style="color: white;">조회수</th>
+			  </tr>
+						  
+			 
+			 <c:forEach var="vo" items="${yList}" varStatus="status">
+			  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
+			      <td>${yList.size()-status.index}</td>
+			      <td align="left" style="padding-left: 10px;">
+			           <a href="<%=cp%>/yolo/article.do?num=${vo.num}&page=1&condition=y.userId&keyword=${sessionScope.member.userId}">${vo.title}</a>
+			      </td>
+			      <td>${vo.userId}</td>
+			      <td>${vo.created}</td>
+			      <td>${vo.hitCount}</td>
+			  </tr>
+			  </c:forEach>
+			  <c:if test="${yList.size() >= 5 }">
+			      <tr align="right">
+			          <td colspan="5"><a href="<%=cp%>/yolo/list.do?condition=y.userId&keyword=${sessionScope.member.userId}">더보기</a></td>
+			      </tr>
+			  </c:if>
+			  <c:if test="${yList.size() == 0 }">
+			      <tr align="center">
+			          <td colspan="5">등록된 게시물이 없습니다.</td>
+			      </tr>
+			  </c:if>
+			  
             </table>
    				
    			</div>
