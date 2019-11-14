@@ -2,6 +2,7 @@ package com.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import com.festival.FavoriteDTO;
 import com.festival.FestivalDAO;
-
+import com.yolo.YoloDAO;
+import com.yolo.YoloDTO;
 
 import net.sf.json.JSONObject;
 
@@ -313,11 +315,10 @@ public class MemberServlet extends HttpServlet {
 		MemberDTO dto = dao.readMember(info.getUserId());
 		req.setAttribute("userDto", dto);
 		
-		FestivalDAO fdao = new FestivalDAO();
-		// com.views.FavoriteDTO fdto = fdao.readFestival(num)
-		
-		
-		
+		YoloDAO ydao = new YoloDAO();
+		// List<YoloDTO> yList = ydao.listYolo();
+		//req.setAttribute("yList", yList);
+
 		
 		String path="/WEB-INF/views/member/mypage.jsp";
 		forward(req, resp, path);

@@ -88,15 +88,18 @@
    				<table>
    				  
             		<tr>
-            			<td class="title"><a href="<%=cp%>/yolo/list.do">${dto.title}</a></td>
-            			<td class="userId" >${dto.userId}</td>
-            			<td class="created" >${dto.created}</td>
+            			<td class="title"><a href="<%=cp%>/yolo/list.do?condition=u">${dt.title}</a></td>
+            			<td class="userId" >${d.userId}</td>
+            			<td class="created" >${d.created}</td>
             		</tr>
-
+				  
          		<tr>
             		<td>&nbsp;&nbsp;</td>
             		<td>&nbsp;&nbsp;</td>
-            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do">더보기&gt; </a></td>		
+            	
+   				<c:if test="${not empty sessionScope.member}">
+            		<td style= "float: right; text-align: right;"><a href="<%=cp%>/yolo/list.do?condition=userId&keyword='${list.get(0).userId} '">더보기&gt; </a></td>
+            	</c:if>			
            		</tr>
             </table>
    				
