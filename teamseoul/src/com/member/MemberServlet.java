@@ -317,9 +317,7 @@ public class MemberServlet extends HttpServlet {
 		req.setAttribute("yList", yList);
 		
 		List<FavoriteDTO> fList = dao.favoriteList(info.getUserId());
-		
-		
-		
+		req.setAttribute("fList", fList);
 		
 		
 		

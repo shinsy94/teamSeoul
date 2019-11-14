@@ -72,12 +72,23 @@
 			 		
 			<div style="width: 90%; margin: 10px auto 0px;">
 				<table>
+				  <c:forEach var="favorite" items="${fList}">
 				  
 			    	<tr>
-			    		<td><a href:"#">즐겨찾기 내용</a></td>
-			    		<td></td>
+			    	<c:if test="${favorite.category == 'views'}">
+			    		<td>관광</td>
+			    		<td><a href="<%=cp%>/views/article.do?num=${favorite.num}">${favorite.title}</a></td>
+			    	</c:if>	
+			    	<c:if test="${favorite.category == 'festival'}">
+			    		<td>축제</td>
+			    		<td><a href="<%=cp%>/festival/article.do?num=${favorite.num}">${favorite.title}</a></td>
+			    	</c:if>
+			    	
+			    		
+			    	
 			   		</tr>
-			   	  
+			   		
+			   	  </c:forEach>
 			    </table>
 			</div>
 		    
