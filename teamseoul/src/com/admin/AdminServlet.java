@@ -141,6 +141,7 @@ public class AdminServlet extends HttpServlet{
 			dto.setImageFileName(img);
 			req.setAttribute("dto", dto);
 			req.setAttribute("bigareaCode", list.get(0).getBigArea());
+			req.setAttribute("areaCode", list.get(0).getAreaCode());
 			req.setAttribute("some", some);
 			req.setAttribute("body", body);
 			
@@ -857,6 +858,7 @@ protected void updateSub(HttpServletRequest req, HttpServletResponse resp) throw
 			dto.setUserId(info.getUserId());
 			dto.setTitle(mreq.getParameter("title"));
 			dto.setContent(mreq.getParameter("content"));
+			dto.setNum(Integer.parseInt(mreq.getParameter("num")));
 		
 			dao.updateNotice(dto);
 		

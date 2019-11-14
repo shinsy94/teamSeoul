@@ -217,7 +217,9 @@ input{
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-var fileNum=${fn:length(dto.imageFileName)};
+<c:if test="${table!='notice'}">
+var fileNum=${fn:length(dto.imageFileName)}; 
+</c:if>
 var aId="admin_aId";
 var acode=1;
 var fileNum2=0;
@@ -229,11 +231,11 @@ var url="<%=cp%>/admin/update_sub.do";
 	$("select[name=selectTable]").val(table);
 	if(table=="views"){
 		
-		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${dto.areaCode}"},function(data){
+		$.get(url,{table:table,bigareaCode:"${bigareaCode}",areaCode:"${areaCode}"},function(data){
 			
 			 $("#sel").after(data);
 			 $("#bigarea").val("${bigareaCode}");
-			 $("#areaCode").val("${dto.areaCode}");
+			 $("#areaCode").val("${areaCode}");
 
 		});
 	}else if(table=="festival"){
@@ -377,13 +379,13 @@ function bodyupdateDel(){
 }
 
 function notiupdate(){
-	$("#notice_upload").css("display", ""); 
-	$("#notifile").css("display", "none");
+	$("#nohedden").css("display", ""); 
+	$("#hidden3").css("display", "none");
 }
 function notiupdateDel(){
 	$("#notice_upload").val("");
-	$("#notice_upload").css("display", "none"); 
-	$("#notifile").css("display", "");
+	$("#nohedden").css("display", "none"); 
+	$("#hidden3").css("display", "");
 }
 
 function removeFile(obj){
@@ -406,7 +408,7 @@ function removeFile(obj){
 </div>
 
 <div style="position: relative; top: 155px; z-index: 1; clear:both; width:100%;  margin: 0px auto; text-align: center;" >
-    <div class="body-title" style="width: 60%; margin: 10px auto; text-align: left;"><h3>글쓰기</h3></div> 
+    <div class="body-title" style="width: 50%; margin: 10px auto; text-align: left;"><h3>글쓰기</h3></div> 
     	<div>
 		<form id="updated" method="post" enctype="multipart/form-data">
 		<table style="border-collapse: collapse;border-spacing: 0;">
@@ -443,6 +445,8 @@ function removeFile(obj){
 		</c:if>
 			
 		<c:if test="${table=='notice'}">
+		
+		   <c:if test="${dto.originalFileName!=null}">		
 			<tr id="hidden3" >
 				<td class="trs">
 					<h3>첨부 파일</h3>
@@ -451,7 +455,6 @@ function removeFile(obj){
 					<input type='text' readonly="readonly" name='notifile' value="${dto.originalFileName}"><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdate();">삭제</a>
 				</td>
 			</tr>
-			
 			<tr id="nohedden" style="display: none;">
 				<td class="trs">
 					<h3>첨부 파일</h3>
@@ -461,6 +464,22 @@ function removeFile(obj){
 					<input type="file"  id="notice_upload" name='notice_upload'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdateDel();">취소</a>
 				</td>
 			</tr>
+			<input type="hidden" name="originalFileName" value="${originalFileName}">
+			<input type="hidden" name="saveFileName" value="${saveFileName}">
+			<input type="hidden" name="fileSize" value="${fileSize}">
+		</c:if>
+		
+		<c:if test="${dto.originalFileName==null}">{
+			<tr >
+					<td class="trs">
+						<h3>첨부 파일</h3>
+					</td>
+				
+					<td  class="ccc">
+						<input type="file"  name='notice_upload'><a style="float:right;padding-top: 20px;padding-right:5px" href="javascript:notiupdateDel();">취소</a>
+					</td>
+			</tr>
+			</c:if>
 		</c:if>
 			</table>
 			<table id="addFiles" style="border-collapse: collapse;border-spacing: 0;margin: 0px auto;">
@@ -519,10 +538,7 @@ function removeFile(obj){
 			<button type="button" class="addButton"  onclick="fileMore();">파일 추가</button>
 		</c:if>
 		</div>
-			
-			<input type="hidden" name="originalFileName" value="${originalFileName}">
-			<input type="hidden" name="saveFileName" value="${saveFileName}">
-			<input type="hidden" name="fileSize" value="${fileSize}">
+
 			<input type="hidden" name="num" value="${num}">
 			<input type="hidden" name="table" value="${table}">
 		</form>
