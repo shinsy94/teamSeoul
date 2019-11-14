@@ -58,42 +58,28 @@ $(function(){
 	});
 });
 
-$(function(){
-	var url ="<%=cp%>/views/list.do";
+function listPage(page,areaCode) {
+	var url = "<%=cp%>/views/list.do";
 	
-	$.ajax({// 함수에 객체를 넘긴다
-		type:"GET",
-		url:url,
-		success:function(data){
-			 $(".views-list").html(data);
-			
-		},
-		error:function(e){
-			console.log(e.responseText);
-		}
+	
+	$.get(url, {page:page, areaCode:areaCode}, function(data){
+		$(".views-list").html(data);
 	});
+}
+
+$(function(){
+	listPage(1,0);
 });
 
 $(function(){
 	$("body").on("click",".areaName",function(){
 		var areaCode = $(this).parent().children("input").val();
-		var url ="<%=cp%>/views/list.do";
-		var query = "areaCode="+areaCode;
 		
-		$.ajax({// 함수에 객체를 넘긴다
-			type:"GET",
-			url:url,
-			data:query,
-			success:function(data){
-				 $(".views-list").html(data);
-				
-			},
-			error:function(e){
-				console.log(e.responseText);
-			}
-		});
+		listPage(1,areaCode)
 	})
 });
+
+
 </script>
 
 </head>
@@ -109,7 +95,7 @@ $(function(){
 	    <div class="views-menu" style="min-height: 400px;">
 	    	<ul>
 	    		<li><button onclick="javascript:location.href='<%=cp%>/views/views.do'" style="font-size:18px; font-weight: bold;">전체보기</button>
-	    			<ul style="margin-left: 110px;">	
+	    			<ul>	
 			    		<c:forEach var="dto" items="${bigAreaList}">
 			    		<li><button type="button" class="bigArea" value="${dto.areaCode}">◆&nbsp;${dto.local}</button>
 			    			<ul class="subArea" style="display: none;">

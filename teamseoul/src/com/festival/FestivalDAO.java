@@ -122,8 +122,12 @@ public class FestivalDAO {
 			sb.append("	FROM festival f ");
 			sb.append(" JOIN festivalFile ff ON f.num = ff.num  ");
 			sb.append(" WHERE INSTR(IMAGEFILENAME,'some') > 0");
+			sb.append(" ORDER BY f.created DESC");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			
 			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, rows);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -166,9 +170,13 @@ public class FestivalDAO {
 			sb.append("	FROM festival f ");
 			sb.append(" JOIN festivalFile ff ON f.num = ff.num ");
 			sb.append(" WHERE seasoncode=? AND INSTR(IMAGEFILENAME,'some') > 0");
+			sb.append(" ORDER BY f.created DESC");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, seasonCode);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, rows);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

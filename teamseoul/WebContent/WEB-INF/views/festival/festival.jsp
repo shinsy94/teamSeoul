@@ -26,40 +26,23 @@ button:focus{
 
 <script type="text/javascript">
 
-$(function(){
-	var url ="<%=cp%>/festival/list.do";
+function listPage(page,areaCode) {
+	var url = "<%=cp%>/festival/list.do";
 	
-	$.ajax({// 함수에 객체를 넘긴다
-		type:"GET",
-		url:url,
-		success:function(data){
-			 $(".festival-list").html(data);
-			
-		},
-		error:function(e){
-			console.log(e.responseText);
-		}
+	
+	$.get(url, {page:page, areaCode:areaCode}, function(data){
+		$(".festival-list").html(data);
 	});
+}
+
+$(function(){
+	listPage(1,0);
 });
 
 $(function(){
 	$("body").on("click",".seasonCode",function(){
 		var seasonCode = $(this).val();
-		var url ="<%=cp%>/festival/list.do";
-		var query = "seasonCode="+seasonCode;
-		
-		$.ajax({// 함수에 객체를 넘긴다
-			type:"GET",
-			url:url,
-			data:query,
-			success:function(data){
-				 $(".festival-list").html(data);
-				
-			},
-			error:function(e){
-				console.log(e.responseText);
-			}
-		});
+		listPage(1,seasonCode)
 	})
 });
 </script>

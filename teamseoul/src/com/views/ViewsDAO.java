@@ -146,8 +146,12 @@ public class ViewsDAO {
 			sb.append("	FROM views v ");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
 			sb.append(" WHERE INSTR(IMAGEFILENAME,'some') > 0");
+			sb.append(" ORDER BY v.created DESC");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			
 			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, rows);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -190,9 +194,13 @@ public class ViewsDAO {
 			sb.append("	FROM views v ");
 			sb.append(" JOIN viewsFile vf ON v.num = vf.num ");
 			sb.append(" WHERE areacode = ? and INSTR(IMAGEFILENAME,'some') > 0");
+			sb.append(" ORDER BY v.created DESC");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, areaCode);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, rows);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

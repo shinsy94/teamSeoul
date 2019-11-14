@@ -6,7 +6,7 @@
 	String cp = request.getContextPath();
 %>
 	<c:forEach var="dto" items="${list}">
-			<div style="width: 40%; float: left; margin: 10px;">
+			<div style="width: 45%; float: left; margin: 10px;">
 				<p>
 					<input type="hidden" name="areaCode" value="${dto.areaCode}">
 					<a href="${articleUrl}&num=${dto.num}">

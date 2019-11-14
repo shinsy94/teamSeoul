@@ -69,7 +69,8 @@ public class ViewsServlet extends HttpServlet {
 		int current_page = 1;
 		String page = req.getParameter("page");
 		if(page != null) {
-			current_page = Integer.parseInt(page);
+			if(page.length() != 0)
+				current_page = Integer.parseInt(page);
 		}
 		
 		int rows = 10;
@@ -80,22 +81,26 @@ public class ViewsServlet extends HttpServlet {
 		List<ViewsDTO> list;
 		int dataCount = 0;
 		
-		String list_url = cp+"/views/list.do";
+		//String list_url = cp+"/views/views.do";
 		String article_url = cp+"/views/article.do?page="+current_page;
 		
 		if(areaCode == null) {
+			areaCode="0";
+		}
+		
+		if(areaCode.equals("0")) {
 			list = dao.somenailList(offset, rows);
 			dataCount = dao.dataCount();
 		} else {
 			list = dao.somenailList(offset, rows,Integer.parseInt(areaCode));
 			dataCount = dao.dataCount(Integer.parseInt(areaCode));
-			list_url += "?areaCode="+areaCode;
+			//list_url += "?areaCode="+areaCode;
 			article_url +="&areaCode="+areaCode;
 		}
 		
 		int total_page = util.pageCount(rows, dataCount);
 		
-		String paging = util.paging(current_page, total_page, list_url);
+		String paging = util.pagingMethod(current_page, total_page, "listPage", areaCode);
 		
 		req.setAttribute("page", current_page);
 		req.setAttribute("areaCode", areaCode);
