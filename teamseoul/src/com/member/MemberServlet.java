@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.festival.FavoriteDTO;
+import com.festival.FestivalDAO;
+
+
 import net.sf.json.JSONObject;
 
 @WebServlet("/member/*")
@@ -308,6 +312,10 @@ public class MemberServlet extends HttpServlet {
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = dao.readMember(info.getUserId());
 		req.setAttribute("userDto", dto);
+		
+		FestivalDAO fdao = new FestivalDAO();
+		// com.views.FavoriteDTO fdto = fdao.readFestival(num)
+		
 		
 		
 		
