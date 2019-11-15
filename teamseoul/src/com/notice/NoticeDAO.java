@@ -521,7 +521,7 @@ public class NoticeDAO {
         StringBuffer sb = new StringBuffer();
 
         try {
-			sb.append("SELECT num, n.userId userId, title, saveFilename, created ");
+			sb.append("SELECT num, n.userId userId, title, saveFilename, TO_CHAR(created, 'YYYY-MM-DD') created ");
 			sb.append(" FROM notice n JOIN member m ON n.userId=m.userId  ");	
 			sb.append(" ORDER BY created DESC  ");
 			sb.append(" OFFSET 0 ROWS FETCH FIRST 5 ROWS ONLY");
