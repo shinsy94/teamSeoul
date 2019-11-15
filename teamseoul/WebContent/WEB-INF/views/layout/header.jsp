@@ -84,8 +84,8 @@ $(function(){
             </c:if>
             
             <c:if test="${not empty sessionScope.member}">
-                <span style="color:black;">${sessionScope.member.userName}</span>님 <br>즐거운 여행 되세요~!
-                    <a href="<%=cp%>/member/logout.do" style="display: block;">로그아웃</a>
+                <span style="color:#fd9f28;">${sessionScope.member.userName}</span>님, <br>오늘도 즐거운 여행하세요!
+                    <a href="<%=cp%>/member/logout.do" style="display: block; color: #004B58;">로그아웃</a>
             </c:if>
         </div>
     </div>
